@@ -6,72 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/07/29 14:23:20 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:56:44 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-char	*ft_strchr(const char *str, int c)
-{
-	while (*str)
-	{
-		if (*str == (char)c)
-			return ((char*)str);
-		str++;
-	}
-	return (NULL);
-}
-
-int	ft_strcmp(const char *str1, const char *str2)
-{
-	const unsigned char	*s1;
-	const unsigned char	*s2;
-
-	s1 = (const unsigned char *)str1;
-	s2 = (const unsigned char *)str2;
-	while (*s1 && *s2 && *s1 == *s2 )
-	{
-		s1++;
-		s2++;
-	}
-	if (!*s1 && !*s2)
-		return (0);
-	else
-		return (*s1 - *s2);
-}
-
-int	ft_strncmp(const char *str1, const char *str2, size_t num)
-{
-	const unsigned char	*s1;
-	const unsigned char	*s2;
-
-	s1 = (const unsigned char *)str1;
-	s2 = (const unsigned char *)str2;
-	while (*s1 && *s2 && *s1 == *s2 && num > 0)
-	{
-		s1++;
-		s2++;
-		num--;
-	}
-	if (num == 0)
-		return (0);
-	else
-		return (*s1 - *s2);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	len;
-
-	len = 0;
-	while (*str)
-	{
-		len++;
-		str++;
-	}
-	return (len);
-}
 
 char *ft_strncpy(char *s, int len)
 {
@@ -222,7 +161,7 @@ int	lexer(t_memory *memory)
 int	main(int ac, char **av)
 {
 	t_memory *memory;
-	memory = malloc(sizeof(memory));
+	memory = malloc(sizeof(*memory));
 	if (!memory)
 		return(ERROR);
 

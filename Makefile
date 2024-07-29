@@ -7,7 +7,6 @@ RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror -g
 DFLAGS	 	= -MD -MP
 LDFLAGS     = -lreadline
-LDFLAGS     = -lreadline
 IFLAGS		= -I $(INCLUDES)
 MAKEFLAGS	= -j$(nproc) --no-print-directory
 
