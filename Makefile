@@ -6,6 +6,7 @@ CC			= cc
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror -g
 DFLAGS	 	= -MD -MP
+LDFLAGS     = -lreadline
 IFLAGS		= -I $(INCLUDES)
 MAKEFLAGS	= -j$(nproc) --no-print-directory
 
@@ -28,7 +29,7 @@ DEPS		= $(addprefix $(OBJSDIR)/, $(SRCS:.c=.d))
 all		: $(NAME)
 
 $(NAME)	: ${OBJS}
-		$(CC) ${CFLAGS} ${DFLAGS} ${IFLAGS} -o $@ $^
+		$(CC) ${CFLAGS} ${LDFLAGS} ${DFLAGS} ${IFLAGS} -o $@ $^
 
 ${OBJSDIR}/%.o	: %.c
 		@mkdir -p $(dir $@)
