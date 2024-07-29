@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/07/28 18:00:28 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:17:37 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,14 @@ int print_tokens(t_memory *memory)
 
 int get_type(char *s)
 {
-	if (!ft_strncmp(s, D_QUOTE, 1))
+	if (*s == D_QUOTE)
 		return (T_D_QUOTE);
-	else if (!ft_strncmp(s, S_QUOTE, 1))
+	else if (*s == S_QUOTE)
 		return (T_S_QUOTE);
+	else if (*s == DASH)
+		return (T_OPTION);
 	else
-		return (0);
+		return (T_WORD);
 }
 
 void free_tokens(t_tokens *token)
@@ -131,55 +133,17 @@ void free_tokens(t_tokens *token)
 	}
 }
 
-void free_memory(t_memory *memory)
-{
-	if (memory->tokens)
-		free_tokens(memory->tokens);
-	if (memory->input)
-		free(memory->input);
-	free(memory);
-}
-
-void *process_token(char *s)
-{
-	void *token;
-	int len;
-	
-	token = NULL;
-	if (*s == '\"')
-	{
-		len = ft_strchr((s + 1), '\"') - s + 1;
-		token = ft_strncpy(s, len);
-	}
-	else if (*s == '\'')
-	{
-		len = ft_strchr((s + 1), '\'') - s + 1;
-		token = ft_strncpy(s, len);
-	}
-	// else if (*s == '-')
-	// {
-	// 	len = ft_strchr((s + 1), '\'') - s + 1;
-	// 	token = ft_strncpy(s, len);
-	// }
-
-	return (token);
-}
-t_tokens	*create_token(char *s, t_memory *memory)
-{
-	t_tokens *token;
-	
-	token = malloc(sizeof(t_tokens));
-	if(!token)
-		return (free_memory(memory), NULL);
-	token->data = process_token(s);
-	token->type = get_type((char*)token->data);
-	token->next = NULL;
-	return (token);
-}
-
 int is_whitespace(char *s)
 {
 	if(*s == ' ' || *s == '\t' || *s == '\n')
+		return (1);
+	else
+		return (0);
+}
+
+int is_seperator(char *s)
+{
+	if(*s == '|' || is_whitespace(s))
 		return (1);
 	else
 		return (0);
@@ -198,6 +162,88 @@ int skip_whitespace(char *s)
 	return (i);
 }
 
+int skip_non_whitespace(char *s)
+{
+	int i;
+
+	i = 0;
+	while(*s && !is_whitespace(s))
+	{
+		s++;
+		i++;
+	}
+	return (i);
+}
+void free_memory(t_memory *memory)
+{
+	if (memory->tokens)
+		free_tokens(memory->tokens);
+	if (memory->input)
+		free(memory->input);
+	free(memory);
+}
+
+char	*find_seperator(char *s)
+{
+	while (*s && !is_seperator(s))
+		s++;
+	return (s);
+}
+
+void *process_token(char *s)
+{
+	void *token;
+	int len;
+	
+	token = NULL;
+	if (*s == '\"')
+	{
+		if (!ft_strchr((s + 1), '\"'))
+			return(NULL);
+		len = ft_strchr((s + 1), '\"') - s + 1;
+		token = ft_strncpy(s, len);
+	}
+	else if (*s == '\'')
+	{
+		if (!ft_strchr((s + 1), '\''))
+			return(NULL);
+		len = ft_strchr((s + 1), '\'') - s + 1;
+		token = ft_strncpy(s, len);
+	}
+	else if (*s == '-')
+	{
+		len = find_seperator(s) - s + 1;
+		token = ft_strncpy(s, len);
+	}
+	else if (*s == '|')
+	{
+		len = find_seperator(s) - s + 1;
+		token = ft_strncpy(s, len);
+	}
+	else
+	{
+		len = skip_non_whitespace(s);
+		token = ft_strncpy(s, len);
+	}
+
+	return (token);
+}
+t_tokens	*create_token(char *s, t_memory *memory)
+{
+	t_tokens *token;
+	
+	token = malloc(sizeof(t_tokens));
+	if(!token)
+		return (free_memory(memory), NULL);
+	token->data = process_token(s);
+	if (!token->data)
+		return (free_memory(memory), NULL);
+	token->type = get_type((char*)token->data);
+	token->next = NULL;
+	return (token);
+}
+
+
 int	lexer(t_memory *memory)
 {
 	char *input;
@@ -215,6 +261,7 @@ int	lexer(t_memory *memory)
         	previous->next = current;
 		previous = current;
 		input += ft_strlen(current->data);
+		input += skip_whitespace(input);
 	}
 	return (1);
 }

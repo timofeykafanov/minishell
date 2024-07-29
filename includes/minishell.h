@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/07/28 17:52:57 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:17:33 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,18 @@
 # define R_OUT ">"
 # define FIND_DELIMITER "<<"
 # define OUT_APPEND ">>"
-# define PIPE "|"
+# define PIPE '|'
 # define DOLLAR "$"
-# define D_QUOTE "\""
-# define S_QUOTE "\'"
+# define D_QUOTE '\"'
+# define S_QUOTE '\''
+# define DASH '-'
 
+# define T_D_QUOTE  1
+# define T_S_QUOTE  2
+# define T_WORD     3
+# define T_OPTION   4
+# define T_PIPE   5
 
-# define T_D_QUOTE 1
-# define T_S_QUOTE 2
 
 // # define T_BUILTIN 1
 // # define T_OPTION 2 
