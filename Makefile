@@ -13,7 +13,7 @@ MAKEFLAGS	= -j$(nproc) --no-print-directory
 NAME		= minishell
 
 SRCSDIR		= srcs
-INCLUDES	= include
+INCLUDES	= includes
 
 SRCS		= \
 			$(SRCSDIR)/main.c \
@@ -23,25 +23,37 @@ OBJS		= $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
 DEPS		= $(addprefix $(OBJSDIR)/, $(SRCS:.c=.d))
 
 #------------------------------------------------------------------------------#
+#------------------------------------LIBFT-------------------------------------#
+#------------------------------------------------------------------------------#
+
+LIBDIR		= ./libft
+LIBFT		= ${LIBDIR}/libft.a
+
+#------------------------------------------------------------------------------#
 #------------------------------------RULES-------------------------------------#
 #------------------------------------------------------------------------------#
 
 all		: $(NAME)
 
 $(NAME)	: ${OBJS}
-		$(CC) ${CFLAGS} ${LDFLAGS} ${DFLAGS} ${IFLAGS} -o $@ $^
+		$(MAKE) -C ${LIBDIR} all
+		$(CC) ${CFLAGS} ${DFLAGS} ${IFLAGS} ${LDFLAGS} -o $@ $^ ${LIBFT}
+
 
 ${OBJSDIR}/%.o	: %.c
 		@mkdir -p $(dir $@)
 		${CC} ${CFLAGS} ${DFLAGS} ${IFLAGS} -c $< -o $@
 
 clean	:
+		$(MAKE) -C ${LIBDIR} clean
 		$(RM) $(OBJSDIR)
 
 fclean	:
+		$(MAKE) -C ${LIBDIR} fclean
 		$(RM) $(OBJSDIR) $(NAME)
 
 re		:
+		$(MAKE) -C ${LIBDIR} re
 		$(RM) $(OBJSDIR) $(NAME)
 		$(MAKE) all
 

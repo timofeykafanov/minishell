@@ -6,13 +6,14 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/07/29 14:17:33 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:59:33 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include "../libft/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -48,7 +49,7 @@
 
 
 // # define T_BUILTIN 1
-// # define T_OPTION 2 
+// # define T_OPTION 2
 // # define T_PIPE 3
 // # define T_RET_IN 4 // <
 // # define T_RET_OUT 5 // >
