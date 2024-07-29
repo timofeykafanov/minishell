@@ -6,14 +6,14 @@ CC			= cc
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror -g
 DFLAGS	 	= -MD -MP
+LDFLAGS     = -lreadline
 IFLAGS		= -I $(INCLUDES)
-LFLAGS		= -L. ${LIBFT}
 MAKEFLAGS	= -j$(nproc) --no-print-directory
 
 NAME		= minishell
 
 SRCSDIR		= srcs
-INCLUDES	= include
+INCLUDES	= includes
 
 SRCS		= \
 			$(SRCSDIR)/main.c \
@@ -37,7 +37,8 @@ all		: $(NAME)
 
 $(NAME)	: ${OBJS}
 		$(MAKE) -C ${LIBDIR} all
-		$(CC) ${CFLAGS} ${DFLAGS} ${IFLAGS} ${LFLAGS} -o $@ $^
+		$(CC) ${CFLAGS} ${DFLAGS} ${IFLAGS} ${LDFLAGS} -o $@ $^ ${LIBFT}
+
 
 ${OBJSDIR}/%.o	: %.c
 		@mkdir -p $(dir $@)
