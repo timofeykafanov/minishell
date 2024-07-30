@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 11:29:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/07/30 12:43:06 by tkafanov         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   minishell.h										:+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: sopperma <sopperma@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/07/26 11:29:57 by tkafanov		  #+#	#+#			 */
+/*   Updated: 2024/07/29 17:07:41 by sopperma		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -31,49 +31,49 @@
 # define ENV "env"
 # define EXIT "exit"
 
-# define R_IN "<"
-# define R_OUT ">"
-# define FIND_DELIMITER "<<"
-# define OUT_APPEND ">>"
-# define PIPE '|'
-# define DOLLAR "$"
-# define D_QUOTE '\"'
-# define S_QUOTE '\''
-# define DASH '-'
-
-# define T_D_QUOTE  1
-# define T_S_QUOTE  2
-# define T_WORD     3
-# define T_OPTION   4
-# define T_PIPE   5
+# define R_IN		'<'
+# define R_OUT		'>'
+# define PIPE		'|'
+# define DOLLAR		'$'
+# define D_QUOTE	'\"'
+# define S_QUOTE	'\''
+# define SEMICOLON	';'
+# define AMPERSAND	'&'
+# define BRACKET_O	'('
+# define BRACKET_C	')'
 
 
-// # define T_BUILTIN 1
-// # define T_OPTION 2
-// # define T_PIPE 3
-// # define T_RET_IN 4 // <
-// # define T_RET_OUT 5 // >
-// # define T_DELIMITER 6 // <<
-// # define T_REDIRECT 7 // >>
-// # define T_VAR 8
-// # define T_PATH 9
-
+# define T_WORD			1
+# define T_D_QUOTE		2
+# define T_S_QUOTE		3
+# define T_OPTION		4
+# define T_PIPE			5
+# define T_VAR			6
+# define T_R_IN			7
+# define T_R_OUT		8
+# define T_FIND_DELIM	9
+# define T_OUT_APPEND	10
 
 typedef struct s_tokens
 {
-    void            *data;
-    int             type;
-    struct s_tokens *next;
+	void			*data;
+	int			 type;
+	struct s_tokens *next;
 }   t_tokens;
 
 
 typedef struct s_memory
 {
-    struct s_tokens *tokens;
-    char            *input;
+	struct s_tokens *tokens;
+	char			*input;
 }   t_memory;
 
-
-
+int	 lexer(t_memory *memory);
+void	free_memory(t_memory *memory);
+char	*find_seperator(char *s);
+int	 skip_non_whitespace(char *s);
+int	 skip_whitespace(char *s);
+int	 print_tokens(t_memory *memory);
+int	 get_type(char *s);
 
 #endif // MINISHELL_H

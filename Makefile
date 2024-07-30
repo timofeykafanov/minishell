@@ -17,6 +17,11 @@ INCLUDES	= includes
 
 SRCS		= \
 			$(SRCSDIR)/main.c \
+			$(SRCSDIR)/lexer.c \
+			$(SRCSDIR)/freeing.c \
+			$(SRCSDIR)/lexer_utils.c \
+			$(SRCSDIR)/parsing_utils.c \
+
 
 OBJSDIR		= objs
 OBJS		= $(addprefix $(OBJSDIR)/, $(SRCS:.c=.o))
