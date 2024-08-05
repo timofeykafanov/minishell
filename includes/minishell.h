@@ -41,7 +41,7 @@
 # define AMPERSAND	'&'
 # define BRACKET_O	'('
 # define BRACKET_C	')'
-# define DASH		'-'# define DASH		'-'
+# define DASH		'-'
 
 # define T_WORD			1
 # define T_D_QUOTE		2

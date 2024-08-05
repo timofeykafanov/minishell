@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/05 15:08:38 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:09:29 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,16 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	(void)ac,
 	(void)av;
+	
 	while (1)
 	{
 		memory = malloc(sizeof(*memory));
 		if (!memory)
 			return(ERROR);
 		ft_bzero(memory, sizeof(*memory));
+		create_env(memory, env);
+		if (!memory->env)
+		return(perror("Failed to copy environment"), free_memory(memory), ERROR);
 		memory->input = readline("minishell-> ");
 		if (memory->input)
 		{
