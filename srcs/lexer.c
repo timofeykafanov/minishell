@@ -6,11 +6,11 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/07/30 14:48:36 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:06:49 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../includes/minishell.h"
 
 static void *process_token(char *s)
 {
@@ -49,7 +49,7 @@ static void *process_token(char *s)
 		len = 1;
 		token = ft_strncpy(s, len);
 	}
-    else if ((*s == R_IN && *(s+1) == R_IN)  || (*s == R_OUT && *(s+1) == R_OUT))
+	else if ((*s == R_IN && *(s+1) == R_IN)  || (*s == R_OUT && *(s+1) == R_OUT))
 	{
 		len = 2;
 		token = ft_strncpy(s, len);
@@ -94,6 +94,8 @@ int	lexer(t_memory *memory)
 	{
 		input += skip_whitespace(input);
 		current = create_token(input, memory);
+		if (!current)
+			return (free_memory(memory), ERROR);
 		if (!memory->tokens)
 			memory->tokens = current;
 		else
@@ -102,5 +104,5 @@ int	lexer(t_memory *memory)
 		input += ft_strlen(current->data);
 		input += skip_whitespace(input);
 	}
-	return (1);
+	return (SUCCESS);
 }

@@ -22,7 +22,7 @@ SRCS		= \
 			$(SRCSDIR)/lexer_utils.c \
 			$(SRCSDIR)/parsing_utils.c \
 			$(SRCSDIR)/env.c \
-
+			$(SRCSDIR)/parser.c \
 
 
 OBJSDIR		= objs

@@ -6,13 +6,13 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/05 11:58:25 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:07:34 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-static void free_tokens(t_tokens *token)
+void	free_tokens(t_tokens *token)
 {
 	t_tokens *current;
 

@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
+#include <signal.h>
 
 # define SUCCESS 0
 # define ERROR 1
@@ -41,7 +41,7 @@
 # define AMPERSAND	'&'
 # define BRACKET_O	'('
 # define BRACKET_C	')'
-# define DASH		'-'
+# define DASH		'-'# define DASH		'-'
 
 # define T_WORD			1
 # define T_D_QUOTE		2
@@ -87,7 +87,7 @@ typedef struct s_env
 
 typedef struct s_memory
 {
-	struct s_tokens *tokens;
+	struct s_tokens	*tokens;
 	char			*input;
 	t_env			*env;
 }   t_memory;
@@ -95,6 +95,7 @@ typedef struct s_memory
 
 int	 	lexer(t_memory *memory);
 void	free_memory(t_memory *memory);
+void	free_tokens(t_tokens *token);
 char	*find_seperator(char *s);
 int		skip_non_whitespace(char *s);
 int	 	skip_whitespace(char *s);

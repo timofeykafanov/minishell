@@ -6,11 +6,11 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/07/30 14:48:55 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:05:34 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int print_tokens(t_memory *memory)
 {
@@ -36,20 +36,22 @@ int get_type(char *s)
 		return (T_S_QUOTE);
 	else if (*s == DASH)
 		return (T_OPTION);
-    else if (*s == DOLLAR)
+	else if (*s == DOLLAR)
 		return (T_VAR);
-    else if ((*s == R_IN && *(s+1) != R_IN))
+	else if ((*s == R_IN && *(s+1) != R_IN))
 		return (T_R_IN);
-    else if ((*s == R_OUT && *(s+1) != R_OUT))
+	else if ((*s == R_OUT && *(s+1) != R_OUT))
         return (T_R_OUT);
-    else if ((*s == R_IN && *(s+1) == R_IN))
+	else if ((*s == R_IN && *(s+1) == R_IN))
 		return (T_FIND_DELIM);
-    else if ((*s == R_OUT && *(s+1) == R_OUT))
+	else if ((*s == R_OUT && *(s+1) == R_OUT))
         return (T_OUT_APPEND);
 	else if (*s == BRACKET_O)
         return (T_BRACKETS);
 	else if (*s == SEMICOLON)
         return (T_SEMICOLON);
+	else if (*s == PIPE)
+         return (T_PIPE);
 	else
 		return (T_WORD);
 }
