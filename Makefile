@@ -21,6 +21,7 @@ SRCS		= \
 			$(SRCSDIR)/freeing.c \
 			$(SRCSDIR)/lexer_utils.c \
 			$(SRCSDIR)/parsing_utils.c \
+			$(SRCSDIR)/parser.c \
 
 
 OBJSDIR		= objs

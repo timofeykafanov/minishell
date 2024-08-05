@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/07/29 16:31:34 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:00:02 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-static void free_tokens(t_tokens *token)
+void	free_tokens(t_tokens *token)
 {
 	t_tokens *current;
 
@@ -20,13 +20,13 @@ static void free_tokens(t_tokens *token)
 	while(current)
 	{
 		current = token->next;
-		// free(token->data);
+		free(token->data);
 		free(token);
 		token = current;
 	}
 }
 
-void free_memory(t_memory *memory)
+void	free_memory(t_memory *memory)
 {
 	if (memory->tokens)
 		free_tokens(memory->tokens);

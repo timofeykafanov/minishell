@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/07/30 12:15:53 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/05 09:36:40 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 
 static int is_whitespace(char *s)
@@ -51,7 +51,7 @@ int skip_non_whitespace(char *s)
 
 	i = 0;
 	while(*s && !is_whitespace(s))
-    
+
 	{
 		s++;
 		i++;
