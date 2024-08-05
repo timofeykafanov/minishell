@@ -80,8 +80,8 @@ typedef struct s_command
 typedef struct s_env
 {
 	char			*value;
+	char			is_global;
 	char			is_user_var;
-	char			is_exp_var;
 	struct s_env	*next;
 }   t_env;
 
@@ -95,7 +95,7 @@ typedef struct s_memory
 
 int	 	lexer(t_memory *memory);
 void	free_memory(t_memory *memory);
-void	free_tokens(t_tokens *token);
+void	*free_tokens(t_tokens *token);
 char	*find_seperator(char *s);
 int		skip_non_whitespace(char *s);
 int	 	skip_whitespace(char *s);
@@ -103,5 +103,9 @@ int	 	print_tokens(t_memory *memory);
 int	 	get_type(char *s);
 void 	create_env(t_memory *memory, char **env);
 int 	print_env(t_memory *memory);
+
+void	add_env_var(t_memory *memory, char *env, char env_exp);
+int		print_export(t_memory *memory);
+void	unset(t_memory *memory, char *var_name);
 
 #endif // MINISHELL_H

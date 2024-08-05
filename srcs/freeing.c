@@ -6,16 +6,16 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/05 15:07:34 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:00:20 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_tokens(t_tokens *token)
+void	*free_tokens(t_tokens *token)
 {
 	t_tokens *current;
-
+	
 	current = token;
 	while(current)
 	{
@@ -24,6 +24,7 @@ void	free_tokens(t_tokens *token)
 		free(token);
 		token = current;
 	}
+	return (NULL);
 }
 
 static void free_env(t_env *env)

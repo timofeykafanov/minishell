@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/05 14:16:47 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:54:36 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,34 @@ int print_env(t_memory *memory)
 	return (1);
 }
 
+int print_export(t_memory *memory)
+{
+	t_env *current;
+    char *word;
+    char *c;
+    
+	current = memory->env;
+	while(current)
+	{
+		printf("declare -x ");
+        if (current->is_user_var)
+        {
+            c = (char*)current->value;
+            word = ft_strchr(current->value, '=') + 1;
+            while (c < word - 1)
+            {
+                printf("%c", *c);
+                c++;
+            }
+            printf("=\"%s\"\n", word);
+        }
+        else
+		    printf("%s\n", (char*)current->value);
+		current = current->next;
+	}
+	return (1);
+}
+
 t_env   *add_env(char *env)
 {
     t_env *new;
@@ -35,10 +63,48 @@ t_env   *add_env(char *env)
         return (NULL);
     len = ft_strlen(env);
     new->value = ft_strdup(env);
-    new->is_exp_var = 0;
+    new->is_global = 0;
     new->is_user_var = 0;
     new->next = NULL;
     return (new);
+}
+
+void add_env_var(t_memory *memory, char *env, char env_exp)
+{
+    t_env *last;
+    
+    last = memory->env;
+    while (last->next)
+        last = last->next;
+    last->next = add_env(env);
+    last->next->is_user_var = 1;
+    last->next->is_global = env_exp;
+}
+
+void unset(t_memory *memory, char *var_name)
+{
+    printf("Unsetting %s\n", var_name);
+    t_env *current;
+    t_env *prev;
+    
+    current = memory->env;
+    prev = NULL;
+    while (current)
+    {
+        if (!ft_strncmp(current->value, var_name, ft_strlen(var_name)) && current->is_user_var)
+        {
+            printf("Found %s\n", current->value);
+            if (prev)
+                prev->next = current->next;
+            else
+                memory->env = current->next;
+            free(current->value);
+            free(current);
+            return ;
+        }
+        prev = current;
+        current = current->next;
+    }
 }
 
 void   create_env(t_memory *memory, char **env)

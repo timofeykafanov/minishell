@@ -1,0 +1,15 @@
+should work
+
+    e"cho" test
+    test
+
+    e'cho' test
+    test
+
+    e"c"'ho' test
+    test
+
+should NOT work
+
+    e"c'ho'" test
+    ec'ho': command not found
