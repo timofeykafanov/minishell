@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/07/29 16:56:05 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:48:55 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ int get_type(char *s)
 		return (T_FIND_DELIM);
     else if ((*s == R_OUT && *(s+1) == R_OUT))
         return (T_OUT_APPEND);
+	else if (*s == BRACKET_O)
+        return (T_BRACKETS);
+	else if (*s == SEMICOLON)
+        return (T_SEMICOLON);
 	else
 		return (T_WORD);
 }

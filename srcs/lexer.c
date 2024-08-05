@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/07/29 16:58:40 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:48:36 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,19 @@ static void *process_token(char *s)
 		len = ft_strchr((s + 1), '\'') - s + 1;
 		token = ft_strncpy(s, len);
 	}
+	else if (*s == '(')
+	{
+		if (!ft_strchr((s + 1), ')'))
+			return(NULL);
+		len = ft_strchr((s + 1), ')') - s + 1;
+		token = ft_strncpy(s, len);
+	}
 	else if (*s == '-' || *s == '$')
 	{
 		len = find_seperator(s) - s;
 		token = ft_strncpy(s, len);
 	}
-	else if (*s == PIPE || (*s == R_IN && *(s+1) != R_IN)  || (*s == R_OUT && *(s+1) != R_OUT))
+	else if (*s == PIPE || *s == SEMICOLON || (*s == R_IN && *(s+1) != R_IN)  || (*s == R_OUT && *(s+1) != R_OUT))
 	{
 		len = 1;
 		token = ft_strncpy(s, len);
