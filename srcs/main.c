@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/05 15:09:29 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:55:50 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,16 @@ int	main(int ac, char **av, char **env)
 	(void)ac,
 	(void)av;
 	
+	memory = malloc(sizeof(*memory));
+	if (!memory)
+		return(ERROR);
+	ft_bzero(memory, sizeof(*memory));
+	create_env(memory, env);
+	if (!memory->env)
+	return(perror("Failed to copy environment"), free_memory(memory), ERROR);
+	
 	while (1)
 	{
-		memory = malloc(sizeof(*memory));
-		if (!memory)
-			return(ERROR);
-		ft_bzero(memory, sizeof(*memory));
-		create_env(memory, env);
-		if (!memory->env)
-		return(perror("Failed to copy environment"), free_memory(memory), ERROR);
 		memory->input = readline("minishell-> ");
 		if (memory->input)
 		{
@@ -54,9 +55,8 @@ int	main(int ac, char **av, char **env)
 				return(free_memory(memory), ERROR);
 			if (!memory->tokens)
 				return(free_memory(memory), ERROR);
-			print_tokens(memory);
-			free_memory(memory);
-			// free_tokens(memory->tokens);
+			memory->tokens = free_tokens(memory->tokens);
+			free(memory->input);
 		}
 		else
 			break ;
