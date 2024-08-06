@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/05 17:54:36 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:01:06 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int print_env(t_memory *memory)
 {
 	t_env *current;
-    
+
 	current = memory->env;
 	while(current)
 	{
@@ -30,7 +30,7 @@ int print_export(t_memory *memory)
 	t_env *current;
     char *word;
     char *c;
-    
+
 	current = memory->env;
 	while(current)
 	{
@@ -72,7 +72,7 @@ t_env   *add_env(char *env)
 void add_env_var(t_memory *memory, char *env, char env_exp)
 {
     t_env *last;
-    
+
     last = memory->env;
     while (last->next)
         last = last->next;
@@ -86,7 +86,7 @@ void unset(t_memory *memory, char *var_name)
     printf("Unsetting %s\n", var_name);
     t_env *current;
     t_env *prev;
-    
+
     current = memory->env;
     prev = NULL;
     while (current)

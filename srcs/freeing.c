@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/05 16:00:20 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:10:34 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*free_tokens(t_tokens *token)
 {
 	t_tokens *current;
-	
+
 	current = token;
 	while(current)
 	{
@@ -49,5 +49,7 @@ void free_memory(t_memory *memory)
 		free_env(memory->env);
 	if (memory->input)
 		free(memory->input);
+	if (memory->path)
+		free(memory->path);
 	free(memory);
 }

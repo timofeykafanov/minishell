@@ -19,6 +19,10 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
+#include <dirent.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 
 # define SUCCESS 0
 # define ERROR 1
@@ -89,6 +93,7 @@ typedef struct s_memory
 {
 	struct s_tokens	*tokens;
 	char			*input;
+	char			*path;
 	t_env			*env;
 }   t_memory;
 
