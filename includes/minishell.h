@@ -113,4 +113,18 @@ void	add_env_var(t_memory *memory, char *env, char env_exp);
 int		print_export(t_memory *memory);
 void	unset(t_memory *memory, char *var_name);
 
+// signals.c
+
+void handle_sigint(int sig);
+
+// builtins.c
+
+void print_history(void);
+void execute_pwd(t_memory *memory);
+void execute_cd(const char *path, t_memory *memory);
+
+// parser.c
+
+void parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
+
 #endif // MINISHELL_H

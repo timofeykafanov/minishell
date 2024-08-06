@@ -23,6 +23,8 @@ SRCS		= \
 			$(SRCSDIR)/parsing_utils.c \
 			$(SRCSDIR)/env.c \
 			$(SRCSDIR)/parser.c \
+			$(SRCSDIR)/builtins.c \
+			$(SRCSDIR)/signals.c \
 
 
 OBJSDIR		= objs
