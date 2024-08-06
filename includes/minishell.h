@@ -23,6 +23,7 @@
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <linux/limits.h>
 
 # define SUCCESS 0
 # define ERROR 1
@@ -59,6 +60,8 @@
 # define T_OUT_APPEND	10
 # define T_BRACKETS		11
 # define T_SEMICOLON	12
+# define T_WHITESPACE	13
+
 
 
 
@@ -94,6 +97,7 @@ typedef struct s_memory
 	struct s_tokens	*tokens;
 	char			*input;
 	char			*path;
+	char			*suffix;
 	t_env			*env;
 }   t_memory;
 
@@ -101,17 +105,20 @@ typedef struct s_memory
 int	 	lexer(t_memory *memory);
 void	free_memory(t_memory *memory);
 void	*free_tokens(t_tokens *token);
-char	*find_seperator(char *s);
-int		skip_non_whitespace(char *s);
-int	 	skip_whitespace(char *s);
 int	 	print_tokens(t_memory *memory);
 int	 	get_type(char *s);
 void 	create_env(t_memory *memory, char **env);
 int 	print_env(t_memory *memory);
-
 void	add_env_var(t_memory *memory, char *env, char env_exp);
 int		print_export(t_memory *memory);
 void	unset(t_memory *memory, char *var_name);
+
+//parsin_utils.c
+
+int		is_whitespace(char *s);
+int		skip_non_whitespace(char *s);
+char 	*skip_whitespace(char *s);
+char	*find_seperator(char *s);
 
 // signals.c
 
@@ -122,6 +129,7 @@ void handle_sigint(int sig);
 void print_history(void);
 void execute_pwd(t_memory *memory);
 void execute_cd(const char *path, t_memory *memory);
+void execute_ls(void);
 
 // parser.c
 

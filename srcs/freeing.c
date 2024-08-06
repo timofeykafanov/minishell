@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/06 15:10:34 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:20:41 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ void free_memory(t_memory *memory)
 		free(memory->input);
 	if (memory->path)
 		free(memory->path);
+	if (memory->suffix)
+		free(memory->suffix);
 	free(memory);
 }

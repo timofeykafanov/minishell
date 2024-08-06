@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/06 15:32:55 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:00:35 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <linux/limits.h>
 
 int	main(int ac, char **av, char **env)
 {
@@ -34,7 +33,8 @@ int	main(int ac, char **av, char **env)
 	getcwd(memory->path, PATH_MAX);
 	while (1)
 	{
-		memory->input = readline("minishell-> ");
+		memory->suffix = ft_strjoin(memory->path,"$ ");	
+		memory->input = readline(memory->suffix);
 		if (memory->input)
 		{
 			HIST_ENTRY *last_entry = history_get(history_length); // forbidden function
@@ -43,19 +43,15 @@ int	main(int ac, char **av, char **env)
                 add_history(memory->input);
 			if (!(*memory->input))
 				continue ;
-			// printf("You entered: %s\n", memory->input);
-			// execute_ls();
-			// execute_cd(memory->input);
-			// execute_pwd();
 			if (lexer(memory))
 				return(free_memory(memory), ERROR);
 			if (!memory->tokens)
 				return(free_memory(memory), ERROR);
-			// print_tokens(memory);
-			// free_memory(memory);
 			parse_and_execute_tokens(memory->tokens, memory);
+			// print_tokens(memory);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;
+			free(memory->suffix);
 		}
 		else
 			break ;

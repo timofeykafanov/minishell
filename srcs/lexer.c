@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/05 15:06:49 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:17:01 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ static void *process_token(char *s)
 		len = 2;
 		token = ft_strncpy(s, len);
 	}
+	else if (is_whitespace(s))
+	{
+		len = skip_whitespace(s) - s;
+		token = ft_strncpy(s, len);
+	}
     // else if (*s == '$')
 	// {
 	// 	len = find_seperator(s) - s;
@@ -82,7 +87,6 @@ static t_tokens	*create_token(char *s, t_memory *memory)
 	return (token);
 }
 
-
 int	lexer(t_memory *memory)
 {
 	char *input;
@@ -92,7 +96,6 @@ int	lexer(t_memory *memory)
 	input = memory->input;
 	while(*input)
 	{
-		input += skip_whitespace(input);
 		current = create_token(input, memory);
 		if (!current)
 			return (free_memory(memory), ERROR);
@@ -102,7 +105,30 @@ int	lexer(t_memory *memory)
         	previous->next = current;
 		previous = current;
 		input += ft_strlen(current->data);
-		input += skip_whitespace(input);
 	}
 	return (SUCCESS);
 }
+
+// int	lexer(t_memory *memory)
+// {
+// 	char *input;
+// 	t_tokens *current = NULL;
+// 	t_tokens *previous = NULL;
+
+// 	input = memory->input;
+// 	while(*input)
+// 	{
+// 		input += skip_whitespace(input);
+// 		current = create_token(input, memory);
+// 		if (!current)
+// 			return (free_memory(memory), ERROR);
+// 		if (!memory->tokens)
+// 			memory->tokens = current;
+// 		else
+//         	previous->next = current;
+// 		previous = current;
+// 		input += ft_strlen(current->data);
+// 		input += skip_whitespace(input);
+// 	}
+// 	return (SUCCESS);
+// }

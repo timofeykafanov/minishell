@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/05 09:36:40 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:11:52 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-static int is_whitespace(char *s)
+int is_whitespace(char *s)
 {
 	if(*s == ' ' || *s == '\t' || *s == '\n')
 		return (1);
@@ -32,7 +32,7 @@ static int is_metacharacter(char *s)
 		return (0);
 }
 
-int skip_whitespace(char *s)
+char *skip_whitespace(char *s)
 {
 	int i;
 
@@ -42,7 +42,7 @@ int skip_whitespace(char *s)
 		s++;
 		i++;
 	}
-	return (i);
+	return (s);
 }
 
 int skip_non_whitespace(char *s)

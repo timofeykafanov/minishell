@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/05 15:05:34 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:15:53 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int get_type(char *s)
         return (T_SEMICOLON);
 	else if (*s == PIPE)
          return (T_PIPE);
+	else if (is_whitespace(s))
+		return (T_WHITESPACE);
 	else
 		return (T_WORD);
 }
