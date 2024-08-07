@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_export_unset_define.c                          :+:      :+:    :+:   */
+/*   builtins_env_export_unset_define.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/06 15:41:28 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:03:56 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int print_export(t_memory *memory)
 	return (1);
 }
 
-t_env   *add_env(char *env)
+t_env   *new_env(char *env)
 {
     t_env *new;
     int len;
@@ -63,10 +63,62 @@ t_env   *add_env(char *env)
         return (NULL);
     len = ft_strlen(env);
     new->value = ft_strdup(env);
-    new->is_global = 0;
-    new->is_user_var = 0;
     new->next = NULL;
     return (new);
+}
+
+int is_single_quote(char c)
+{
+    return (c == '\'');
+}
+int is_double_quote(char c)
+{
+    return (c == '\"');
+}
+
+char *ft_strljoin(char *s1, char *s2, int len)
+{
+    char *res;
+    int i;
+    int j;
+
+    res = malloc(sizeof(char) * (ft_strlen(s1) + len + 1));
+    if (!res)
+        return (NULL);
+    i = 0;
+    j = 0;
+    while (s1[i])
+    {
+        res[i] = s1[i];
+        i++;
+    }
+    while (j < len)
+    {
+        res[i] = s2[j];
+        i++;
+        j++;
+    }
+    res[i] = '\0';
+    free(s1);
+    return (res);
+}
+
+char *clean_var(char *s)
+{
+    char *res;
+    
+    while(*s)
+    {
+        if (is_single_quote(s))
+        {
+            s = ft_strljoin(res, s, ft_strchr(s + 1, '\'') - s);
+        }
+        else
+        {
+            s = ft_strljoin(res, s, ft_strchr(s, '\'') - s);
+        }
+    } 
+    return (res);
 }
 
 void add_env_var(t_memory *memory, char *env, char env_exp)
@@ -76,7 +128,7 @@ void add_env_var(t_memory *memory, char *env, char env_exp)
     last = memory->env;
     while (last->next)
         last = last->next;
-    last->next = add_env(env);
+    last->next = new_env(env);
     last->next->is_user_var = 1;
     last->next->is_global = env_exp;
 }
