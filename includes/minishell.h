@@ -84,21 +84,16 @@ typedef struct s_command
 	struct s_command *next;
 }   t_command;
 
-typedef struct s_env
-{
-	char			*value;
-	char			is_global;
-	char			is_user_var;
-	struct s_env	*next;
-}   t_env;
-
 typedef struct s_memory
 {
 	struct s_tokens	*tokens;
 	char			*input;
 	char			*path;
 	char			*suffix;
-	t_env			*env;
+	char			**env;
+	int				env_lines;
+	int				env_space;
+	int				exit_status;
 }   t_memory;
 
 
@@ -109,7 +104,7 @@ int	 	print_tokens(t_memory *memory);
 int	 	get_type(char *s);
 void 	create_env(t_memory *memory, char **env);
 int 	print_env(t_memory *memory);
-void	add_env_var(t_memory *memory, char *env, char env_exp);
+void	add_env_var(t_memory *memory, char *env);
 int		print_export(t_memory *memory);
 void	unset(t_memory *memory, char *var_name);
 

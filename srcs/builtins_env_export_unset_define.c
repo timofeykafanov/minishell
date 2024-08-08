@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/07 17:03:56 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/08 10:53:07 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,57 +14,22 @@
 
 int print_env(t_memory *memory)
 {
-	t_env *current;
+    int i;
 
-	current = memory->env;
-	while(current)
-	{
-		printf("%s\n", (char*)current->value);
-		current = current->next;
-	}
+    i = 0;
+	while(memory->env[i])
+		printf("%s\n", memory->env[i++]);
 	return (1);
 }
 
 int print_export(t_memory *memory)
 {
-	t_env *current;
-    char *word;
-    char *c;
+    int i;
 
-	current = memory->env;
-	while(current)
-	{
-		printf("declare -x ");
-        if (current->is_user_var)
-        {
-            c = (char*)current->value;
-            word = ft_strchr(current->value, '=') + 1;
-            while (c < word - 1)
-            {
-                printf("%c", *c);
-                c++;
-            }
-            printf("=\"%s\"\n", word);
-        }
-        else
-		    printf("%s\n", (char*)current->value);
-		current = current->next;
-	}
+    i = 0;
+	while(memory->env[i])
+		printf("declare -x %s\n", memory->env[i++]);
 	return (1);
-}
-
-t_env   *new_env(char *env)
-{
-    t_env *new;
-    int len;
-
-    new = malloc(sizeof(t_env));
-    if (!new)
-        return (NULL);
-    len = ft_strlen(env);
-    new->value = ft_strdup(env);
-    new->next = NULL;
-    return (new);
 }
 
 int is_single_quote(char c)
@@ -76,12 +41,31 @@ int is_double_quote(char c)
     return (c == '\"');
 }
 
+char    *ft_strndup(char *s, int len)
+{
+    char *res;
+    int i;
+
+    res = malloc(sizeof(char) * (len + 1));
+    if (!res)
+        return (NULL);
+    i = 0;
+    while (i < len)
+    {
+        res[i] = s[i];
+        i++;
+    }
+    res[i] = '\0';
+    return (res);
+}
+
 char *ft_strljoin(char *s1, char *s2, int len)
 {
     char *res;
     int i;
     int j;
-
+    if (!s1)
+        return (ft_strndup(s2, len));
     res = malloc(sizeof(char) * (ft_strlen(s1) + len + 1));
     if (!res)
         return (NULL);
@@ -107,9 +91,10 @@ char *clean_var(char *s)
 {
     char *res;
     
+    res = NULL;
     while(*s)
     {
-        if (is_single_quote(s))
+        if (is_single_quote(*s))
         {
             s = ft_strljoin(res, s, ft_strchr(s + 1, '\'') - s);
         }
@@ -121,64 +106,75 @@ char *clean_var(char *s)
     return (res);
 }
 
-void add_env_var(t_memory *memory, char *env, char env_exp)
-{
-    t_env *last;
-
-    last = memory->env;
-    while (last->next)
-        last = last->next;
-    last->next = new_env(env);
-    last->next->is_user_var = 1;
-    last->next->is_global = env_exp;
-}
-
 void unset(t_memory *memory, char *var_name)
 {
     printf("Unsetting %s\n", var_name);
-    t_env *current;
-    t_env *prev;
+    int i;
 
-    current = memory->env;
-    prev = NULL;
-    while (current)
+    i = 0;
+    while (memory->env[i] && i < memory->env_lines)
     {
-        if (!ft_strncmp(current->value, var_name, ft_strlen(var_name)) && current->is_user_var)
+        if (ft_strncmp(memory->env[i], var_name, ft_strlen(var_name)) == 0)
         {
-            printf("Found %s\n", current->value);
-            if (prev)
-                prev->next = current->next;
-            else
-                memory->env = current->next;
-            free(current->value);
-            free(current);
-            return ;
+            free(memory->env[i]);
+            memory->env[i] = NULL;
+            break;
         }
-        prev = current;
-        current = current->next;
+        i++;
     }
+}
+
+int count_env_lines(t_memory *memory)
+{
+    int i;
+
+    i = 0;
+    while (memory->env[i])
+        i++;
+    return (i);
+}
+
+void *ft_realloc(void *ptr, size_t size)
+{
+    void *res;
+
+    res = malloc(size);
+    if (!res)
+        return (NULL);
+    ft_memcpy(res, ptr, size);
+    free(ptr);
+    return (res);
+}
+
+void  add_env_var(t_memory *memory, char *env_var)
+{
+    int i;
+
+    i = 0;
+    while (memory->env[i] && i < memory->env_lines)
+        i++;
+    if (memory->env_lines == memory->env_space)
+    {
+        memory->env = realloc(memory->env, sizeof(char *) * (memory->env_lines + 512));
+        memory->env_space += 512;
+    }
+    memory->env[i] = ft_strdup(env_var);
+    memory->env_lines++;
 }
 
 void   create_env(t_memory *memory, char **env)
 {
     int i;
-    t_env *start;
-    t_env *current;
 
-    if (!env || !env[0])
-        return ;
-    start = add_env(env[0]);
-    if (!start)
-        return ;
-    memory->env = start;
-    i = 1;
-    current = start;
+    i = 0;
+    memory->env = malloc(sizeof(char *) * 512);
+    memory->env_lines = 0;
+    memory->env_space = 512;
     while (env[i])
     {
-        current->next = add_env(env[i]);
-        if (!current->next)
-            return (free_memory(memory));
-        current = current->next;
+        memory->env[i] = ft_strdup(env[i]);
+        memory->env_lines++;
         i++;
     }
+    memory->env[i] = NULL;
 }
