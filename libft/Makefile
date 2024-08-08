@@ -22,7 +22,7 @@ SRCS	= ft_atoi.c ft_isdigit.c ft_memmove.c ft_split.c ft_strlcpy.c \
 		ft_printf/ft_printf.c ft_printf/printf_ft_itoa.c \
 		ft_printf/printf_handle_c_s_d_i_u.c \
 		ft_printf/printf_handle_p_x_percent.c ft_printf/printf_utils.c  \
-		ft_strncpy.c
+		ft_strncpy.c ft_realloc.c ft_strljoin.c ft_strndup.c
 
 OBJSDIR	= objs
 
