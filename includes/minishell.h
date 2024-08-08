@@ -114,6 +114,8 @@ int		is_whitespace(char *s);
 int		skip_non_whitespace(char *s);
 char 	*skip_whitespace(char *s);
 char	*find_seperator(char *s);
+char	*find_whitespace(char *s);
+
 
 // signals.c
 

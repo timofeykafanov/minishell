@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/06 16:11:52 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:28:42 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@ int is_whitespace(char *s)
 		return (1);
 	else
 		return (0);
+}
+char *find_whitespace(char *s)
+{
+	while (*s)
+	{
+		if (*s == ' ' || *s == '\t' || *s == '\n')
+			return (s);
+		else
+			s++;
+	}
 }
 
 static int is_metacharacter(char *s)
