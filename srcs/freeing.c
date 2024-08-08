@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/08 10:31:09 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:04:58 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*free_tokens(t_tokens *token)
 	return (NULL);
 }
 
-static void free_env(char **env)
+void free_env(char **env)
 {
 	int i;
 

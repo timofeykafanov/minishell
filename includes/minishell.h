@@ -130,4 +130,7 @@ void execute_ls(void);
 
 void parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
 
+// freeing.c
+void free_env(char **env);
+
 #endif // MINISHELL_H

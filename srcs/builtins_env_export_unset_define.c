@@ -6,12 +6,35 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/08 10:53:07 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:11:28 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static void bubble_sort_char_array(char **array)
+{
+    int i;
+    int j;
+    char *temp;
+
+    i = 0;
+    while (array[i])
+    {
+        j = 0;
+        while (array[j])
+        {
+            if (ft_strncmp(array[i], array[j], ft_strlen(array[i])) < 0)
+            {
+                temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            j++;
+        }
+        i++;
+    }
+}
 int print_env(t_memory *memory)
 {
     int i;
@@ -25,10 +48,23 @@ int print_env(t_memory *memory)
 int print_export(t_memory *memory)
 {
     int i;
+    char **copy;
 
     i = 0;
-	while(memory->env[i])
-		printf("declare -x %s\n", memory->env[i++]);
+    copy = malloc(sizeof(char *) * (memory->env_lines + 1));
+    if (!copy)
+        return (ERROR);
+    while (memory->env[i])
+    {
+        copy[i] = ft_strdup(memory->env[i]);
+        i++;
+    }
+    copy[i] = NULL;
+    bubble_sort_char_array(copy);
+    i = 0;
+	while(copy[i])
+		printf("declare -x %s\n", copy[i++]);
+    free_env(copy);
 	return (1);
 }
 
@@ -162,6 +198,7 @@ void  add_env_var(t_memory *memory, char *env_var)
     memory->env_lines++;
 }
 
+
 void   create_env(t_memory *memory, char **env)
 {
     int i;
@@ -177,4 +214,6 @@ void   create_env(t_memory *memory, char **env)
         i++;
     }
     memory->env[i] = NULL;
+    // needs to be sorted onl for export prining
+    // bubble_sort_char_array(memory->env);
 }
