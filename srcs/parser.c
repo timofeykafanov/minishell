@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:44:21 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/06 17:39:57 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:35:19 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static void execute_command(char **args, t_memory *memory)
 {
+    pid_t pid;
+    int status;
+
 	if (ft_strncmp(args[0], CD, ft_strlen(args[0])) == 0)
 	{
         if (args[1] != NULL || args[1][0] == '\0')
@@ -23,8 +26,8 @@ static void execute_command(char **args, t_memory *memory)
     }
 	else if (ft_strncmp(args[0], PWD, ft_strlen(args[0])) == 0)
         execute_pwd(memory);
-	else if (ft_strncmp(args[0], "ls", ft_strlen(args[0])) == 0)
-        execute_ls();
+	// else if (ft_strncmp(args[0], "ls", ft_strlen(args[0])) == 0)
+    //     execute_ls();
 	else if (ft_strncmp(args[0], EXIT, ft_strlen(args[0])) == 0)
 	{
 		free_memory(memory);
@@ -37,7 +40,32 @@ static void execute_command(char **args, t_memory *memory)
 	// else if (strcmp(args[0], "unset") == 0)
 	// 	unset_env(memory);
 	else
-        printf("Unknown command: %s\n", args[0]);
+    {
+        pid = fork();
+        if (pid == -1)
+        {
+            perror("fork failed");
+            return;
+        }
+        if (pid == 0)
+        {
+            if (execve(ft_strjoin("/usr/bin/", args[0]), args, memory->env) == -1)
+            {
+                perror("execve failed");
+                exit(EXIT_FAILURE);
+            }
+        }
+        else
+        {
+            waitpid(pid, &status, 0);
+            if (WIFEXITED(status))
+            {
+                int exit_status = WEXITSTATUS(status);
+                if (exit_status != 0)
+                    printf("Child process exited with status %d\n", exit_status);
+            }
+        }
+    }
 }
 
 static void handle_redirection(char **args)
