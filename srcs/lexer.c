@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/12 16:21:18 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:46:44 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,26 +110,3 @@ int	lexer(t_memory *memory)
 	return (SUCCESS);
 }
 
-// int	lexer(t_memory *memory)
-// {
-// 	char *input;
-// 	t_tokens *current = NULL;
-// 	t_tokens *previous = NULL;
-
-// 	input = memory->input;
-// 	while(*input)
-// 	{
-// 		input += skip_whitespace(input);
-// 		current = create_token(input, memory);
-// 		if (!current)
-// 			return (free_memory(memory), ERROR);
-// 		if (!memory->tokens)
-// 			memory->tokens = current;
-// 		else
-//         	previous->next = current;
-// 		previous = current;
-// 		input += ft_strlen(current->data);
-// 		input += skip_whitespace(input);
-// 	}
-// 	return (SUCCESS);
-// }

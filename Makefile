@@ -26,6 +26,8 @@ SRCS		= \
 			$(SRCSDIR)/parser.c \
 			$(SRCSDIR)/signals.c \
 			$(SRCSDIR)/expander.c \
+			$(SRCSDIR)/heredoc.c \
+
 
 
 

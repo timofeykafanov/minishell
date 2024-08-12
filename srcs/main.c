@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/12 16:35:01 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:37:45 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int ac, char **av, char **env)
 				return(free_memory(memory), ERROR);
 			if (!memory->tokens)
 				return(free_memory(memory), ERROR);
-			parse_and_execute_tokens(memory->tokens, memory);
+			// parse_and_execute_tokens(memory->tokens, memory);
 			// print_tokens(memory);
 			// memory->tokens->data = expand_var(memory, memory->tokens->data);
 			// printf("expanded = %s\n", (char*)memory->tokens->data);
@@ -55,8 +55,16 @@ int	main(int ac, char **av, char **env)
 			// t = expand_double(memory, t);
 			// printf("expanded = %s\n", t);
 			// free(t);
+			// expand_tokens(memory);
+			// print_tokens_as_string(memory);
+			heredoc(memory->tokens->data);
+			memory->input = read_heredoc_content();
+			free_tokens(memory->tokens);
+			memory->tokens = NULL;
+			if(lexer(memory))
+				return(free_memory(memory), ERROR);
 			expand_tokens(memory);
-			print_tokens_as_string(memory);
+			print_tokens(memory);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;
 			free(memory->suffix);
