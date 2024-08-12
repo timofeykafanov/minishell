@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/06 18:00:35 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:25:13 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ int	main(int ac, char **av, char **env)
 				return(free_memory(memory), ERROR);
 			parse_and_execute_tokens(memory->tokens, memory);
 			// print_tokens(memory);
+			// memory->tokens->data = expand_var(memory, memory->tokens->data);
+			// printf("expanded = %s\n", (char*)memory->tokens->data);
+			// char *t = ft_strdup(memory->tokens->data);
+			// t = expand_double(memory, t);
+			// printf("expanded = %s\n", t);
+			// free(t);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;
 			free(memory->suffix);

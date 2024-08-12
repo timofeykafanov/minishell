@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/08 12:28:42 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:03:02 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,27 @@ char *find_whitespace(char *s)
 		else
 			s++;
 	}
+	return (NULL);
+}
+
+//WHY is this an infinte loop if the first char is a $?
+char *is_var_end(char *s)
+{
+	int i;
+	i = 1;
+	while (s[i])
+	{
+		if((s[i] >= '!' && s[i] <= '/') \
+			|| (s[i] >= ':' && s[i] <= '@') \
+			|| (s[i] >= '[' && s[i] <= '^') \
+			|| (s[i] >= '{' && s[i] <= '~') \
+			|| is_whitespace(s + i))
+		{
+			break;
+		}
+		i++;
+	}
+	return (s + i);
 }
 
 static int is_metacharacter(char *s)

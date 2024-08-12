@@ -25,6 +25,8 @@ SRCS		= \
 			$(SRCSDIR)/builtins_pwd_cd_ls.c \
 			$(SRCSDIR)/parser.c \
 			$(SRCSDIR)/signals.c \
+			$(SRCSDIR)/expander.c \
+
 
 
 OBJSDIR		= objs

@@ -61,6 +61,7 @@
 # define T_BRACKETS		11
 # define T_SEMICOLON	12
 # define T_WHITESPACE	13
+# define T_VAR_DEF		14
 
 
 
@@ -115,7 +116,7 @@ int		skip_non_whitespace(char *s);
 char 	*skip_whitespace(char *s);
 char	*find_seperator(char *s);
 char	*find_whitespace(char *s);
-
+char	*is_var_end(char *s);
 
 // signals.c
 
@@ -134,5 +135,9 @@ void parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
 
 // freeing.c
 void free_env(char **env);
+
+// expander.c
+char *expand_double(t_memory *memory, char *s);
+char *expand_var(t_memory *memory, char *var);
 
 #endif // MINISHELL_H
