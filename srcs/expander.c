@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/12 15:24:03 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:39:04 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,11 @@ char *expand_double(t_memory *memory, char *s)
         if (is_dollar(*s))
         {
             var = ft_strndup(s, is_var_end(s + 1) - s);
+            if (!var)
+                return (NULL);
             var = expand_var(memory, var);
+            if (!var)
+                return (NULL);
             res = ft_strljoin(res, var, ft_strlen(var));
             free(var);
             s = is_var_end(s + 1);
@@ -79,7 +83,71 @@ char *expand_double(t_memory *memory, char *s)
                 break;
             res = ft_strljoin(res, s, 1);
             s++;
-        } 
+        }
+        if (!res)
+            return (NULL);
     }
     return (res);
+}
+
+char *expand_single(char *s)
+{
+    char *res;
+    
+    res = NULL;
+    s++;
+    while(*s)
+    { 
+        if(is_single_quote(*s))
+            break;
+        res = ft_strljoin(res, s, 1);
+        if (!res)
+            return (NULL);
+        s++;
+    }
+    return (res);
+}
+
+void *expand_tokens(t_memory *memory)
+{
+    t_tokens *token;
+    
+    token = memory->tokens;
+    while(token)
+    {
+        if (token->type == T_D_QUOTE)
+        {
+            token->data = expand_double(memory, token->data);
+            if (!token->data)
+                return (NULL);  
+        }
+        else if (token->type == T_S_QUOTE)
+        {
+            token->data = expand_single(token->data);
+            if (!token->data)
+                return (NULL);  
+        }
+        else if (token->type == T_VAR)
+        {
+            token->data = expand_var(memory, token->data);
+            if (!token->data)
+                return (NULL);  
+        }
+        token = token->next;
+    }
+    return (memory);
+}
+
+void print_tokens_as_string(t_memory *memory)
+{
+    t_tokens *token;
+    
+    token = memory->tokens;
+    while(token)
+    {
+        printf("%s", (char*)token->data);
+        token = token->next;
+    }
+        printf("\n");
+
 }

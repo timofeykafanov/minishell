@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/12 14:36:11 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:21:18 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,6 @@ static void *process_token(char *s)
 		len = skip_whitespace(s) - s;
 		token = ft_strncpy(s, len);
 	}
-    // else if (*s == '$')
-	// {
-	// 	len = find_seperator(s) - s;
-	// 	token = ft_strncpy(s, len);
-	// }
 	else
 	{
 		len = find_seperator(s) - s;

@@ -138,6 +138,9 @@ void free_env(char **env);
 
 // expander.c
 char *expand_double(t_memory *memory, char *s);
+char *expand_single(char *s);
 char *expand_var(t_memory *memory, char *var);
+void *expand_tokens(t_memory *memory);
+void print_tokens_as_string(t_memory *memory);
 
 #endif // MINISHELL_H
