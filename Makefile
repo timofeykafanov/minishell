@@ -24,6 +24,7 @@ SRCS		= \
 			$(SRCSDIR)/builtins_env_export_unset_define.c \
 			$(SRCSDIR)/builtins_pwd_cd_ls.c \
 			$(SRCSDIR)/parser.c \
+			$(SRCSDIR)/parser_2_0.c \
 			$(SRCSDIR)/signals.c \
 
 

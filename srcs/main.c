@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/06 18:00:35 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:04:27 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int ac, char **av, char **env)
 	getcwd(memory->path, PATH_MAX);
 	while (1)
 	{
-		memory->suffix = ft_strjoin(memory->path,"$ ");	
+		memory->suffix = ft_strjoin(memory->path,"$ ");
 		memory->input = readline(memory->suffix);
 		if (memory->input)
 		{
@@ -47,8 +47,10 @@ int	main(int ac, char **av, char **env)
 				return(free_memory(memory), ERROR);
 			if (!memory->tokens)
 				return(free_memory(memory), ERROR);
-			parse_and_execute_tokens(memory->tokens, memory);
+			// parse_and_execute_tokens(memory->tokens, memory);
 			// print_tokens(memory);
+			parse_command(memory);
+			print_commands(memory);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;
 			free(memory->suffix);
