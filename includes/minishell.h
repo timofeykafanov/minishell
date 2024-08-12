@@ -145,6 +145,6 @@ void print_tokens_as_string(t_memory *memory);
 
 //heredoc.c
 void	heredoc(char *delimiter);
-char *read_heredoc_content();
+char	*read_heredoc_content();
 
 #endif // MINISHELL_H
