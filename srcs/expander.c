@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/12 16:39:04 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:15:44 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,16 @@ char *expand_double(t_memory *memory, char *s)
     char *var;
     
     res = NULL;
+    if(is_double_quote(*s) && is_double_quote(*(s + 1)))
+    {
+        res = malloc(1);
+        res[0] = '\0';
+        return (res);
+    }
     s++;
     while(*s)
-    { 
+    {
+        
         if (is_dollar(*s))
         {
             var = ft_strndup(s, is_var_end(s + 1) - s);
@@ -95,9 +102,15 @@ char *expand_single(char *s)
     char *res;
     
     res = NULL;
+    if(is_single_quote(*s) && is_single_quote(*(s + 1)))
+    {
+        res = malloc(1);
+        res[0] = '\0';
+        return (res);
+    }
     s++;
     while(*s)
-    { 
+    {
         if(is_single_quote(*s))
             break;
         res = ft_strljoin(res, s, 1);
@@ -149,5 +162,19 @@ void print_tokens_as_string(t_memory *memory)
         token = token->next;
     }
         printf("\n");
+}
 
+char *join_tokens(t_memory *memory)
+{
+    t_tokens *token;
+    char *res;
+
+    res = NULL;    
+    token = memory->tokens;
+    while(token)
+    {
+        res = ft_strljoin(res, token->data, ft_strlen(token->data));
+        token = token->next;
+    }
+        return (res);
 }

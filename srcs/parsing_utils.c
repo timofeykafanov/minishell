@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/12 15:03:02 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:10:45 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static int is_metacharacter(char *s)
 	if(*s == PIPE || *s == R_IN || *s  == R_OUT \
 		|| *s == SEMICOLON || *s == BRACKET_O  \
 		|| *s  == BRACKET_C || *s == AMPERSAND \
+		|| *s  == S_QUOTE || *s == D_QUOTE \
 		|| is_whitespace(s))
 		return (1);
 	else
