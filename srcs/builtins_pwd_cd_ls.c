@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_pwd_cd_ls.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/06 17:41:28 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:19:52 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,28 @@ void print_history(void)
 	}
 }
 
-void execute_pwd(t_memory *memory)
+char	*execute_pwd(t_memory *memory)
 {
 	if (memory->path != NULL)
-		printf("%s\n", memory->path);
+		return (memory->path);
+		// printf("%s\n", memory->path);
 	else
 		perror("getcwd() error");
+	return (memory->path);
 }
 
-void execute_cd(const char *path, t_memory *memory)
+char	*execute_cd(t_memory *memory, t_commands *cmd)
 {
-	if (chdir(path) != 0)
-		perror("chdir() error");
+	if (cmd->args)
+	{
+		if (chdir(cmd->args->name) != 0)
+			perror("chdir() error");
+	}
+	else
+	{
+		if (chdir(memory->path) != 0)
+			perror("chdir() error");
+	}
 	getcwd(memory->path, PATH_MAX);
+	return (NULL);
 }

@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 #include "../libft/libft.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -62,9 +63,6 @@
 # define T_SEMICOLON	12
 # define T_WHITESPACE	13
 
-
-
-
 typedef struct s_tokens
 {
 	void			*data;
@@ -90,7 +88,7 @@ typedef struct s_commands
 	int					type;
 	bool				main;
 	struct s_commands	*next;
-	struct s_commands	*child;
+	struct s_commands	*args;
 	struct s_commands	*prev;
 }	t_commands;
 
@@ -133,8 +131,8 @@ void handle_sigint(int sig);
 // builtins.c
 
 void	print_history(void);
-void	execute_pwd(t_memory *memory);
-void	execute_cd(const char *path, t_memory *memory);
+char	*execute_pwd(t_memory *memory);
+char	*execute_cd(t_memory *memory, t_commands *cmd);
 void	execute_ls(void);
 
 // parser.c
@@ -146,7 +144,16 @@ void	parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
 void	parse_command(t_memory *memory);
 void	print_commands(t_memory *memory);
 
+// executor.c
+
+void	execute_commands(t_memory *memory);
+
+// ft_execve.c
+
+char	*ft_execve(t_memory *memory, t_commands *cmd, int input_fd, bool flag);
+
 // freeing.c
+
 void free_env(char **env);
 
 #endif // MINISHELL_H

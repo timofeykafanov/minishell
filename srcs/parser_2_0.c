@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_2_0.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:02:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/12 17:05:10 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 12:43:38 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_commands	*create_command(char *name, int type) {
     cmd->name = strdup(name);
     cmd->type = type;
     cmd->next = NULL;
-    cmd->child = NULL;
+    cmd->args = NULL;
 	cmd->main = false;
     return cmd;
 }
@@ -51,7 +51,7 @@ void	parse_command(t_memory *memory)
 			else
 			{
 				temp = current;
-				current->child = cmd;
+				current->args = cmd;
 				current = cmd;
 				current->prev = temp;
 			}
@@ -79,17 +79,17 @@ void	parse_command(t_memory *memory)
 void	print_commands(t_memory *memory)
 {
 	t_commands	*cmd;
-	t_commands	*child;
+	t_commands	*args;
 
 	cmd = memory->commands;
 	while (cmd)
 	{
 		printf("cmd: %s\n", cmd->name);
-		child = cmd->child;
-		while (child)
+		args = cmd->args;
+		while (args)
 		{
-			printf("child: %s\n", child->name);
-			child = child->child;
+			printf("args: %s\n", args->name);
+			args = args->args;
 		}
 		cmd = cmd->next;
 	}
