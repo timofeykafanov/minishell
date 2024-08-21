@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:17:16 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:00:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,22 @@ int	main(int ac, char **av, char **env)
 				return(free_memory(memory), ERROR);
 			// parse_and_execute_tokens(memory->tokens, memory);
 			// print_tokens(memory);
-			parse_command(memory);
-			print_commands(memory);
-			execute_commands(memory);
+			// memory->tokens->data = expand_var(memory, memory->tokens->data);
+			// printf("expanded = %s\n", (char*)memory->tokens->data);
+			// char *t = ft_strdup(memory->tokens->data);
+			// t = expand_double(memory, t);
+			// printf("expanded = %s\n", t);
+			// free(t);
+			// expand_tokens(memory);
+			// print_tokens_as_string(memory);
+			// heredoc(memory->tokens->data);
+			// memory->input = read_heredoc_content();
+			// free_tokens(memory->tokens);
+			// memory->tokens = NULL;
+			// if(lexer(memory))
+			// 	return(free_memory(memory), ERROR);
+			expand_tokens(memory);
+			print_tokens(memory);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;
 			free(memory->suffix);

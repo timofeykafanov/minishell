@@ -62,6 +62,7 @@
 # define T_BRACKETS		11
 # define T_SEMICOLON	12
 # define T_WHITESPACE	13
+# define T_VAR_DEF		14
 
 typedef struct s_tokens
 {
@@ -123,6 +124,8 @@ int		is_whitespace(char *s);
 int		skip_non_whitespace(char *s);
 char 	*skip_whitespace(char *s);
 char	*find_seperator(char *s);
+char	*find_whitespace(char *s);
+char	*is_var_end(char *s);
 
 // signals.c
 
@@ -155,5 +158,16 @@ char	*ft_execve(t_memory *memory, t_commands *cmd, int input_fd, bool flag);
 // freeing.c
 
 void free_env(char **env);
+
+// expander.c
+char *expand_double(t_memory *memory, char *s);
+char *expand_single(char *s);
+char *expand_var(t_memory *memory, char *var);
+void *expand_tokens(t_memory *memory);
+void print_tokens_as_string(t_memory *memory);
+
+//heredoc.c
+void	heredoc(char *delimiter);
+char	*read_heredoc_content();
 
 #endif // MINISHELL_H

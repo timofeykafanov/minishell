@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/06 16:11:52 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:10:45 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,44 @@ int is_whitespace(char *s)
 	else
 		return (0);
 }
+char *find_whitespace(char *s)
+{
+	while (*s)
+	{
+		if (*s == ' ' || *s == '\t' || *s == '\n')
+			return (s);
+		else
+			s++;
+	}
+	return (NULL);
+}
+
+//WHY is this an infinte loop if the first char is a $?
+char *is_var_end(char *s)
+{
+	int i;
+	i = 1;
+	while (s[i])
+	{
+		if((s[i] >= '!' && s[i] <= '/') \
+			|| (s[i] >= ':' && s[i] <= '@') \
+			|| (s[i] >= '[' && s[i] <= '^') \
+			|| (s[i] >= '{' && s[i] <= '~') \
+			|| is_whitespace(s + i))
+		{
+			break;
+		}
+		i++;
+	}
+	return (s + i);
+}
 
 static int is_metacharacter(char *s)
 {
 	if(*s == PIPE || *s == R_IN || *s  == R_OUT \
 		|| *s == SEMICOLON || *s == BRACKET_O  \
 		|| *s  == BRACKET_C || *s == AMPERSAND \
+		|| *s  == S_QUOTE || *s == D_QUOTE \
 		|| is_whitespace(s))
 		return (1);
 	else
