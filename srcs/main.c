@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/21 17:00:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:03:24 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int ac, char **av, char **env)
 
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	(void)ac,
+	(void)ac;
 	(void)av;
 	memory = malloc(sizeof(*memory));
 	if (!memory)
@@ -65,6 +65,9 @@ int	main(int ac, char **av, char **env)
 			// if(lexer(memory))
 			// 	return(free_memory(memory), ERROR);
 			expand_tokens(memory);
+			parse_command(memory);
+			execute_commands(memory);
+			print_commands(memory);
 			print_tokens(memory);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;

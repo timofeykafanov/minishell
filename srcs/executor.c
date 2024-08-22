@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 10:39:16 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:53:50 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:04:50 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	execute_commands(t_memory *memory)
 	cmd = memory->commands;
 	while (cmd)
 	{
-		if (cmd->type == T_WORD)
+		if (cmd->type == T_WORD || cmd->type == T_D_QUOTE || cmd->type == T_S_QUOTE)
 		{
 			// if (ft_strncmp(cmd->name, ECHO, ft_strlen(cmd->name)) == 0)
 			// 	execute_echo(memory, cmd);
@@ -30,7 +30,7 @@ void	execute_commands(t_memory *memory)
 			else if (ft_strncmp(cmd->name, PWD, ft_strlen(cmd->name)) == 0)
 				res = execute_pwd(memory);
 			else if (ft_strncmp(cmd->name, EXPORT, ft_strlen(cmd->name)) == 0)
-				print_export(memory);
+				add_env_var(memory, cmd->args->name);
 			// else if (ft_strncmp(cmd->name, UNSET, ft_strlen(cmd->name)) == 0)
 			// 	unset(memory, cmd->args);
 			else if (ft_strncmp(cmd->name, ENV, ft_strlen(cmd->name)) == 0)
