@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:02:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/22 15:05:12 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:09:55 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	parse_command(t_memory *memory)
 	{
 		if (tokens->type != T_PIPE)
 		{
-			if (current && current->type != T_WHITESPACE && \
-				tokens->type != T_R_IN && tokens->type != T_R_OUT && \
-				tokens->type != T_OUT_APPEND && tokens->type != T_FIND_DELIM)
-				current->name = ft_strjoin(current->name, tokens->data);
-			else
+			// if (current && current->type != T_WHITESPACE && \
+			// 	tokens->type != T_R_IN && tokens->type != T_R_OUT && \
+			// 	tokens->type != T_OUT_APPEND && tokens->type != T_FIND_DELIM)
+			// 	current->name = ft_strjoin(current->name, tokens->data);
+			// else
 			{	
 				cmd = create_command(tokens->data, tokens->type);
 				if (!root)

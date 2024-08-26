@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 10:39:16 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/22 14:04:50 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:31:35 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	execute_commands(t_memory *memory)
 	t_commands	*cmd;
 	char		*res;
 	int			input_fd = -1;
+	int     pipefd[2];
 
 	cmd = memory->commands;
 	while (cmd)
@@ -39,7 +40,8 @@ void	execute_commands(t_memory *memory)
 			// 	ft_exit(memory, cmd);
 			else
 			{
-				res = ft_execve(memory, cmd, input_fd, cmd->next != NULL);
+				printf("3 exec %s\n", cmd->name);
+				res = ft_execve(memory, cmd, input_fd, cmd->next != NULL, pipefd);
                 // if (cmd->next)
                 //     input_fd = -1;
 			}

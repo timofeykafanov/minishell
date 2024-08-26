@@ -153,7 +153,7 @@ void	execute_commands(t_memory *memory);
 
 // ft_execve.c
 
-char	*ft_execve(t_memory *memory, t_commands *cmd, int input_fd, bool flag);
+char	*ft_execve(t_memory *memory, t_commands *cmd, int input_fd, bool flag, int *pipefd);
 
 // freeing.c
 
