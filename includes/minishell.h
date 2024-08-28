@@ -99,6 +99,7 @@ typedef struct s_command
 	char				*name;
 	char				**args;
 	int					type;
+	char				*path;
 	struct s_command	*next;
 }	t_command;
 

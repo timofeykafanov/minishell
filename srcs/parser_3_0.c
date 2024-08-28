@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/28 14:21:14 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:17:46 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	parse_command(t_memory *memory)
 
 	tokens = memory->tokens;
 	current = NULL;
+	memory->commands = NULL;
 	while (tokens)
 	{
 		current = create_command(tokens->data, NULL, tokens->type);
