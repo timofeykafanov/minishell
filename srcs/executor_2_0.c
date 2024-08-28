@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/28 15:39:26 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:31:25 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	execute_single_command(t_command *command, t_memory *memory)
 void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
-	int	status;
+	// int	status;
 
 	pipe(fd1);
 	pid = fork();
@@ -65,15 +65,17 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 	}
 	else
 	{
-		close(fd1[1]);
-		waitpid(pid, &status, 0);
+		// close(fd1[0]);
+		// close(fd1[1]);
+		// waitpid(pid, &status, 0);
 	}
 }
 
-void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2], int fd2[2])
+void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
-	int	status;
+	// int	status;
+	int	fd2[2];
 
 	pipe(fd2);
 	pid = fork();
@@ -103,7 +105,7 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2], int fd2[2])
 		close(fd1[1]);
 		fd1[0] = fd2[0];
 		fd1[1] = fd2[1];
-		waitpid(pid, &status, 0);
+		// waitpid(pid, &status, 0);
 	}
 }
 
@@ -143,7 +145,6 @@ void    execute_commands(t_memory *memory)
 {
 	t_command	*command;
 	int			fd1[2];
-	int			fd2[2];
 
 	command = memory->commands;
 	if (command->next == NULL)
@@ -154,9 +155,11 @@ void    execute_commands(t_memory *memory)
 		command = command->next;
 		while (command->next)
 		{
-			execute_next_command(command, memory, fd1, fd2);
+			execute_next_command(command, memory, fd1);
 			command = command->next;
 		}
+		// close(fd1[0]);
+		// close(fd1[1]);
 		execute_last_command(command, memory, fd1);
 	}
 }
