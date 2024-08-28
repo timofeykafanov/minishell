@@ -23,13 +23,14 @@ SRCS		= \
 			$(SRCSDIR)/parsing_utils.c \
 			$(SRCSDIR)/builtins_env_export_unset_define.c \
 			$(SRCSDIR)/builtins_pwd_cd_ls.c \
-			$(SRCSDIR)/parser_2_0.c \
 			$(SRCSDIR)/signals.c \
-			$(SRCSDIR)/executor.c \
 			$(SRCSDIR)/ft_execve.c \
 			$(SRCSDIR)/expander.c \
 			$(SRCSDIR)/heredoc.c \
-#			$(SRCSDIR)/parser.c \
+			$(SRCSDIR)/parser_3_0.c \
+			$(SRCSDIR)/remove_spaces.c \
+			$(SRCSDIR)/executor_2_0.c \
+			# $(SRCSDIR)/parser_2_0.c
 
 
 OBJSDIR		= objs

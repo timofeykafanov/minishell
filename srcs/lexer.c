@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/12 16:46:44 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:57:36 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static t_tokens	*create_token(char *s, t_memory *memory)
 	if(token->type == T_WORD && ft_strchr((char*)token->data, '='))
 		token->type = T_VAR_DEF;
 	token->next = NULL;
+	token->prev = NULL;
 	return (token);
 }
 
@@ -103,7 +104,10 @@ int	lexer(t_memory *memory)
 		if (!memory->tokens)
 			memory->tokens = current;
 		else
+		{
         	previous->next = current;
+			current->prev = previous;	
+		}
 		previous = current;
 		input += ft_strlen(current->data);
 	}
