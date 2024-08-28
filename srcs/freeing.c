@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/12 15:05:41 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:20:39 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,24 @@ void free_env(char **env)
 	free(env);
 }
 
+void free_commands(t_command *commands)
+{
+	t_command *current;
+	t_command *next;
+
+	current = commands;
+	while (current)
+	{
+		next = current->next;
+		// if (current->name)
+		// 	free(current->name);
+		if (current->args)
+			free(current->args);
+		free(current);
+		current = next;
+	}
+}
+
 void free_memory(t_memory *memory)
 {
 	if (memory->tokens)
@@ -53,5 +71,7 @@ void free_memory(t_memory *memory)
 		free(memory->path);
 	if (memory->suffix)
 		free(memory->suffix);
+	if (memory->commands)
+		free_commands(memory->commands);
 	free(memory);
 }

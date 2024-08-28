@@ -69,19 +69,20 @@ typedef struct s_tokens
 	void			*data;
 	int				type;
 	struct s_tokens	*next;
+	struct s_tokens	*prev;
 }   t_tokens;
 
 
-typedef struct s_command
-{
-	char				*name;
-	char				**args;
-	int					type;
-	int					pipe[2];
-	int					fd_in;
-	int					fd_out;
-	struct s_command	*next;
-}   t_command;
+// typedef struct s_command
+// {
+// 	char				*name;
+// 	char				**args;
+// 	int					type;
+// 	int					pipe[2];
+// 	int					fd_in;
+// 	int					fd_out;
+// 	struct s_command	*next;
+// }   t_command;
 
 typedef struct s_commands
 {
@@ -93,10 +94,26 @@ typedef struct s_commands
 	struct s_commands	*prev;
 }	t_commands;
 
+typedef struct s_command
+{
+	char				*name;
+	char				**args;
+	int					type;
+	struct s_command	*next;
+}	t_command;
+
+// typedef struct s_command_1
+// {
+// 	char				*name;
+// 	char				**args;
+// 	int					type;
+// 	struct s_command_1	*next;
+// }	t_command_1;
+
 typedef struct s_memory
 {
 	struct s_tokens		*tokens;
-	struct s_commands	*commands;
+	struct s_command	*commands;
 	char				*input;
 	char				*path;
 	char				*suffix;
@@ -142,12 +159,12 @@ void	execute_ls(void);
 
 void	parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
 
-// parser_2_0.c
+// parser_3_0.c
 
 void	parse_command(t_memory *memory);
 void	print_commands(t_memory *memory);
 
-// executor.c
+// executor_2_0.c
 
 void	execute_commands(t_memory *memory);
 
@@ -160,14 +177,20 @@ char	*ft_execve(t_memory *memory, t_commands *cmd, int input_fd, bool flag, int 
 void free_env(char **env);
 
 // expander.c
+
 char *expand_double(t_memory *memory, char *s);
 char *expand_single(char *s);
 char *expand_var(t_memory *memory, char *var);
 void *expand_tokens(t_memory *memory);
 void print_tokens_as_string(t_memory *memory);
 
-//heredoc.c
+// heredoc.c
+
 void	heredoc(char *delimiter);
 char	*read_heredoc_content();
+
+// remove_spaces.c
+
+void    remove_spaces(t_memory *memory);
 
 #endif // MINISHELL_H
