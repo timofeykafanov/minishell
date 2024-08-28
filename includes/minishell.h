@@ -94,15 +94,24 @@ typedef struct s_commands
 	struct s_commands	*prev;
 }	t_commands;
 
+typedef struct s_redir_out
+{
+	char				*file_name;
+	int					type;
+	struct s_redir_out	*next;
+}	t_redir_out;
+
 typedef struct s_command
 {
 	char				*name;
 	char				**args;
 	char				**redir_out;
+	t_redir_out			*redir_struct;
 	int					type;
 	char				*path;
 	struct s_command	*next;
 }	t_command;
+
 
 // typedef struct s_command_1
 // {

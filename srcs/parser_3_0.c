@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/28 16:04:41 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:49:06 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,82 @@ t_command	*create_command(char *name, char **args, int type)
 	return (command);
 }
 
+// void	parse_command(t_memory *memory)
+// {
+// 	t_command	*current_cmd;
+// 	t_command	*prev_cmd;
+// 	t_tokens	*start_token;
+// 	t_tokens	*current_token;
+// 	int			args_count;
+// 	int 		red_out_count;
+
+// 	memory->commands = NULL;
+// 	start_token = memory->tokens;
+// 	current_token = start_token;
+// 	current_cmd = NULL;
+// 	while (current_token)
+// 	{
+// 		current_cmd = create_command(current_token->data, NULL, current_token->type);
+// 		if (!memory->commands)
+// 			memory->commands = current_cmd;
+// 		else
+// 			prev_cmd->next = current_cmd;
+// 		args_count = 0;
+// 		red_out_count = 0;
+// 		while (current_token)
+// 		{
+// 			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND) && current_token->next != NULL)
+// 			{
+// 				red_out_count++;
+// 				current_token = current_token->next->next;
+// 				continue;
+// 			}
+// 			if (current_token->type == T_PIPE)
+// 			{
+// 				break;
+// 			}	
+// 			args_count++;
+// 			current_token = current_token->next;
+// 		}
+// 		current_token = start_token;
+// 		current_cmd->args = (char **)malloc(sizeof(char *) * (args_count + 1));
+// 		current_cmd->args[args_count] = NULL;
+// 		current_cmd->redir_out = (char **)malloc(sizeof(char *) * (red_out_count + 1));
+// 		current_cmd->redir_out[red_out_count] = NULL;
+// 		args_count = 0;
+// 		red_out_count = 0;
+// 		while (current_token)
+// 		{
+// 			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND) && current_token->next != NULL)
+// 			{
+// 				current_cmd->redir_out[red_out_count] = current_token->next->data;
+// 				current_token = current_token->next->next;
+// 				red_out_count++;
+// 				continue;
+// 			}
+// 			if (current_token->type == T_PIPE)
+// 			{
+// 				current_token = current_token->next;
+// 				break;
+// 			}	
+// 			current_cmd->args[args_count] = current_token->data;	
+// 			current_token = current_token->next;
+// 			args_count++;
+// 		}
+// 		start_token = current_token;
+// 		prev_cmd = current_cmd;
+// 	}
+// }
+
 void	parse_command(t_memory *memory)
 {
 	t_command	*current_cmd;
 	t_command	*prev_cmd;
 	t_tokens	*start_token;
 	t_tokens	*current_token;
+	t_redir_out	*current_redir;
+	t_redir_out	*last_redir;
 	int			args_count;
-	int 		red_out_count;
 
 	memory->commands = NULL;
 	start_token = memory->tokens;
@@ -45,12 +113,10 @@ void	parse_command(t_memory *memory)
 		else
 			prev_cmd->next = current_cmd;
 		args_count = 0;
-		red_out_count = 0;
 		while (current_token)
 		{
-			if(current_token->type == T_R_OUT && current_token->next != NULL)
+			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND) && current_token->next != NULL)
 			{
-				red_out_count++;
 				current_token = current_token->next->next;
 				continue;
 			}
@@ -64,17 +130,26 @@ void	parse_command(t_memory *memory)
 		current_token = start_token;
 		current_cmd->args = (char **)malloc(sizeof(char *) * (args_count + 1));
 		current_cmd->args[args_count] = NULL;
-		current_cmd->redir_out = (char **)malloc(sizeof(char *) * (red_out_count + 1));
-		current_cmd->redir_out[red_out_count] = NULL;
 		args_count = 0;
-		red_out_count = 0;
 		while (current_token)
 		{
-			if(current_token->type == T_R_OUT && current_token->next != NULL)
+			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND) && current_token->next != NULL)
 			{
-				current_cmd->redir_out[red_out_count] = current_token->next->data;
+				current_redir = malloc(sizeof(t_redir_out));
+				current_redir->file_name = current_token->next->data;
+				current_redir->type = current_token->type;
+				current_redir->next = NULL;
+				if(!current_cmd->redir_struct)
+				{
+					current_cmd->redir_struct = current_redir;
+					last_redir = current_redir;	
+				}
+				else
+				{
+					last_redir->next = current_redir;
+					current_redir = last_redir;
+				}
 				current_token = current_token->next->next;
-				red_out_count++;
 				continue;
 			}
 			if (current_token->type == T_PIPE)
@@ -140,10 +215,12 @@ void print_commands(t_memory *memory)
 {
 	t_command	*current;
 	int			i;
+	t_redir_out	*redir;
 
 	current = memory->commands;
 	while (current)
 	{
+		redir = current->redir_struct;
 		i = 0;
 		printf("command: %s\n", current->name);
 		while (current->args[i])
@@ -152,9 +229,15 @@ void print_commands(t_memory *memory)
 			i++;
 		}
 		i = 0;
-		while (current->redir_out[i])
+		// while (current->redir_out[i])
+		// {
+		// 	printf("red %d: %s\n", i, current->redir_out[i]);
+		// 	i++;
+		// }
+		while (redir)
 		{
-			printf("red %d: %s\n", i, current->redir_out[i]);
+			printf("red %d: %s type: %d\n", i, redir->file_name, redir->type);
+			redir = redir->next;
 			i++;
 		}
 		current = current->next;
