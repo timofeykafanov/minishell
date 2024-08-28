@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 #include "../libft/libft.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -63,38 +64,46 @@
 # define T_WHITESPACE	13
 # define T_VAR_DEF		14
 
-
-
-
 typedef struct s_tokens
 {
 	void			*data;
 	int				type;
-	struct s_tokens *next;
+	struct s_tokens	*next;
 }   t_tokens;
 
 
 typedef struct s_command
 {
-	char			*name;
-	char			**args;
-	int				type;
-	int				pipe[2];
-	int				fd_in;
-	int				fd_out;
-	struct s_command *next;
+	char				*name;
+	char				**args;
+	int					type;
+	int					pipe[2];
+	int					fd_in;
+	int					fd_out;
+	struct s_command	*next;
 }   t_command;
+
+typedef struct s_commands
+{
+	char				*name;
+	int					type;
+	bool				main;
+	struct s_commands	*next;
+	struct s_commands	*args;
+	struct s_commands	*prev;
+}	t_commands;
 
 typedef struct s_memory
 {
-	struct s_tokens	*tokens;
-	char			*input;
-	char			*path;
-	char			*suffix;
-	char			**env;
-	int				env_lines;
-	int				env_space;
-	int				exit_status;
+	struct s_tokens		*tokens;
+	struct s_commands	*commands;
+	char				*input;
+	char				*path;
+	char				*suffix;
+	char				**env;
+	int					env_lines;
+	int					env_space;
+	int					exit_status;
 }   t_memory;
 
 
@@ -124,16 +133,30 @@ void handle_sigint(int sig);
 
 // builtins.c
 
-void print_history(void);
-void execute_pwd(t_memory *memory);
-void execute_cd(const char *path, t_memory *memory);
-void execute_ls(void);
+void	print_history(void);
+char	*execute_pwd(t_memory *memory);
+char	*execute_cd(t_memory *memory, t_commands *cmd);
+void	execute_ls(void);
 
 // parser.c
 
-void parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
+void	parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
+
+// parser_2_0.c
+
+void	parse_command(t_memory *memory);
+void	print_commands(t_memory *memory);
+
+// executor.c
+
+void	execute_commands(t_memory *memory);
+
+// ft_execve.c
+
+char	*ft_execve(t_memory *memory, t_commands *cmd, int input_fd, bool flag, int *pipefd);
 
 // freeing.c
+
 void free_env(char **env);
 
 // expander.c
