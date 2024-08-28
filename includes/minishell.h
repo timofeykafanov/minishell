@@ -98,6 +98,7 @@ typedef struct s_command
 {
 	char				*name;
 	char				**args;
+	char				**redir_out;
 	int					type;
 	struct s_command	*next;
 }	t_command;
@@ -152,7 +153,7 @@ void handle_sigint(int sig);
 
 void	print_history(void);
 char	*execute_pwd(t_memory *memory);
-char	*execute_cd(t_memory *memory, t_commands *cmd);
+// char	*execute_cd(t_memory *memory, t_commands *cmd);
 void	execute_ls(void);
 
 // parser.c
@@ -170,7 +171,7 @@ void	execute_commands(t_memory *memory);
 
 // ft_execve.c
 
-char	*ft_execve(t_memory *memory, t_commands *cmd, int input_fd, bool flag, int *pipefd);
+// char	*ft_execve(t_memory *memory, t_commands *cmd, int input_fd, bool flag, int *pipefd);
 
 // freeing.c
 
