@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 11:16:30 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:02:45 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*find_path(char *command, char **paths)
 {
-	int i;
-	char *path;
+	int		i;
+	char	*path;
 
 	i = 0;
 	while (paths[i])

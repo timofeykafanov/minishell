@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/21 16:10:45 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:19:01 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
-int is_whitespace(char *s)
+int	is_whitespace(char *s)
 {
-	if(*s == ' ' || *s == '\t' || *s == '\n')
+	if (*s == ' ' || *s == '\t' || *s == '\n')
 		return (1);
 	else
 		return (0);
 }
-char *find_whitespace(char *s)
+
+char	*find_whitespace(char *s)
 {
 	while (*s)
 	{
@@ -33,43 +33,44 @@ char *find_whitespace(char *s)
 }
 
 //WHY is this an infinte loop if the first char is a $?
-char *is_var_end(char *s)
+char	*is_var_end(char *s)
 {
-	int i;
+	int	i;
+
 	i = 1;
 	while (s[i])
 	{
-		if((s[i] >= '!' && s[i] <= '/') \
+		if ((s[i] >= '!' && s[i] <= '/') \
 			|| (s[i] >= ':' && s[i] <= '@') \
 			|| (s[i] >= '[' && s[i] <= '^') \
 			|| (s[i] >= '{' && s[i] <= '~') \
 			|| is_whitespace(s + i))
 		{
-			break;
+			break ;
 		}
 		i++;
 	}
 	return (s + i);
 }
 
-static int is_metacharacter(char *s)
+static int	is_metacharacter(char *s)
 {
-	if(*s == PIPE || *s == R_IN || *s  == R_OUT \
-		|| *s == SEMICOLON || *s == BRACKET_O  \
-		|| *s  == BRACKET_C || *s == AMPERSAND \
-		|| *s  == S_QUOTE || *s == D_QUOTE \
+	if (*s == PIPE || *s == R_IN || *s == R_OUT
+		|| *s == SEMICOLON || *s == BRACKET_O
+		|| *s == BRACKET_C || *s == AMPERSAND
+		|| *s == S_QUOTE || *s == D_QUOTE
 		|| is_whitespace(s))
 		return (1);
 	else
 		return (0);
 }
 
-char *skip_whitespace(char *s)
+char	*skip_whitespace(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(*s && is_whitespace(s))
+	while (*s && is_whitespace(s))
 	{
 		s++;
 		i++;
@@ -77,13 +78,12 @@ char *skip_whitespace(char *s)
 	return (s);
 }
 
-int skip_non_whitespace(char *s)
+int	skip_non_whitespace(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(*s && !is_whitespace(s))
-
+	while (*s && !is_whitespace(s))
 	{
 		s++;
 		i++;

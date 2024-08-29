@@ -3,199 +3,268 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 10:44:21 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/08 14:01:20 by tkafanov         ###   ########.fr       */
+/*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
+/*   Updated: 2024/08/29 15:54:40 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void execute_command(char **args, t_memory *memory)
+t_command	*create_command(char *name, char **args, int type)
 {
-	pid_t pid;
-	int status;
+	t_command	*command;
 
-	if (ft_strncmp(args[0], CD, ft_strlen(args[0])) == 0)
-	{
-		if (args[1] != NULL || args[1][0] == '\0')
-			execute_cd(args[1], memory);
-		else
-			perror("cd: missing argument\n");
-	}
-	else if (ft_strncmp(args[0], PWD, ft_strlen(args[0])) == 0)
-		execute_pwd(memory);
-	// else if (ft_strncmp(args[0], "ls", ft_strlen(args[0])) == 0)
-	//	 execute_ls();
-	else if (ft_strncmp(args[0], EXIT, ft_strlen(args[0])) == 0)
-	{
-		free_memory(memory);
-		exit(SUCCESS);
-	}
-	else if (ft_strncmp(args[0], ENV, ft_strlen(args[0])) == 0)
-		print_env(memory);
-	else if (ft_strncmp(args[0], EXPORT, ft_strlen(EXPORT)) == 0)
-		print_export(memory);
-	// else if (strcmp(args[0], "unset") == 0)
-	// 	unset_env(memory);
-	else
-	{
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("fork failed");
-			return;
-		}
-		if (pid == 0)
-		{
-			if (execve(ft_strjoin("/usr/bin/", args[0]), args, memory->env) == -1)
-			{
-				perror("execve failed");
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-			{
-				int exit_status = WEXITSTATUS(status);
-				if (exit_status != 0)
-					printf("Child process exited with status %d\n", exit_status);
-			}
-		}
-	}
+	command = (t_command *)malloc(sizeof(t_command));
+	command->name = name;
+	command->args = args;
+	command->type = type;
+	command->next = NULL;
+	return (command);
 }
 
-static void handle_redirection(char **args)
+// void	parse_command(t_memory *memory)
+// {
+// 	t_command	*current_cmd;
+// 	t_command	*prev_cmd;
+// 	t_tokens	*start_token;
+// 	t_tokens	*current_token;
+// 	int			args_count;
+// 	int 		red_out_count;
+
+// 	memory->commands = NULL;
+// 	start_token = memory->tokens;
+// 	current_token = start_token;
+// 	current_cmd = NULL;
+// 	while (current_token)
+// 	{
+// 		current_cmd = create_command(current_token->data, NULL, current_token->type);
+// 		if (!memory->commands)
+// 			memory->commands = current_cmd;
+// 		else
+// 			prev_cmd->next = current_cmd;
+// 		args_count = 0;
+// 		red_out_count = 0;
+// 		while (current_token)
+// 		{
+// 			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND) && current_token->next != NULL)
+// 			{
+// 				red_out_count++;
+// 				current_token = current_token->next->next;
+// 				continue;
+// 			}
+// 			if (current_token->type == T_PIPE)
+// 			{
+// 				break;
+// 			}	
+// 			args_count++;
+// 			current_token = current_token->next;
+// 		}
+// 		current_token = start_token;
+// 		current_cmd->args = (char **)malloc(sizeof(char *) * (args_count + 1));
+// 		current_cmd->args[args_count] = NULL;
+// 		current_cmd->redir_out = (char **)malloc(sizeof(char *) * (red_out_count + 1));
+// 		current_cmd->redir_out[red_out_count] = NULL;
+// 		args_count = 0;
+// 		red_out_count = 0;
+// 		while (current_token)
+// 		{
+// 			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND) && current_token->next != NULL)
+// 			{
+// 				current_cmd->redir_out[red_out_count] = current_token->next->data;
+// 				current_token = current_token->next->next;
+// 				red_out_count++;
+// 				continue;
+// 			}
+// 			if (current_token->type == T_PIPE)
+// 			{
+// 				current_token = current_token->next;
+// 				break;
+// 			}	
+// 			current_cmd->args[args_count] = current_token->data;	
+// 			current_token = current_token->next;
+// 			args_count++;
+// 		}
+// 		start_token = current_token;
+// 		prev_cmd = current_cmd;
+// 	}
+// }
+
+void	parse_command(t_memory *memory)
 {
-	int i = 0;
-	int fd;
+	t_command	*current_cmd;
+	t_command	*prev_cmd;
+	t_tokens	*start_token;
+	t_tokens	*current_token;
+	t_redir_out	*current_redir;
+	t_redir_out	*last_redir;
+	int			args_count;
 
-	while (args[i] != NULL)
+	memory->commands = NULL;
+	start_token = memory->tokens;
+	current_token = start_token;
+	current_cmd = NULL;
+	while (current_token)
 	{
-		if (strcmp(args[i], "<") == 0)
+		if(current_token->type == T_WHITESPACE)
 		{
-			fd = open(args[i + 1], O_RDONLY);
-			if (fd == -1)
-			{
-				perror("open() error");
-				exit(EXIT_FAILURE);
-			}
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-			args[i] = NULL;
+			current_token = current_token->next;
+			continue;
 		}
-		else if (strcmp(args[i], ">") == 0)
+		current_cmd = create_command(current_token->data, NULL, current_token->type);
+		if (!memory->commands)
+			memory->commands = current_cmd;
+		else
+			prev_cmd->next = current_cmd;
+		args_count = 0;
+		while (current_token)
 		{
-			fd = open(args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
+			if(current_token->type == T_WHITESPACE)
 			{
-				perror("open() error");
-				exit(EXIT_FAILURE);
+				current_token = current_token->next;
+				continue;
 			}
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-			args[i] = NULL;
-		}
-		i++;
-	}
-}
-
-static void execute_piped_commands(char **commands, int num_commands, t_memory *memory)
-{
-	int pipefd[2];
-	int fd_in = 0;
-
-	for (int i = 0; i < num_commands; i++)
-	{
-		if (strcmp(commands[i], "|") == 0)
-		{
-			pipe(pipefd);
-
-			if (fork() == 0)
+			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND \
+			|| current_token->type == T_R_IN) && current_token->next != NULL)
 			{
-				dup2(fd_in, 0);
-				if (i < num_commands - 1)
+				if(current_token->next->type == T_WHITESPACE && current_token->next->next != NULL)
+					current_token = current_token->next->next->next;
+				else
+					current_token = current_token->next->next;
+				continue;
+			}
+			if (current_token->type == T_PIPE)
+			{
+				break;
+			}	
+			args_count++;
+			current_token = current_token->next;
+		}
+		current_token = start_token;
+		current_cmd->args = (char **)malloc(sizeof(char *) * (args_count + 1));
+		current_cmd->args[args_count] = NULL;
+		args_count = 0;
+		while (current_token)
+		{
+			if(current_token->type == T_WHITESPACE)
+			{
+				current_token = current_token->next;
+				continue;
+			}
+			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND \
+			|| current_token->type == T_R_IN) && current_token->next != NULL)
+			{
+				if(current_token->next->type == T_WHITESPACE && current_token->next->next != NULL)
+					current_token = current_token->next;
+				current_redir = malloc(sizeof(t_redir_out));
+				current_redir->file_name = current_token->next->data;
+				if (current_token->type == T_WHITESPACE)
+					current_redir->type = current_token->prev->type;
+				else
+					current_redir->type = current_token->type;
+				current_redir->next = NULL;
+				if(!current_cmd->redir_struct)
 				{
-					dup2(pipefd[1], 1);
+					current_cmd->redir_struct = current_redir;
+					last_redir = current_redir;	
 				}
-				close(pipefd[0]);
-				char *cmd_args[100];
-				int cmd_index = 0;
-				for (int j = 0; j < i; j++)
+				else
 				{
-					cmd_args[cmd_index++] = commands[j];
+					last_redir->next = current_redir;
+					current_redir = last_redir;
 				}
-				cmd_args[cmd_index] = NULL;
-				execute_command(cmd_args, memory);
-				exit(EXIT_FAILURE);
+				current_token = current_token->next->next;
+				continue;
 			}
-			else
+			if (current_token->type == T_PIPE)
 			{
-				wait(NULL);
-				close(pipefd[1]);
-				fd_in = pipefd[0];
-			}
+				current_token = current_token->next;
+				break;
+			}	
+			current_cmd->args[args_count] = current_token->data;	
+			current_token = current_token->next;
+			args_count++;
 		}
+		start_token = current_token;
+		prev_cmd = current_cmd;
 	}
 }
 
-void parse_and_execute_tokens(t_tokens *tokens, t_memory *memory)
+// void	parse_command(t_memory *memory)
+// {
+// 	t_command	*current;
+// 	t_command	*prev_cmd;
+// 	t_tokens	*tokens;
+// 	char		**args;
+// 	int			i;
+
+// 	tokens = memory->tokens;
+// 	current = NULL;
+// 	while (tokens)
+// 	{
+// 		current = create_command(tokens->data, NULL, tokens->type);
+// 		if (!memory->commands)
+// 			memory->commands = current;
+// 		else
+// 			prev_cmd->next = current;
+// 		i = 0;
+// 		while (tokens && tokens->type != T_PIPE)
+// 		{
+// 			i++;
+// 			if (tokens->next != NULL)
+// 				tokens = tokens->next;
+// 			else
+// 				break ;
+// 		}
+// 		if (tokens->type == T_PIPE)
+// 			tokens = tokens->prev;
+// 		args = (char **)malloc(sizeof(char *) * (i + 1));
+// 		args[i] = NULL;
+// 		while (i >= 0)
+// 		{
+// 			args[i - 1] = (char *)tokens->data;
+// 			i--;
+// 			if (i > 0)
+// 				tokens = tokens->prev;
+// 		}
+// 		current->args = args;
+// 		while (tokens->next != NULL && tokens->type != T_PIPE)
+// 			tokens = tokens->next;
+// 		tokens = tokens->next;
+// 		prev_cmd = current;
+// 	}
+// }
+
+void print_commands(t_memory *memory)
 {
-	t_tokens *current = tokens;
-	char *args[100];
-	int arg_index = 0;
-	char *commands[100];
-	int num_commands = 0;
-	int in_pipe = 0;
+	t_command	*current;
+	int			i;
+	t_redir_out	*redir;
 
-	while (current != NULL)
+	current = memory->commands;
+	while (current)
 	{
-		if (strcmp(current->data, "|") == 0)
+		redir = current->redir_struct;
+		i = 0;
+		printf("command: %s\n", current->name);
+		while (current->args[i])
 		{
-			args[arg_index] = NULL;
-			commands[num_commands++] = strdup(args[0]);
-			for (int i = 1; i < arg_index; i++)
-			{
-				commands[num_commands++] = strdup(args[i]);
-			}
-			commands[num_commands++] = strdup("|");
-			arg_index = 0;
-			in_pipe = 1;
+			printf("arg %d: %s\n", i, current->args[i]);
+			i++;
 		}
-		else if (strcmp(current->data, ">") == 0 || strcmp(current->data, "<") == 0)
+		i = 0;
+		// while (current->redir_out[i])
+		// {
+		// 	printf("red %d: %s\n", i, current->redir_out[i]);
+		// 	i++;
+		// }
+		while (redir)
 		{
-			args[arg_index] = NULL;
-			handle_redirection(args);
-			arg_index = 0;
+			printf("red %d: %s type: %d\n", i, redir->file_name, redir->type);
+			redir = redir->next;
+			i++;
 		}
-		else
-		{
-			args[arg_index++] = current->data;
-		}
-		if (current->next)
-			current = current->next->next;
-		else
-			current = current->next;
-	}
-
-	if (arg_index > 0)
-	{
-		args[arg_index] = NULL;
-		if (in_pipe)
-		{
-			commands[num_commands++] = strdup(args[0]);
-			for (int i = 1; i < arg_index; i++)
-			{
-				commands[num_commands++] = strdup(args[i]);
-			}
-			execute_piped_commands(commands, num_commands, memory);
-		}
-		else
-		{
-			execute_command(args, memory);
-		}
+		current = current->next;
 	}
 }

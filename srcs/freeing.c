@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/28 14:20:39 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:03:52 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	*free_tokens(t_tokens *token)
 {
-	t_tokens *current;
+	t_tokens	*current;
 
 	current = token;
-	while(current)
+	while (current)
 	{
 		current = token->next;
 		if (token->data)
@@ -28,12 +28,12 @@ void	*free_tokens(t_tokens *token)
 	return (NULL);
 }
 
-void free_env(char **env)
+void	free_env(char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		free(env[i]);
 		i++;
@@ -41,17 +41,15 @@ void free_env(char **env)
 	free(env);
 }
 
-void free_commands(t_command *commands)
+void	free_commands(t_command *commands)
 {
-	t_command *current;
-	t_command *next;
+	t_command	*current;
+	t_command	*next;
 
 	current = commands;
 	while (current)
 	{
 		next = current->next;
-		// if (current->name)
-		// 	free(current->name);
 		if (current->args)
 			free(current->args);
 		free(current);
@@ -59,7 +57,7 @@ void free_commands(t_command *commands)
 	}
 }
 
-void free_memory(t_memory *memory)
+void	free_memory(t_memory *memory)
 {
 	if (memory->tokens)
 		free_tokens(memory->tokens);

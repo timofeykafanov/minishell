@@ -6,36 +6,36 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/28 12:57:36 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:14:48 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void *process_token(char *s)
+static void	*process_token(char *s)
 {
-	void *token;
-	int len;
+	void	*token;
+	int		len;
 
 	token = NULL;
 	if (*s == '\"')
 	{
 		if (!ft_strchr((s + 1), '\"'))
-			return(NULL);
+			return (NULL);
 		len = ft_strchr((s + 1), '\"') - s + 1;
 		token = ft_strncpy(s, len);
 	}
 	else if (*s == '\'')
 	{
 		if (!ft_strchr((s + 1), '\''))
-			return(NULL);
+			return (NULL);
 		len = ft_strchr((s + 1), '\'') - s + 1;
 		token = ft_strncpy(s, len);
 	}
 	else if (*s == '(')
 	{
 		if (!ft_strchr((s + 1), ')'))
-			return(NULL);
+			return (NULL);
 		len = ft_strchr((s + 1), ')') - s + 1;
 		token = ft_strncpy(s, len);
 	}
@@ -49,12 +49,14 @@ static void *process_token(char *s)
 		len = is_var_end(s) - s;
 		token = ft_strncpy(s, len);
 	}
-	else if (*s == PIPE || *s == SEMICOLON || (*s == R_IN && *(s+1) != R_IN)  || (*s == R_OUT && *(s+1) != R_OUT))
+	else if (*s == PIPE || *s == SEMICOLON || (*s == R_IN && *(s + 1) != R_IN)
+		|| (*s == R_OUT && *(s + 1) != R_OUT))
 	{
 		len = 1;
 		token = ft_strncpy(s, len);
 	}
-	else if ((*s == R_IN && *(s+1) == R_IN)  || (*s == R_OUT && *(s+1) == R_OUT))
+	else if ((*s == R_IN && *(s + 1) == R_IN)
+		|| (*s == R_OUT && *(s + 1) == R_OUT))
 	{
 		len = 2;
 		token = ft_strncpy(s, len);
@@ -71,18 +73,19 @@ static void *process_token(char *s)
 	}
 	return (token);
 }
+
 static t_tokens	*create_token(char *s, t_memory *memory)
 {
-	t_tokens *token;
+	t_tokens	*token;
 
 	token = malloc(sizeof(t_tokens));
-	if(!token)
+	if (!token)
 		return (free_memory(memory), NULL);
 	token->data = process_token(s);
 	if (!token->data)
 		return (free_memory(memory), NULL);
-	token->type = get_type((char*)token->data);
-	if(token->type == T_WORD && ft_strchr((char*)token->data, '='))
+	token->type = get_type((char *)token->data);
+	if (token->type == T_WORD && ft_strchr((char *)token->data, '='))
 		token->type = T_VAR_DEF;
 	token->next = NULL;
 	token->prev = NULL;
@@ -91,12 +94,14 @@ static t_tokens	*create_token(char *s, t_memory *memory)
 
 int	lexer(t_memory *memory)
 {
-	char *input;
-	t_tokens *current = NULL;
-	t_tokens *previous = NULL;
+	char		*input;
+	t_tokens	*current;
+	t_tokens	*previous;
 
+	current = NULL;
+	previous = NULL;
 	input = memory->input;
-	while(*input)
+	while (*input)
 	{
 		current = create_token(input, memory);
 		if (!current)
@@ -105,12 +110,11 @@ int	lexer(t_memory *memory)
 			memory->tokens = current;
 		else
 		{
-        	previous->next = current;
-			current->prev = previous;	
+			previous->next = current;
+			current->prev = previous;
 		}
 		previous = current;
 		input += ft_strlen(current->data);
 	}
 	return (SUCCESS);
 }
-

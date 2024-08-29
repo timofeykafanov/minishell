@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 14:17:42 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:56:47 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,4 @@ void	execute_builtin(t_command *cmd, t_memory *mem)
 		print_env(mem);
 	else if (!ft_strncmp(cmd->args[0], EXIT, 4))
 		execute_exit(mem);
-	// exit(0);
 }
-

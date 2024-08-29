@@ -1,36 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_tokens.c                                     :+:      :+:    :+:   */
+/*   builtins_pwd_cd_exit.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 13:24:05 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/28 14:53:13 by tkafanov         ###   ########.fr       */
+/*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
+/*   Updated: 2024/08/29 16:25:50 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    remove_spaces(t_memory *memory)
+void	execute_pwd(t_memory *memory)
 {
-	t_tokens *current = memory->tokens;
-	t_tokens *next;
+	if (memory->path != NULL)
+		printf("%s\n", memory->path);
+	else
+		perror("minishell: pwd");
+}
 
-	while (current != NULL)
+void	execute_cd(t_memory *memory, t_command *cmd)
+{
+	if (cmd->args)
 	{
-		next = current->next;
-		if (current->type == T_WHITESPACE)
+		if (chdir(cmd->args[1]) != 0)
 		{
-			if (current == memory->tokens)
-				memory->tokens = next;
-			if (current->prev != NULL)
-				current->prev->next = next;
-			if (next != NULL)
-				next->prev = current->prev;
-			free(current->data);
-			free(current);
+			ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
+				cmd->args[0], cmd->args[1]);
+			perror("");
 		}
-		current = next;
 	}
+	getcwd(memory->path, PATH_MAX);
+}
+
+void	execute_exit(t_memory *memory)
+{
+	free_memory(memory);
+	printf("exit\n");
+	exit(0);
 }

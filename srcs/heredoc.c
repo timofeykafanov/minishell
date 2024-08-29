@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/12 18:04:51 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:07:21 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,49 @@
 
 void	heredoc(char *delimiter)
 {
-    char	*line;
-    int		fd;
+	char	*line;
+	int		fd;
 
-    fd = open("heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    while (1)
-    {
-        line = readline("HEREDOC->");
-        if (line == NULL || ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
-        {
-            free(line);
-            break ;
-        }
-        write(fd, line, ft_strlen(line));
-        write(fd, "\n", 1);
-        free(line);
-    }
-    close(fd);
+	fd = open("heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	while (1)
+	{
+		line = readline("HEREDOC->");
+		if (line == NULL || ft_strncmp(line, delimiter, \
+			ft_strlen(delimiter)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	close(fd);
 }
 
-char *read_heredoc_content()
+char	*read_heredoc_content(void)
 {
-    int fd;
-    char *line;
-    char *content;
-    bool flag = 0;
+	int		fd;
+	char	*line;
+	char	*content;
+	bool	flag;
 
-    content = NULL;
-    fd = open("heredoc.txt", O_RDONLY);
-    if (fd == -1)
-        return NULL;
-    while ((line = get_next_line(fd, &flag,false)) != NULL)
-    {
-        content = ft_strljoin(content, line, ft_strlen(line));
-        if (!content)
-            return (NULL);
-        free(line);
-    }
-    close(fd);
-    return content;
+	flag = 0;
+	content = NULL;
+	fd = open("heredoc.txt", O_RDONLY);
+	if (fd == -1)
+		return (NULL);
+	line = get_next_line(fd, &flag, false);
+	if (!line)
+		return (NULL);
+	while (line != NULL)
+	{
+		content = ft_strljoin(content, line, ft_strlen(line));
+		if (!content)
+			return (NULL);
+		free(line);
+		line = get_next_line(fd, &flag, false);
+	}
+	close(fd);
+	return (content);
 }

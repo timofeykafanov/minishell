@@ -13,18 +13,18 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../libft/libft.h"
+# include "../libft/libft.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <signal.h>
-#include <dirent.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
-#include <sys/wait.h>
-#include <linux/limits.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
+# include <dirent.h>
+# include <sys/ioctl.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <linux/limits.h>
 
 # define SUCCESS 0
 # define ERROR 1
@@ -72,28 +72,6 @@ typedef struct s_tokens
 	struct s_tokens	*prev;
 }   t_tokens;
 
-
-// typedef struct s_command
-// {
-// 	char				*name;
-// 	char				**args;
-// 	int					type;
-// 	int					pipe[2];
-// 	int					fd_in;
-// 	int					fd_out;
-// 	struct s_command	*next;
-// }   t_command;
-
-typedef struct s_commands
-{
-	char				*name;
-	int					type;
-	bool				main;
-	struct s_commands	*next;
-	struct s_commands	*args;
-	struct s_commands	*prev;
-}	t_commands;
-
 typedef struct s_redir_out
 {
 	char				*file_name;
@@ -112,15 +90,6 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-
-// typedef struct s_command_1
-// {
-// 	char				*name;
-// 	char				**args;
-// 	int					type;
-// 	struct s_command_1	*next;
-// }	t_command_1;
-
 typedef struct s_memory
 {
 	struct s_tokens		*tokens;
@@ -136,91 +105,80 @@ typedef struct s_memory
 }   t_memory;
 
 
-int	 	lexer(t_memory *memory);
-void	free_memory(t_memory *memory);
-void	*free_tokens(t_tokens *token);
-int	 	print_tokens(t_memory *memory);
-int	 	get_type(char *s);
-void 	create_env(t_memory *memory, char **env);
-int 	print_env(t_memory *memory);
-void	add_env_var(t_memory *memory, char **args);
-int		print_export(t_memory *memory);
-void	unset(t_memory *memory, char **args);
-void    execute_export(t_memory *memory, char **args);
+int	 		lexer(t_memory *memory);
+void		free_memory(t_memory *memory);
+void		*free_tokens(t_tokens *token);
+int	 		print_tokens(t_memory *memory);
+int	 		get_type(char *s);
+void		print_env(t_memory *memory);
+void		unset(t_memory *memory, char **args);
+void	execute_export(t_memory *memory, char **args);
 
-//parsin_utils.c
+// parsing_utils.c
 
-int		is_whitespace(char *s);
-int		skip_non_whitespace(char *s);
-char 	*skip_whitespace(char *s);
-char	*find_seperator(char *s);
-char	*find_whitespace(char *s);
-char	*is_var_end(char *s);
+int			is_whitespace(char *s);
+int			skip_non_whitespace(char *s);
+char 		*skip_whitespace(char *s);
+char		*find_seperator(char *s);
+char		*find_whitespace(char *s);
+char		*is_var_end(char *s);
 
 // signals.c
 
-void handle_sigint(int sig);
+void		handle_sigint(int sig);
 
 // builtins.c
 
-void	print_history(void);
-void	execute_pwd(t_memory *memory);
-void	execute_cd(t_memory *memory, t_command *cmd);
-void	execute_exit(t_memory *memory);
+void		print_history(void);
+void		execute_pwd(t_memory *memory);
+void		execute_cd(t_memory *memory, t_command *cmd);
+void		execute_exit(t_memory *memory);
 
 // parser.c
 
-void	parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
+void		parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
 
-// parser_3_0.c
+// parser.c
 
-void	parse_command(t_memory *memory);
-void	print_commands(t_memory *memory);
+void		parse_command(t_memory *memory);
+void		print_commands(t_memory *memory);
 
-// executor_2_0.c
+// executor.c
 
-void	execute_commands(t_memory *memory);
-
-// ft_execve.c
-
-// char	*ft_execve(t_memory *memory, t_commands *cmd, int input_fd, bool flag, int *pipefd);
+void		execute_commands(t_memory *memory);
 
 // freeing.c
 
-void free_env(char **env);
+void		free_env(char **env);
 
 // expander.c
 
-char *expand_double(t_memory *memory, char *s);
-char *expand_single(char *s);
-char *expand_var(t_memory *memory, char *var);
-void *expand_tokens(t_memory *memory);
-void print_tokens_as_string(t_memory *memory);
+char		*expand_double(t_memory *memory, char *s);
+char		*expand_single(char *s);
+char		*expand_var(t_memory *memory, char *var);
+void		*expand_tokens(t_memory *memory);
+void		print_tokens_as_string(t_memory *memory);
 
 // heredoc.c
 
-void	heredoc(char *delimiter);
-char	*read_heredoc_content();
-
-// remove_spaces.c
-
-void    remove_spaces(t_memory *memory);
+void		heredoc(char *delimiter);
+char		*read_heredoc_content();
 
 // find_path.c
 
-char    *find_path(char *command, char **paths);
+char		*find_path(char *command, char **paths);
 
 // init_memory.c
 
-char	*get_env_var(t_memory *memory, char *var);
+t_memory	*init_memory(char **env);
 
 // echo.c
 
-void    echo(char **args);
+void		echo(char **args);
 
 // executor_utils.c
 
-bool	is_builtin(char *command);
-void	execute_builtin(t_command *cmd, t_memory *mem);
+bool		is_builtin(char *command);
+void		execute_builtin(t_command *cmd, t_memory *mem);
 
 #endif // MINISHELL_H
