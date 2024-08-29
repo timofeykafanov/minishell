@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 09:55:50 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:21:02 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int	main(int ac, char **av, char **env)
 			// if(lexer(memory))
 			// 	return(free_memory(memory), ERROR);
 			expand_tokens(memory);
-			remove_spaces(memory);
+			// remove_spaces(memory);
 			// print_tokens(memory);
 			parse_command(memory);
-			execute_commands(memory);
-			// print_commands(memory);
+			// execute_commands(memory);
+			print_commands(memory);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;
 			free(memory->suffix);

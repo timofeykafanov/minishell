@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_3_0.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 09:55:21 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:40:58 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ void	parse_command(t_memory *memory)
 	current_cmd = NULL;
 	while (current_token)
 	{
+		if(current_token->type == T_WHITESPACE)
+		{
+			current_token = current_token->next;
+			continue;
+		}
 		current_cmd = create_command(current_token->data, NULL, current_token->type);
 		if (!memory->commands)
 			memory->commands = current_cmd;
@@ -115,9 +120,18 @@ void	parse_command(t_memory *memory)
 		args_count = 0;
 		while (current_token)
 		{
-			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND) && current_token->next != NULL)
+			if(current_token->type == T_WHITESPACE)
 			{
-				current_token = current_token->next->next;
+				current_token = current_token->next;
+				continue;
+			}
+			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND \
+			|| current_token->type == T_R_IN) && current_token->next != NULL)
+			{
+				if(current_token->next->type == T_WHITESPACE && current_token->next->next != NULL)
+					current_token = current_token->next->next->next;
+				else
+					current_token = current_token->next->next;
 				continue;
 			}
 			if (current_token->type == T_PIPE)
@@ -133,11 +147,22 @@ void	parse_command(t_memory *memory)
 		args_count = 0;
 		while (current_token)
 		{
-			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND) && current_token->next != NULL)
+			if(current_token->type == T_WHITESPACE)
 			{
+				current_token = current_token->next;
+				continue;
+			}
+			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND \
+			|| current_token->type == T_R_IN) && current_token->next != NULL)
+			{
+				if(current_token->next->type == T_WHITESPACE && current_token->next->next != NULL)
+					current_token = current_token->next;
 				current_redir = malloc(sizeof(t_redir_out));
 				current_redir->file_name = current_token->next->data;
-				current_redir->type = current_token->type;
+				if (current_token->type == T_WHITESPACE)
+					current_redir->type = current_token->prev->type;
+				else
+					current_redir->type = current_token->type;
 				current_redir->next = NULL;
 				if(!current_cmd->redir_struct)
 				{
