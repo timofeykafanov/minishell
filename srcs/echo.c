@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:41:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/28 14:56:52 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:01:52 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void    echo(char **args)
 {
     int i;
 
-    i = 0;
-    if (ft_strncmp(args[0], "-n", 2) == 0)
+    i = 1;
+    if (ft_strncmp(args[i], "-n", 2) == 0)
     {
         i++;
         while (args[i])
@@ -37,6 +37,7 @@ void    echo(char **args)
                 printf(" ");
             i++;
         }
-        ft_putstr_fd("\n", 1);
+        printf("\n");
     }
+    exit(0);
 }

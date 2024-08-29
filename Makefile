@@ -32,6 +32,8 @@ SRCS		= \
 			$(SRCSDIR)/executor_2_0.c \
 			$(SRCSDIR)/find_path.c \
 			$(SRCSDIR)/init_memory.c \
+			$(SRCSDIR)/echo.c \
+			$(SRCSDIR)/executor_utils.c \
 			# $(SRCSDIR)/parser_2_0.c
 
 

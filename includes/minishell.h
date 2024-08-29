@@ -143,9 +143,10 @@ int	 	print_tokens(t_memory *memory);
 int	 	get_type(char *s);
 void 	create_env(t_memory *memory, char **env);
 int 	print_env(t_memory *memory);
-void	add_env_var(t_memory *memory, char *env);
+void	add_env_var(t_memory *memory, char **args);
 int		print_export(t_memory *memory);
-void	unset(t_memory *memory, char *var_name);
+void	unset(t_memory *memory, char **args);
+void    execute_export(t_memory *memory, char **args);
 
 //parsin_utils.c
 
@@ -163,9 +164,9 @@ void handle_sigint(int sig);
 // builtins.c
 
 void	print_history(void);
-char	*execute_pwd(t_memory *memory);
-// char	*execute_cd(t_memory *memory, t_commands *cmd);
-void	execute_ls(void);
+void	execute_pwd(t_memory *memory);
+void	execute_cd(t_memory *memory, t_command *cmd);
+void	execute_exit(t_memory *memory);
 
 // parser.c
 
@@ -212,5 +213,14 @@ char    *find_path(char *command, char **paths);
 // init_memory.c
 
 char	*get_env_var(t_memory *memory, char *var);
+
+// echo.c
+
+void    echo(char **args);
+
+// executor_utils.c
+
+bool	is_builtin(char *command);
+void	execute_builtin(t_command *cmd, t_memory *mem);
 
 #endif // MINISHELL_H

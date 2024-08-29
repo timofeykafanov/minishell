@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_env_export_unset_define.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/08 12:22:43 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:23:45 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,40 +68,58 @@ int print_export(t_memory *memory)
 	return (1);
 }
 
-void unset(t_memory *memory, char *var_name)
+void unset(t_memory *memory, char **args)
 {
-    printf("Unsetting %s\n", var_name);
     int i;
-
-    i = 0;
-    while (memory->env[i] && i < memory->env_lines)
+    int j;
+    
+    i = 1;
+    j = 0;
+    while (args[i])
     {
-        if (ft_strncmp(memory->env[i], var_name, ft_strlen(var_name)) == 0)
+        while (memory->env[j] && j < memory->env_lines)
         {
-            free(memory->env[i]);
-            memory->env[i] = NULL;
-            break;
+            if (ft_strncmp(memory->env[j], args[i], ft_strlen(args[i])) == 0)
+            {
+                free(memory->env[j]);
+                memory->env[j] = NULL;
+                break;
+            }
+            j++;
         }
         i++;
     }
 }
 
-void  add_env_var(t_memory *memory, char *env_var)
+void  add_env_var(t_memory *memory, char **args)
 {
     int i;
-
+    int j;
+    
+    j = 1;
     i = 0;
     while (memory->env[i] && i < memory->env_lines)
         i++;
-    if (memory->env_lines == memory->env_space)
+    while (args[j])
     {
-        memory->env = realloc(memory->env, sizeof(char *) * (memory->env_lines + 512));
-        memory->env_space += 512;
+        if (memory->env_lines == memory->env_space)
+        {
+            memory->env = ft_realloc(memory->env, sizeof(char *) * (memory->env_lines + 512 + 1));
+            memory->env_space += 512;
+        }
+        memory->env[i++] = ft_strdup(args[j++]);
+        memory->env_lines++;
     }
-    memory->env[i] = ft_strdup(env_var);
-    memory->env_lines++;
+    memory->env[i] = NULL;
 }
 
+void    execute_export(t_memory *memory, char **args)
+{
+    if (!args[1])
+        print_export(memory);
+    else
+        add_env_var(memory, args);
+}
 
 void   create_env(t_memory *memory, char **env)
 {

@@ -6,30 +6,41 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 10:01:18 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:53:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <unistd.h>
 
-void	execute_single_command(t_command *cmd, t_memory *memory)
+void	execute_single_command(t_command *cmd, t_memory *mem)
 {
 	int	pid;
 	int	status;
 
+	if (is_builtin(cmd->args[0]))
+	{
+		execute_builtin(cmd, mem);
+		return ;
+	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = find_path(cmd->args[0], memory->paths);
+	cmd->path = find_path(cmd->args[0], mem->paths);
 	if (pid == 0)
 	{
-		if (execve(cmd->path, cmd->args, memory->env) == -1)
+		if (is_builtin(cmd->args[0]))
+			execute_builtin(cmd, mem);
+		else
 		{
-			perror("execve");
-			exit(1);
+			if (execve(cmd->path, cmd->args, mem->env) == -1)
+			{
+				perror("execve");
+				exit(1);
+			}
 		}
 	}
 	else
@@ -40,7 +51,11 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
 
-	pipe(fd1);
+	if (pipe(fd1) == -1)
+	{
+		perror("pipe");
+		exit(1);
+	}
 	pid = fork();
 	if (pid == -1)
 	{
@@ -50,13 +65,21 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 	cmd->path = find_path(cmd->args[0], mem->paths);
 	if (pid == 0)
 	{
-		dup2(fd1[1], 1);
+		dup2(fd1[1], STDOUT_FILENO);
 		close(fd1[0]);
 		close(fd1[1]);
-		if (execve(cmd->path, cmd->args, mem->env) == -1)
+		if (is_builtin(cmd->args[0]))
 		{
-			perror("execve");
-			exit(1);
+			execute_builtin(cmd, mem);
+			exit(0);	
+		}
+		else
+		{
+			if (execve(cmd->path, cmd->args, mem->env) == -1)
+			{
+				perror("execve");
+				exit(1);
+			}
 		}
 	}
 }
@@ -66,7 +89,11 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 	int	pid;
 	int	fd2[2];
 
-	pipe(fd2);
+	if (pipe(fd2) == -1)
+	{
+		perror("pipe");
+		exit(1);
+	}
 	pid = fork();
 	if (pid == -1)
 	{
@@ -76,16 +103,24 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 	cmd->path = find_path(cmd->args[0], mem->paths);
 	if (pid == 0)
 	{
-		dup2(fd1[0], 0);
-		dup2(fd2[1], 1);
+		dup2(fd1[0], STDIN_FILENO);
+		dup2(fd2[1], STDOUT_FILENO);
 		close(fd1[0]);
 		close(fd1[1]);
 		close(fd2[0]);
 		close(fd2[1]);
-		if (execve(cmd->path, cmd->args, mem->env) == -1)
+		if (is_builtin(cmd->args[0]))
 		{
-			perror("execve");
-			exit(1);
+			execute_builtin(cmd, mem);
+			exit(0);	
+		}
+		else
+		{
+			if (execve(cmd->path, cmd->args, mem->env) == -1)
+			{
+				perror("execve");
+				exit(1);
+			}
 		}
 	}
 	else
@@ -111,13 +146,21 @@ void	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 	cmd->path = find_path(cmd->args[0], mem->paths);
 	if (pid == 0)
 	{
-		dup2(fd1[0], 0);
+		dup2(fd1[0], STDIN_FILENO);
 		close(fd1[0]);
 		close(fd1[1]);
-		if (execve(cmd->path, cmd->args, mem->env) == -1)
+		if (is_builtin(cmd->args[0]))
 		{
-			perror("execve");
-			exit(1);
+			execute_builtin(cmd, mem);
+			exit(0);	
+		}
+		else
+		{
+			if (execve(cmd->path, cmd->args, mem->env) == -1)
+			{
+				perror("execve");
+				exit(1);
+			}
 		}
 	}
 	else
