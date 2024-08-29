@@ -6,14 +6,13 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/28 16:31:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/29 10:01:18 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <unistd.h>
 
-void	execute_single_command(t_command *command, t_memory *memory)
+void	execute_single_command(t_command *cmd, t_memory *memory)
 {
 	int	pid;
 	int	status;
@@ -24,25 +23,22 @@ void	execute_single_command(t_command *command, t_memory *memory)
 		perror("fork");
 		exit(1);
 	}
-	command->path = ft_strjoin("/usr/bin/", command->args[0]);
+	cmd->path = find_path(cmd->args[0], memory->paths);
 	if (pid == 0)
 	{
-		if (execve(command->path, command->args, memory->env) == -1)
+		if (execve(cmd->path, cmd->args, memory->env) == -1)
 		{
 			perror("execve");
 			exit(1);
 		}
 	}
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
 }
 
 void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
-	// int	status;
 
 	pipe(fd1);
 	pid = fork();
@@ -51,7 +47,7 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = ft_strjoin("/usr/bin/", cmd->args[0]);
+	cmd->path = find_path(cmd->args[0], mem->paths);
 	if (pid == 0)
 	{
 		dup2(fd1[1], 1);
@@ -63,18 +59,11 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 			exit(1);
 		}
 	}
-	else
-	{
-		// close(fd1[0]);
-		// close(fd1[1]);
-		// waitpid(pid, &status, 0);
-	}
 }
 
 void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
-	// int	status;
 	int	fd2[2];
 
 	pipe(fd2);
@@ -84,7 +73,7 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = ft_strjoin("/usr/bin/", cmd->args[0]);
+	cmd->path = find_path(cmd->args[0], mem->paths);
 	if (pid == 0)
 	{
 		dup2(fd1[0], 0);
@@ -105,7 +94,6 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 		close(fd1[1]);
 		fd1[0] = fd2[0];
 		fd1[1] = fd2[1];
-		// waitpid(pid, &status, 0);
 	}
 }
 
@@ -120,7 +108,7 @@ void	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = ft_strjoin("/usr/bin/", cmd->args[0]);
+	cmd->path = find_path(cmd->args[0], mem->paths);
 	if (pid == 0)
 	{
 		dup2(fd1[0], 0);
@@ -158,8 +146,6 @@ void    execute_commands(t_memory *memory)
 			execute_next_command(command, memory, fd1);
 			command = command->next;
 		}
-		// close(fd1[0]);
-		// close(fd1[1]);
 		execute_last_command(command, memory, fd1);
 	}
 }

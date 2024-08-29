@@ -30,6 +30,8 @@ SRCS		= \
 			$(SRCSDIR)/parser_3_0.c \
 			$(SRCSDIR)/remove_spaces.c \
 			$(SRCSDIR)/executor_2_0.c \
+			$(SRCSDIR)/find_path.c \
+			$(SRCSDIR)/init_memory.c \
 			# $(SRCSDIR)/parser_2_0.c
 
 

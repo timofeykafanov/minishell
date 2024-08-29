@@ -6,12 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/28 16:05:02 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/08/29 09:55:50 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <unistd.h>
 
 int	main(int ac, char **av, char **env)
 {
@@ -31,6 +30,9 @@ int	main(int ac, char **av, char **env)
 	memory->path = malloc(PATH_MAX);
 	if (!memory->path)
 		return(perror("Failed to allocate path"), free_memory(memory), ERROR);
+	memory->paths = ft_split(get_env_var(memory, "PATH"), ':');
+	if (!memory->paths)
+		return(perror("Failed to split path"), free_memory(memory), ERROR);
 	getcwd(memory->path, PATH_MAX);
 	while (1)
 	{

@@ -129,6 +129,7 @@ typedef struct s_memory
 	char				*path;
 	char				*suffix;
 	char				**env;
+	char				**paths;
 	int					env_lines;
 	int					env_space;
 	int					exit_status;
@@ -203,5 +204,13 @@ char	*read_heredoc_content();
 // remove_spaces.c
 
 void    remove_spaces(t_memory *memory);
+
+// find_path.c
+
+char    *find_path(char *command, char **paths);
+
+// init_memory.c
+
+char	*get_env_var(t_memory *memory, char *var);
 
 #endif // MINISHELL_H
