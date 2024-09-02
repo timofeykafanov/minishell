@@ -6,11 +6,12 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/29 16:14:48 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:02:27 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdio.h>
 
 static void	*process_token(char *s)
 {
@@ -46,7 +47,10 @@ static void	*process_token(char *s)
 	}
 	else if (*s == '$')
 	{
-		len = is_var_end(s) - s;
+		if (ft_strncmp(s, "$?", 2) == 0)
+			len = 2;
+		else
+			len = is_var_end(s) - s;
 		token = ft_strncpy(s, len);
 	}
 	else if (*s == PIPE || *s == SEMICOLON || (*s == R_IN && *(s + 1) != R_IN)

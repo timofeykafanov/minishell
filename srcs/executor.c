@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/02 15:49:23 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:14:43 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 			if (execve(cmd->path, cmd->args, mem->env) == -1)
 			{
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
-				exit(1);
+				exit(COMMAND_NOT_FOUND);
 			}
 		}
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
-		mem->exit_status = WEXITSTATUS(status);	
+		mem->exit_status = WEXITSTATUS(status);
 	}
 }
 
@@ -80,7 +80,7 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 			if (execve(cmd->path, cmd->args, mem->env) == -1)
 			{
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
-				exit(1);
+				exit(COMMAND_NOT_FOUND);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 			if (execve(cmd->path, cmd->args, mem->env) == -1)
 			{
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
-				exit(1);
+				exit(COMMAND_NOT_FOUND);
 			}
 		}
 	}
@@ -161,7 +161,7 @@ void	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 			if (execve(cmd->path, cmd->args, mem->env) == -1)
 			{
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
-				exit(1);
+				exit(COMMAND_NOT_FOUND);
 			}
 		}
 	}

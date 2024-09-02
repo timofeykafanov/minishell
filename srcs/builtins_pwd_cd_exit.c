@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/02 15:48:46 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:15:09 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	execute_pwd(t_memory *memory)
 {
+	getcwd(memory->pwd, PATH_MAX);
 	if (memory->pwd != NULL)
 		printf("%s\n", memory->pwd);
 	else

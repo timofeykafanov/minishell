@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/02 16:15:16 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:02:18 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ char	*expand_var(t_memory *memory, char *var)
 	char	*temp;
 
 	i = 0;
+	if (ft_strncmp(var, "$?", 2) == 0)
+	{
+		value = ft_itoa(memory->exit_status);
+		free(var);
+		return (value);
+	}
 	value = malloc(1);
 	value[0] = '\0';
 	temp = ft_strjoin(var, "=");

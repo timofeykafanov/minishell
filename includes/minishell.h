@@ -64,6 +64,8 @@
 # define T_WHITESPACE	13
 # define T_VAR_DEF		14
 
+# define COMMAND_NOT_FOUND 127
+
 typedef struct s_tokens
 {
 	void			*data;
