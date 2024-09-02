@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/29 16:01:34 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:45:32 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,47 @@ char	*expand_single(char *s)
 	return (res);
 }
 
+void	check_tokens(t_memory *memory)
+{
+	t_tokens	*token;
+	t_tokens	*temp;
+	
+	token = memory->tokens;
+	while (token->next)
+	{
+		if (token->type == T_D_QUOTE)
+		{
+			if (token->prev && token->prev->type != T_WHITESPACE)
+			{
+				token->prev->data = ft_strjoin(token->prev->data, token->data);
+				if (token->next && token->next->type != T_WHITESPACE)
+				{
+					token->prev->data = ft_strjoin(token->prev->data, token->next->data);
+					free(token->next->data);
+					temp = token->next;
+					token->next = token->next->next;
+					free(temp);
+				}
+				free(token->data);
+				temp = token;
+				token = token->prev;
+				token->next = token->next->next;
+				free(temp);
+			}
+			else if (token->next && token->next->type != T_WHITESPACE)
+			{
+				token->data = ft_strjoin(token->data, token->next->data);
+				free(token->next->data);
+				temp = token->next;
+				// token = token->next;
+				token->next = token->next->next;
+				free(temp);
+			}
+		}
+		token = token->next;
+	}
+}
+
 void	*expand_tokens(t_memory *memory)
 {
 	t_tokens	*token;
@@ -146,10 +187,11 @@ void	*expand_tokens(t_memory *memory)
 			if (!token->data)
 				return (NULL);
 		}
-		if (ft_strlen(token->data) == 0)
+		if (token && token->data && ft_strlen(token->data) == 0)
 			token->type = T_WHITESPACE;
 		token = token->next;
 	}
+	check_tokens(memory);
 	return (memory);
 }
 

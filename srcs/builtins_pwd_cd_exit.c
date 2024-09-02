@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 16:25:50 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:48:46 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,32 @@
 
 void	execute_pwd(t_memory *memory)
 {
-	if (memory->path != NULL)
-		printf("%s\n", memory->path);
+	if (memory->pwd != NULL)
+		printf("%s\n", memory->pwd);
 	else
 		perror("minishell: pwd");
 }
 
+static int	find_env_index(char **env, char *var)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+// TODO: Check edge cases
 void	execute_cd(t_memory *memory, t_command *cmd)
 {
+	char	*pwd;
+	char	*oldpwd;
+	int		i;
+
 	if (cmd->args)
 	{
 		if (chdir(cmd->args[1]) != 0)
@@ -31,7 +49,23 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 			perror("");
 		}
 	}
-	getcwd(memory->path, PATH_MAX);
+	oldpwd = ft_strdup(memory->pwd); // TODO: take oldpwd from env
+	getcwd(memory->pwd, PATH_MAX);
+	pwd = ft_strdup(memory->pwd);
+	i = find_env_index(memory->env, "OLDPWD");
+	if (i != -1)
+	{
+		free(memory->env[i]);
+		memory->env[i] = ft_strjoin("OLDPWD=", oldpwd);
+	}
+	i = find_env_index(memory->env, "PWD");
+	if (i != -1)
+	{
+		free(memory->env[i]);
+		memory->env[i] = ft_strjoin("PWD=", pwd);
+	}
+	free(pwd);
+	free(oldpwd);
 }
 
 void	execute_exit(t_memory *memory)

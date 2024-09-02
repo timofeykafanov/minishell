@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/30 12:31:37 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:49:23 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = find_path(cmd->args[0], mem->paths);
+	cmd->path = find_path(cmd->args[0], mem->path);
 	if (pid == 0)
 	{
 		if (is_builtin(cmd->args[0]))
@@ -64,7 +64,7 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = find_path(cmd->args[0], mem->paths);
+	cmd->path = find_path(cmd->args[0], mem->path);
 	if (pid == 0)
 	{
 		dup2(fd1[1], STDOUT_FILENO);
@@ -102,7 +102,7 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = find_path(cmd->args[0], mem->paths);
+	cmd->path = find_path(cmd->args[0], mem->path);
 	if (pid == 0)
 	{
 		dup2(fd1[0], STDIN_FILENO);
@@ -145,7 +145,7 @@ void	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = find_path(cmd->args[0], mem->paths);
+	cmd->path = find_path(cmd->args[0], mem->path);
 	if (pid == 0)
 	{
 		dup2(fd1[0], STDIN_FILENO);

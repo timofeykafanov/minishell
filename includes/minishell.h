@@ -95,10 +95,10 @@ typedef struct s_memory
 	struct s_tokens		*tokens;
 	struct s_command	*commands;
 	char				*input;
-	char				*path;
+	char				*pwd;
 	char				*suffix;
 	char				**env;
-	char				**paths;
+	char				**path;
 	int					env_lines;
 	int					env_space;
 	int					exit_status;

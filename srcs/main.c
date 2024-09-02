@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 16:15:49 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:48:15 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 		return (free_memory(memory), ERROR);
 	while (1)
 	{
-		memory->suffix = ft_strjoin(memory->path, "$ ");
+		memory->suffix = ft_strjoin(memory->pwd, "$ ");
 		memory->input = readline(memory->suffix);
 		if (memory->input)
 		{
@@ -40,8 +40,8 @@ int	main(int ac, char **av, char **env)
 			// memory->input = read_heredoc_content();
 			expand_tokens(memory);
 			// print_tokens(memory);
-			// print_commands(memory);
 			parse_command(memory);
+			// print_commands(memory);
 			execute_commands(memory);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;

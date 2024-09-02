@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/29 16:03:52 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:55:19 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	free_memory(t_memory *memory)
 		free_env(memory->env);
 	if (memory->input)
 		free(memory->input);
+	if (memory->pwd)
+		free(memory->pwd);
 	if (memory->path)
 		free(memory->path);
 	if (memory->suffix)
