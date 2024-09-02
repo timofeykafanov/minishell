@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/02 15:45:32 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:15:16 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*expand_single(char *s)
 	return (res);
 }
 
-void	check_tokens(t_memory *memory)
+void	merge_tokens(t_memory *memory)
 {
 	t_tokens	*token;
 	t_tokens	*temp;
@@ -191,7 +191,7 @@ void	*expand_tokens(t_memory *memory)
 			token->type = T_WHITESPACE;
 		token = token->next;
 	}
-	check_tokens(memory);
+	merge_tokens(memory);
 	return (memory);
 }
 
