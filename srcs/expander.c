@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/02 17:02:18 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/03 09:24:30 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,6 @@ void	merge_tokens(t_memory *memory)
 				token->data = ft_strjoin(token->data, token->next->data);
 				free(token->next->data);
 				temp = token->next;
-				// token = token->next;
 				token->next = token->next->next;
 				free(temp);
 			}

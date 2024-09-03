@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 15:56:47 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/03 10:53:05 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,28 @@
 
 bool	is_builtin(char *command)
 {
-	if (!ft_strncmp(command, ECHO, 4)
-		|| !ft_strncmp(command, CD, 2)
+	if (!ft_strncmp(command, ECHO, 5) || !ft_strncmp(command, CD, 2)
 		|| !ft_strncmp(command, PWD, 3) || !ft_strncmp(command, EXPORT, 6)
-		|| !ft_strncmp(command, UNSET, 5) || !ft_strncmp(command, ENV, 3)
-		|| !ft_strncmp(command, EXIT, 4))
+		|| !ft_strncmp(command, UNSET, 6) || !ft_strncmp(command, ENV, 3)
+		|| !ft_strncmp(command, EXIT, 5))
 		return (true);
 	return (false);
 }
 
 void	execute_builtin(t_command *cmd, t_memory *mem)
 {
-	if (!ft_strncmp(cmd->args[0], ECHO, 4))
+	if (!ft_strncmp(cmd->args[0], ECHO, 5))
 		echo(cmd->args);
-	else if (!ft_strncmp(cmd->args[0], CD, 2))
+	else if (!ft_strncmp(cmd->args[0], CD, 4))
 		execute_cd(mem, cmd);
-	else if (!ft_strncmp(cmd->args[0], PWD, 3))
+	else if (!ft_strncmp(cmd->args[0], PWD, 4))
 		execute_pwd(mem);
-	else if (!ft_strncmp(cmd->args[0], EXPORT, 6))
+	else if (!ft_strncmp(cmd->args[0], EXPORT, 7))
 		execute_export(mem, cmd->args);
-	else if (!ft_strncmp(cmd->args[0], UNSET, 5))
+	else if (!ft_strncmp(cmd->args[0], UNSET, 6))
 		unset(mem, cmd->args);
-	else if (!ft_strncmp(cmd->args[0], ENV, 3))
+	else if (!ft_strncmp(cmd->args[0], ENV, 4))
 		print_env(mem);
-	else if (!ft_strncmp(cmd->args[0], EXIT, 4))
+	else if (!ft_strncmp(cmd->args[0], EXIT, 5))
 		execute_exit(mem);
 }

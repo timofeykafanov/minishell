@@ -6,20 +6,80 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/02 17:14:43 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/03 10:35:59 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void handle_redir(t_command *cmd)
+{
+    int fd;
+
+    if (cmd->redir_struct)
+    {
+        if (cmd->redir_struct->type == T_R_OUT)
+        {
+            fd = open(cmd->redir_struct->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (fd == -1)
+            {
+                perror("open");
+                exit(1);
+            }
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        if (cmd->redir_struct->type == T_R_IN)
+        {
+            fd = open(cmd->redir_struct->file_name, O_RDONLY);
+            if (fd == -1)
+            {
+                perror("open");
+                exit(1);
+            }
+            dup2(fd, STDIN_FILENO);
+            close(fd);
+        }
+        if (cmd->redir_struct->type == T_OUT_APPEND)
+        {
+            fd = open(cmd->redir_struct->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (fd == -1)
+            {
+                perror("open");
+                exit(1);
+            }
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        // if (cmd->redir_struct->err)
+        // {
+        //     fd = open(cmd->redir_struct->err, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        //     if (fd == -1)
+        //     {
+        //         perror("open");
+        //         exit(1);
+        //     }
+        //     dup2(fd, STDERR_FILENO);
+        //     close(fd);
+        // }
+    }
+}
+
 
 void	execute_single_command(t_command *cmd, t_memory *mem)
 {
 	int	pid;
 	int	status;
 
+	if (cmd->redir_struct)
+	{
+		handle_redir(cmd);
+		return ;
+	}	
 	if (is_builtin(cmd->args[0]))
 	{
 		execute_builtin(cmd, mem);
+		mem->exit_status = 0;
 		return ;
 	}
 	pid = fork();
