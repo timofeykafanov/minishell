@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 16:02:20 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/03 11:27:46 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,18 @@ static void	bubble_sort_char_array(char **array)
 	}
 }
 
-static int	print_export(t_memory *memory)
+static void	print_export(t_memory *memory)
 {
 	int		i;
 	char	**copy;
+	char	*equal_sign;
+	char	*var_name;
+	char	*var_value;
 
 	i = 0;
 	copy = malloc(sizeof(char *) * (memory->env_lines + 1));
 	if (!copy)
-		return (ERROR);
+		exit(ERROR);
 	while (memory->env[i])
 	{
 		copy[i] = ft_strdup(memory->env[i]);
@@ -54,9 +57,24 @@ static int	print_export(t_memory *memory)
 	bubble_sort_char_array(copy);
 	i = 0;
 	while (copy[i])
-		printf("declare -x %s\n", copy[i++]);
+	{
+
+		equal_sign = ft_strchr(copy[i], '=');
+		if (equal_sign)
+		{
+			var_name = ft_strndup(copy[i], equal_sign - copy[i]);
+			var_value = ft_strdup(equal_sign + 1);
+			printf("declare -x %s=\"%s\"\n", var_name, var_value);
+			free(var_name);
+			free(var_value);
+		}
+		else
+		{
+			printf("declare -x %s\n", copy[i]);
+		}
+		i++;
+	}
 	free_env(copy);
-	return (1);
 }
 
 static void	add_env_var(t_memory *memory, char **args)
