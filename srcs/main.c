@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/03 16:44:36 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:15:25 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int ac, char **av, char **env)
 			expand_tokens(memory);
 			// print_tokens(memory);
 			parse_command(memory);
-			print_commands(memory);
+			// print_commands(memory);
 			execute_commands(memory);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;

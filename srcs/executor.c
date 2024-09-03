@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/03 16:45:30 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:22:17 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void handle_redir(t_command *cmd)
 		redir = redir->next;
 	}
 }
-
-
+ //TODO: some error when executing only single commands doestn open child process
+ //also HANDLING VARIOS quiation definiteins in export for ex var ="test" or var =""test"" or var ='"test"'
 void	execute_single_command(t_command *cmd, t_memory *mem)
 {
 	int	pid;
