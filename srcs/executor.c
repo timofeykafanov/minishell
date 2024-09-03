@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/03 16:04:28 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:45:30 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,52 @@
 
 void handle_redir(t_command *cmd)
 {
-	int fd;
+	int			fd_in;
+	int			fd_out;
+	t_redir_out	*redir;
 
-    if (cmd->redir_struct)
-    {
-		if (cmd->redir_struct->type == T_R_OUT)
+	redir = cmd->redir_struct;
+	while (redir)
+	{
+		if (redir->type == T_R_OUT)
         {
-            fd = open(cmd->redir_struct->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-            if (fd == -1)
+			fd_out = open(redir->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+			// printf("fd_out: %d\n", fd_out);
+            if (fd_out == -1)
             {
-                ft_printf("minishell: %s: ", STDERR_FILENO, cmd->redir_struct->file_name);
+                ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
 				perror("");
                 exit(1);
             }
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
+            dup2(fd_out, STDOUT_FILENO);
+            close(fd_out);
         }
-        if (cmd->redir_struct->type == T_R_IN)
+        if (redir->type == T_OUT_APPEND)
         {
-            fd = open(cmd->redir_struct->file_name, O_RDONLY);
-            if (fd == -1)
+            fd_out = open(redir->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (fd_out == -1)
             {
-                ft_printf("minishell: %s: ", STDERR_FILENO, cmd->redir_struct->file_name);
+                ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
 				perror("");
                 exit(1);
             }
-            dup2(fd, STDIN_FILENO);
-            close(fd);
+            dup2(fd_out, STDOUT_FILENO);
+            close(fd_out);
         }
-        if (cmd->redir_struct->type == T_OUT_APPEND)
+        if (redir->type == T_R_IN)
         {
-            fd = open(cmd->redir_struct->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (fd == -1)
+            fd_in = open(redir->file_name, O_RDONLY);
+            if (fd_in == -1)
             {
-                ft_printf("minishell: %s: ", STDERR_FILENO, cmd->redir_struct->file_name);
+                ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
 				perror("");
                 exit(1);
             }
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
+            dup2(fd_in, STDIN_FILENO);
+            close(fd_in);
         }
-    }
+		redir = redir->next;
+	}
 }
 
 
@@ -66,6 +71,8 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 	
 	if (is_builtin(cmd->args[0]))
 	{
+		if (cmd->redir_struct)
+			handle_redir(cmd);
 		execute_builtin(cmd, mem);
 		mem->exit_status = 0;
 		return ;

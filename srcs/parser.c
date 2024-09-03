@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/08/29 15:54:40 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:56:16 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ void	parse_command(t_memory *memory)
 				current_token = current_token->next;
 				continue;
 			}
-			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND \
-			|| current_token->type == T_R_IN) && current_token->next != NULL)
+			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND
+				|| current_token->type == T_R_IN) && current_token->next != NULL)
 			{
 				if(current_token->next->type == T_WHITESPACE && current_token->next->next != NULL)
 					current_token = current_token->next->next->next;
@@ -135,9 +135,7 @@ void	parse_command(t_memory *memory)
 				continue;
 			}
 			if (current_token->type == T_PIPE)
-			{
 				break;
-			}	
 			args_count++;
 			current_token = current_token->next;
 		}
@@ -172,7 +170,7 @@ void	parse_command(t_memory *memory)
 				else
 				{
 					last_redir->next = current_redir;
-					current_redir = last_redir;
+					last_redir = current_redir;
 				}
 				current_token = current_token->next->next;
 				continue;
