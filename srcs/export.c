@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 13:57:16 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:25:26 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,17 @@ static void	bubble_sort_char_array(char **array)
 	}
 }
 
+static int is_special_char(char c)
+{
+	if (c == '\\' || c == '$' || c == '\"'  || c == '`')
+		return (1);
+	return (0);
+}
+
 static void	print_export(t_memory *memory)
 {
 	int		i;
+	int 	j;
 	char	**copy;
 	char	*equal_sign;
 	char	*var_name;
@@ -58,13 +66,21 @@ static void	print_export(t_memory *memory)
 	i = 0;
 	while (copy[i])
 	{
-
 		equal_sign = ft_strchr(copy[i], '=');
 		if (equal_sign)
 		{
+			j = 0;
 			var_name = ft_strndup(copy[i], equal_sign - copy[i]);
 			var_value = ft_strdup(equal_sign + 1);
-			printf("declare -x %s=\"%s\"\n", var_name, var_value);
+			printf("declare -x %s=\"", var_name);
+			while(var_value[j])
+			{
+				if (is_special_char(var_value[j]))
+					printf("\\");
+				printf("%c", var_value[j]);
+				j++;
+			}
+			printf("\"\n");
 			free(var_name);
 			free(var_value);
 		}
@@ -94,8 +110,6 @@ static void	add_env_var(t_memory *memory, char **args)
 			var_name = ft_strncpy(args[j], ft_strchr(args[j], '=') - args[j]);
 		else
 			var_name = ft_strdup(args[j]);
-		// printf("var_name: %s\n", var_name);
-
 		while (memory->env[i] && i < memory->env_lines)
 		{
 			if(memory->env[i] && ft_strncmp(memory->env[i], var_name, ft_strlen(var_name)) == 0)

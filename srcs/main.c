@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 12:42:46 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:25:46 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 		return (free_memory(memory), ERROR);
 	while (1)
 	{
-		memory->suffix = ft_strjoin(memory->pwd, "$ ");
+		memory->suffix = ft_strjoin(memory->pwd, "$ ");  
 		memory->input = readline(memory->suffix);
 		if (memory->input)
 		{
