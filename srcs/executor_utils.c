@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 09:16:50 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:48:00 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	is_builtin(char *command)
 	return (false);
 }
 
-void	execute_builtin(t_command *cmd, t_memory *mem)
+void	execute_builtin(t_command *cmd, t_memory *mem, bool is_redir, int saved_fds[2])
 {
 	if (!ft_strncmp(cmd->args[0], ECHO, 5))
 		echo(cmd->args);
@@ -38,20 +38,20 @@ void	execute_builtin(t_command *cmd, t_memory *mem)
 	else if (!ft_strncmp(cmd->args[0], ENV, 4))
 		print_env(mem);
 	else if (!ft_strncmp(cmd->args[0], EXIT, 5))
-		execute_exit(mem);
+		execute_exit(mem, is_redir, saved_fds);
 }
 
-bool	is_cd_or_exit(char *command)
-{
-	if (!ft_strncmp(command, CD, 4) || !ft_strncmp(command, EXIT, 5))
-		return (true);
-	return (false);
-}
+// bool	is_cd_or_exit(char *command)
+// {
+// 	if (!ft_strncmp(command, CD, 4) || !ft_strncmp(command, EXIT, 5))
+// 		return (true);
+// 	return (false);
+// }
 
-void	execute_cd_or_exit(t_command *cmd, t_memory *mem)
-{
-	if (!ft_strncmp(cmd->args[0], CD, 4))
-		execute_cd(mem, cmd);
-	else if (!ft_strncmp(cmd->args[0], EXIT, 5))
-		execute_exit(mem);
-}
+// void	execute_cd_or_exit(t_command *cmd, t_memory *mem)
+// {
+// 	if (!ft_strncmp(cmd->args[0], CD, 4))
+// 		execute_cd(mem, cmd);
+// 	else if (!ft_strncmp(cmd->args[0], EXIT, 5))
+// 		execute_exit(mem);
+// }

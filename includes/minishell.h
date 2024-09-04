@@ -115,7 +115,7 @@ int	 		print_tokens(t_memory *memory);
 int	 		get_type(char *s);
 void		print_env(t_memory *memory);
 void		unset(t_memory *memory, char **args);
-void	execute_export(t_memory *memory, char **args);
+void		execute_export(t_memory *memory, char **args);
 
 // parsing_utils.c
 
@@ -135,7 +135,7 @@ void		handle_sigint(int sig);
 void		print_history(void);
 void		execute_pwd(t_memory *memory);
 void		execute_cd(t_memory *memory, t_command *cmd);
-void		execute_exit(t_memory *memory);
+void		execute_exit(t_memory *memory, bool is_redir, int saved_fds[2]);
 
 // parser.c
 
@@ -182,7 +182,7 @@ void		echo(char **args);
 // executor_utils.c
 
 bool		is_builtin(char *command);
-void		execute_builtin(t_command *cmd, t_memory *mem);
+void		execute_builtin(t_command *cmd, t_memory *mem, bool is_redir, int saved_fds[2]);
 bool		is_cd_or_exit(char *command);
 void		execute_cd_or_exit(t_command *cmd, t_memory *mem);
 

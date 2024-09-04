@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 13:03:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:46:45 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void handle_redir(t_command *cmd)
 	}
 }
 
-void	fake_handle_redir(t_command *cmd)
+void	handle_fake_redir(t_command *cmd)
 {
 	int			fd_in;
 	int			fd_out;
@@ -110,15 +110,37 @@ void	fake_handle_redir(t_command *cmd)
 
 void	execute_single_command(t_command *cmd, t_memory *mem)
 {
-	int	pid;
-	int	status;
-	
-	if (is_cd_or_exit(cmd->args[0]))
+	int		pid;
+	int		status;
+	bool	is_redir = false;
+	int		saved_fds[2];
+
+	saved_fds[0] = dup(STDIN_FILENO);
+	saved_fds[1] = dup(STDOUT_FILENO);
+	// if (is_cd_or_exit(cmd->args[0]))
+	// {
+	// 	if (cmd->redir_struct)
+	// 		handle_fake_redir(cmd);
+	// 	execute_cd_or_exit(cmd, mem);
+	// 	mem->exit_status = 0;
+	// 	return ;
+	// }
+	if (is_builtin(cmd->args[0]))
 	{
 		if (cmd->redir_struct)
-			fake_handle_redir(cmd);
-		execute_cd_or_exit(cmd, mem);
+		{
+			is_redir = true;
+			handle_redir(cmd);
+		}
+		execute_builtin(cmd, mem, is_redir, saved_fds);
 		mem->exit_status = 0;
+		if (is_redir)
+		{
+			dup2(saved_fds[0], STDIN_FILENO);
+			dup2(saved_fds[1], STDOUT_FILENO);
+			close(saved_fds[0]);
+			close(saved_fds[1]);
+		}
 		return ;
 	}
 	pid = fork();
@@ -132,11 +154,11 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 	{
 		if (cmd->redir_struct)
 			handle_redir(cmd);
-		if (is_builtin(cmd->args[0]))
-		{
-			execute_builtin(cmd, mem);
-			exit(0);
-		}
+		// if (is_builtin(cmd->args[0]))
+		// {
+		// 	execute_builtin(cmd, mem);
+		// 	exit(0);
+		// }
 		else
 		{
 			if (execve(cmd->path, cmd->args, mem->env) == -1)
@@ -188,7 +210,7 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 		}
 		if (is_builtin(cmd->args[0]))
 		{
-			execute_builtin(cmd, mem);
+			execute_builtin(cmd, mem, false, NULL);
 			exit(0);
 		}
 		else
@@ -238,7 +260,7 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 		}
 		if (is_builtin(cmd->args[0]))
 		{
-			execute_builtin(cmd, mem);
+			execute_builtin(cmd, mem, false, NULL);
 			exit(0);
 		}
 		else
@@ -283,7 +305,7 @@ void	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 			handle_redir(cmd);
 		if (is_builtin(cmd->args[0]))
 		{
-			execute_builtin(cmd, mem);
+			execute_builtin(cmd, mem, false, NULL);
 			exit(0);
 		}
 		else
