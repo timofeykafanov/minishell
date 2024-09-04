@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/03 11:27:46 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:57:16 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,23 +81,51 @@ static void	add_env_var(t_memory *memory, char **args)
 {
 	int	i;
 	int	j;
+	int found;
+	char *var_name;
 
 	j = 1;
-	i = 0;
-	while (memory->env[i] && i < memory->env_lines)
-		i++;
+	found = 0;
 	while (args[j])
 	{
+		i = 0;
+		found = 0;
+		if (ft_strchr(args[j], '='))
+			var_name = ft_strncpy(args[j], ft_strchr(args[j], '=') - args[j]);
+		else
+			var_name = ft_strdup(args[j]);
+		// printf("var_name: %s\n", var_name);
+
+		while (memory->env[i] && i < memory->env_lines)
+		{
+			if(memory->env[i] && ft_strncmp(memory->env[i], var_name, ft_strlen(var_name)) == 0)
+			{
+				printf("changed: %s on line %d to %s\n", memory->env[i], i, args[j]);
+				free(memory->env[i]);
+				memory->env[i] = ft_strdup(args[j]);
+				found = 1;
+				break;
+			}
+			i++;
+		}
+		if (found)
+		{
+			j++;
+			continue;
+		}
+		memory->env[memory->env_lines] = ft_strdup(args[j]);
+		printf("added: %s on line %d\n", memory->env[memory->env_lines], memory->env_lines);
+		printf("env_lines: %d\n", memory->env_lines);
+		memory->env_lines++;
 		if (memory->env_lines == memory->env_space)
 		{
 			memory->env = ft_realloc(memory->env, \
 				sizeof(char *) * (memory->env_lines + 512 + 1));
 			memory->env_space += 512;
 		}
-		memory->env[i++] = ft_strdup(args[j++]);
-		memory->env_lines++;
+		memory->env[memory->env_lines] = NULL;
+		j++;
 	}
-	memory->env[i] = NULL;
 }
 
 void	execute_export(t_memory *memory, char **args)
