@@ -6,11 +6,12 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/03 10:53:05 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 09:16:50 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdbool.h>
 
 bool	is_builtin(char *command)
 {
@@ -36,6 +37,21 @@ void	execute_builtin(t_command *cmd, t_memory *mem)
 		unset(mem, cmd->args);
 	else if (!ft_strncmp(cmd->args[0], ENV, 4))
 		print_env(mem);
+	else if (!ft_strncmp(cmd->args[0], EXIT, 5))
+		execute_exit(mem);
+}
+
+bool	is_cd_or_exit(char *command)
+{
+	if (!ft_strncmp(command, CD, 4) || !ft_strncmp(command, EXIT, 5))
+		return (true);
+	return (false);
+}
+
+void	execute_cd_or_exit(t_command *cmd, t_memory *mem)
+{
+	if (!ft_strncmp(cmd->args[0], CD, 4))
+		execute_cd(mem, cmd);
 	else if (!ft_strncmp(cmd->args[0], EXIT, 5))
 		execute_exit(mem);
 }

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/03 17:22:17 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:35:55 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void handle_redir(t_command *cmd)
 		if (redir->type == T_R_OUT)
         {
 			fd_out = open(redir->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-			// printf("fd_out: %d\n", fd_out);
             if (fd_out == -1)
             {
                 ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
@@ -62,18 +61,64 @@ void handle_redir(t_command *cmd)
 		redir = redir->next;
 	}
 }
- //TODO: some error when executing only single commands doestn open child process
- //also HANDLING VARIOS quiation definiteins in export for ex var ="test" or var =""test"" or var ='"test"'
+
+void	fake_handle_redir(t_command *cmd)
+{
+	int			fd_in;
+	int			fd_out;
+	t_redir_out	*redir;
+
+	redir = cmd->redir_struct;
+	while (redir)
+	{
+		if (redir->type == T_R_OUT)
+        {
+			fd_out = open(redir->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+            if (fd_out == -1)
+            {
+                ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
+				perror("");
+                exit(1);
+            }
+            close(fd_out);
+        }
+        if (redir->type == T_OUT_APPEND)
+        {
+            fd_out = open(redir->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (fd_out == -1)
+            {
+                ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
+				perror("");
+                exit(1);
+            }
+            close(fd_out);
+        }
+        if (redir->type == T_R_IN)
+        {
+            fd_in = open(redir->file_name, O_RDONLY);
+            if (fd_in == -1)
+            {
+                ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
+				perror("");
+                exit(1);
+            }
+            close(fd_in);
+        }
+		redir = redir->next;
+	}
+}
+// TODO: some error when executing only single commands doestn open child process
+// also HANDLING VARIOS quiation definiteins in export for ex var ="test" or var =""test"" or var ='"test"'
 void	execute_single_command(t_command *cmd, t_memory *mem)
 {
 	int	pid;
 	int	status;
 	
-	if (is_builtin(cmd->args[0]))
+	if (is_cd_or_exit(cmd->args[0]))
 	{
 		if (cmd->redir_struct)
-			handle_redir(cmd);
-		execute_builtin(cmd, mem);
+			fake_handle_redir(cmd);
+		execute_cd_or_exit(cmd, mem);
 		mem->exit_status = 0;
 		return ;
 	}
@@ -88,10 +133,18 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 	{
 		if (cmd->redir_struct)
 			handle_redir(cmd);
-		if (execve(cmd->path, cmd->args, mem->env) == -1)
+		if (is_builtin(cmd->args[0]))
 		{
-			ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
-			exit(COMMAND_NOT_FOUND);
+			execute_builtin(cmd, mem);
+			exit(0);
+		}
+		else
+		{
+			if (execve(cmd->path, cmd->args, mem->env) == -1)
+			{
+				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
+				exit(COMMAND_NOT_FOUND);
+			}
 		}
 	}
 	else
@@ -126,9 +179,14 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 	cmd->path = find_path(cmd->args[0], mem->path);
 	if (pid == 0)
 	{
-		dup2(fd1[1], STDOUT_FILENO);
-		close(fd1[0]);
-		close(fd1[1]);
+		if (cmd->redir_struct)
+			handle_redir(cmd);
+		else
+		{
+			dup2(fd1[1], STDOUT_FILENO);
+			close(fd1[0]);
+			close(fd1[1]);
+		}
 		if (is_builtin(cmd->args[0]))
 		{
 			execute_builtin(cmd, mem);
@@ -144,7 +202,7 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 		}
 	}
 }
-
+// TODO: red does not work with middle commands
 void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
@@ -165,11 +223,16 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 	if (pid == 0)
 	{
 		dup2(fd1[0], STDIN_FILENO);
-		dup2(fd2[1], STDOUT_FILENO);
 		close(fd1[0]);
 		close(fd1[1]);
-		close(fd2[0]);
-		close(fd2[1]);
+		if (cmd->redir_struct)
+			handle_redir(cmd);
+		else
+		{
+			dup2(fd2[1], STDOUT_FILENO);
+			close(fd2[0]);
+			close(fd2[1]);
+		}
 		if (is_builtin(cmd->args[0]))
 		{
 			execute_builtin(cmd, mem);
@@ -210,6 +273,8 @@ void	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 		dup2(fd1[0], STDIN_FILENO);
 		close(fd1[0]);
 		close(fd1[1]);
+		if (cmd->redir_struct)
+			handle_redir(cmd);
 		if (is_builtin(cmd->args[0]))
 		{
 			execute_builtin(cmd, mem);
