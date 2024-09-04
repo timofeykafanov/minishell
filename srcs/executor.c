@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 12:35:55 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:03:25 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ void	fake_handle_redir(t_command *cmd)
 		redir = redir->next;
 	}
 }
-// TODO: some error when executing only single commands doestn open child process
-// also HANDLING VARIOS quiation definiteins in export for ex var ="test" or var =""test"" or var ='"test"'
+
 void	execute_single_command(t_command *cmd, t_memory *mem)
 {
 	int	pid;
@@ -205,8 +204,9 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 // TODO: red does not work with middle commands
 void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
-	int	pid;
-	int	fd2[2];
+	int		pid;
+	int		fd2[2];
+	bool	is_redir = false;
 
 	if (pipe(fd2) == -1)
 	{
@@ -226,7 +226,10 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 		close(fd1[0]);
 		close(fd1[1]);
 		if (cmd->redir_struct)
+		{
+			is_redir = true;
 			handle_redir(cmd);
+		}
 		else
 		{
 			dup2(fd2[1], STDOUT_FILENO);
@@ -249,10 +252,13 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 	}
 	else
 	{
-		close(fd1[0]);
-		close(fd1[1]);
-		fd1[0] = fd2[0];
-		fd1[1] = fd2[1];
+		if (!is_redir)
+		{
+			close(fd1[0]);
+			close(fd1[1]);
+			fd1[0] = fd2[0];
+			fd1[1] = fd2[1];
+		}
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 12:37:01 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:42:46 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ int	main(int ac, char **av, char **env)
 				return (free_memory(memory), ERROR);
 			if (!memory->tokens)
 				return (free_memory(memory), ERROR);
-			print_tokens(memory);
+			// print_tokens(memory);
 			// heredoc(memory->tokens->data);
 			// memory->input = read_heredoc_content();
 			expand_tokens(memory);
-			print_tokens(memory);
+			// print_tokens(memory);
 			parse_command(memory);
-			print_commands(memory);
+			// print_commands(memory);
 			execute_commands(memory);
 			free_tokens(memory->tokens);
 			memory->tokens = NULL;
