@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/29 16:19:01 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 10:07:39 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	is_metacharacter(char *s)
 		|| *s == SEMICOLON || *s == BRACKET_O
 		|| *s == BRACKET_C || *s == AMPERSAND
 		|| *s == S_QUOTE || *s == D_QUOTE
-		|| is_whitespace(s))
+		|| *s == EQUALS || is_whitespace(s))
 		return (1);
 	else
 		return (0);

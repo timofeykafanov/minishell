@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/02 17:02:27 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 10:07:11 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static void	*process_token(char *s)
 	else
 	{
 		len = find_seperator(s) - s;
+		if(*find_seperator(s) == EQUALS)
+			len += 1;
 		token = ft_strncpy(s, len);
 	}
 	return (token);

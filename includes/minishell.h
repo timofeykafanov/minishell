@@ -48,6 +48,7 @@
 # define BRACKET_O	'('
 # define BRACKET_C	')'
 # define DASH		'-'
+# define EQUALS		'='
 
 # define T_WORD			1
 # define T_D_QUOTE		2
