@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/03 11:12:00 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:20:48 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	unset(t_memory *memory, char **args)
 			if (ft_strncmp(memory->env[j], args[i], ft_strlen(args[i])) == 0)
 			{
 				free(memory->env[j]);
+				memory->env_lines--;
 				while (memory->env[j + 1])
 				{
 					memory->env[j] = memory->env[j + 1];
