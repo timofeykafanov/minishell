@@ -183,5 +183,7 @@ void		echo(char **args);
 
 bool		is_builtin(char *command);
 void		execute_builtin(t_command *cmd, t_memory *mem);
+bool		is_cd_or_exit(char *command);
+void		execute_cd_or_exit(t_command *cmd, t_memory *mem);
 
 #endif // MINISHELL_H

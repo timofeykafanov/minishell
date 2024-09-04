@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/03 16:56:16 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:25:02 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_command	*create_command(char *name, char **args, int type)
 	command->name = name;
 	command->args = args;
 	command->type = type;
+	command->redir_struct = NULL;
 	command->next = NULL;
 	return (command);
 }
