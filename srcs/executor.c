@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/05 11:31:23 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:27:40 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,6 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 
 	saved_fds[0] = dup(STDIN_FILENO);
 	saved_fds[1] = dup(STDOUT_FILENO);
-	// if (is_cd_or_exit(cmd->args[0]))
-	// {
-	// 	if (cmd->redir_struct)
-	// 		handle_fake_redir(cmd);
-	// 	execute_cd_or_exit(cmd, mem);
-	// 	mem->exit_status = 0;
-	// 	return ;
-	// }
 	if (is_builtin(cmd->args[0]))
 	{
 		if (cmd->redir_struct)
@@ -143,43 +135,37 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 		}
 		return ;
 	}
+	cmd->path = find_path(cmd->args[0], mem);
+	printf("cmd->path: %s\n", cmd->path);
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = find_path(cmd->args[0], mem);
 	if (pid == 0)
 	{
 		if (cmd->redir_struct)
 			handle_redir(cmd);
-		// if (is_builtin(cmd->args[0]))
-		// {
-		// 	execute_builtin(cmd, mem);
-		// 	exit(0);
-		// }
-		else
+		if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
-			if (execve(cmd->path, cmd->args, mem->env) == -1)
-			{
-				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
-				exit(COMMAND_NOT_FOUND);
-			}
+			ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
+			exit(COMMAND_NOT_FOUND);
 		}
 	}
-	else
+	// else
+	// {
+	// free(cmd->path);
+	if (waitpid(pid, &status, 0) == -1)
 	{
-		if (waitpid(pid, &status, 0) == -1)
-		{
-            perror("waitpid");
-            exit(ERROR);
-        }
-		if (WIFEXITED(status))
-			mem->exit_status = WEXITSTATUS(status);
-		else
-			mem->exit_status = 1;
+		perror("waitpid");
+		exit(ERROR);
 	}
+	if (WIFEXITED(status))
+		mem->exit_status = WEXITSTATUS(status);
+	else
+		mem->exit_status = 1;
+	// }
 }
 
 void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
@@ -191,13 +177,13 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("pipe");
 		exit(1);
 	}
+	cmd->path = find_path(cmd->args[0], mem);
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = find_path(cmd->args[0], mem);
 	if (pid == 0)
 	{
 		if (cmd->redir_struct)
@@ -235,13 +221,13 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("pipe");
 		exit(1);
 	}
+	cmd->path = find_path(cmd->args[0], mem);
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = find_path(cmd->args[0], mem);
 	if (pid == 0)
 	{
 		dup2(fd1[0], STDIN_FILENO);
@@ -289,13 +275,13 @@ void	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 	int	pid;
 	int	status;
 
+	cmd->path = find_path(cmd->args[0], mem);
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
 		exit(1);
 	}
-	cmd->path = find_path(cmd->args[0], mem);
 	if (pid == 0)
 	{
 		dup2(fd1[0], STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/05 15:30:58 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:28:56 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static void	add_env_var(t_memory *memory, char **args)
 		{
 			if(memory->env[i] && ft_strncmp(memory->env[i], var_name, ft_strlen(var_name)) == 0)
 			{
-				printf("changed: %s on line %d to %s\n", memory->env[i], i, args[j]);
+				// printf("changed: %s on line %d to %s\n", memory->env[i], i, args[j]);
 				free(memory->env[i]);
 				memory->env[i] = ft_strdup(args[j]);
 				found = 1;
@@ -128,8 +128,8 @@ static void	add_env_var(t_memory *memory, char **args)
 			continue;
 		}
 		memory->env[memory->env_lines] = ft_strdup(args[j]);
-		printf("added: %s on line %d\n", memory->env[memory->env_lines], memory->env_lines);
-		printf("env_lines: %d\n", memory->env_lines);
+		// printf("added: %s on line %d\n", memory->env[memory->env_lines], memory->env_lines);
+		// printf("env_lines: %d\n", memory->env_lines);
 		memory->env_lines++;
 		if (memory->env_lines == memory->env_space)
 		{

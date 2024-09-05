@@ -151,6 +151,7 @@ void		execute_commands(t_memory *memory);
 
 // freeing.c
 
+void		free_commands(t_command *commands);
 void		free_env(char **env);
 
 // expander.c
