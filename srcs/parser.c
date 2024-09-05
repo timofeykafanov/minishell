@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 11:25:02 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:39:41 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	parse_command(t_memory *memory)
 				continue;
 			}
 			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND
-				|| current_token->type == T_R_IN) && current_token->next != NULL)
+				|| current_token->type == T_R_IN || current_token->type == T_HEREDOC ) && current_token->next != NULL)
 			{
 				if(current_token->next->type == T_WHITESPACE && current_token->next->next != NULL)
 					current_token = current_token->next->next->next;
@@ -152,7 +152,7 @@ void	parse_command(t_memory *memory)
 				continue;
 			}
 			if((current_token->type == T_R_OUT || current_token->type == T_OUT_APPEND \
-			|| current_token->type == T_R_IN) && current_token->next != NULL)
+			|| current_token->type == T_R_IN || current_token->type == T_HEREDOC) && current_token->next != NULL)
 			{
 				if(current_token->next->type == T_WHITESPACE && current_token->next->next != NULL)
 					current_token = current_token->next;
