@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 16:25:26 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:30:58 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ static void	add_env_var(t_memory *memory, char **args)
 			memory->env_space += 512;
 		}
 		memory->env[memory->env_lines] = NULL;
+		free(var_name);
 		j++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/05 11:34:06 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:35:31 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,13 @@ int	main(int ac, char **av, char **env)
 				return (free_memory(memory), ERROR);
 			if (!memory->tokens)
 				return (free_memory(memory), ERROR);
-			// print_tokens(memory);
+			print_tokens(memory);
+			printf("\n");
 			// heredoc(memory->tokens->data);
 			// memory->input = read_heredoc_content();
 			expand_tokens(memory);
-			// print_tokens(memory);
+			print_tokens(memory);
+			printf("\n");
 			parse_command(memory);
 			// print_commands(memory);
 			execute_commands(memory);

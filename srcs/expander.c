@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/04 11:09:43 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:39:55 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	merge_tokens(t_memory *memory)
 {
 	t_tokens	*current_token;
 	t_tokens	*temp;
+	char		*data;
 
 	// merge current if before is word and no whitespace 
 	current_token = memory->tokens;
@@ -143,7 +144,9 @@ void	merge_tokens(t_memory *memory)
 			|| current_token->prev->type == T_D_QUOTE || current_token->prev->type == T_S_QUOTE \
 			|| current_token->prev->type == T_VAR || current_token->prev->type == T_VAR_DEF))
 		{
+			data = current_token->prev->data;
 			current_token->prev->data = ft_strjoin(current_token->prev->data, current_token->data);
+			free(data);
 			current_token->prev->type = T_WORD;
 			current_token->prev->next = current_token->next;
 			if (current_token->next)

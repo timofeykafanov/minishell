@@ -1,0 +1,14 @@
+{
+   readline_function
+   Memcheck:Leak
+   ...
+   fun:readline
+   ...
+}
+{
+   readline_library
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.*
+   ...
+}

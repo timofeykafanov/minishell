@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/05 13:52:20 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:25:07 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ char	*find_path(char *command, t_memory *memory)
 			return (path);
 		i++;
 	}
+	free(paths);
 	return (NULL);
 }
