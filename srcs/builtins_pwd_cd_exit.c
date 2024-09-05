@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 13:48:48 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:55:51 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ static int	find_env_index(char **env, char *var)
 	}
 	return (-1);
 }
-// TODO: Check edge cases
+
 void	execute_cd(t_memory *memory, t_command *cmd)
 {
-	char	*pwd;
 	char	*oldpwd;
 	int		i;
 
@@ -50,23 +49,33 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 			perror("");
 		}
 	}
-	oldpwd = ft_strdup(memory->pwd); // TODO: take oldpwd from env
+	oldpwd = get_env_var(memory, "PWD="); 
 	getcwd(memory->pwd, PATH_MAX);
-	pwd = ft_strdup(memory->pwd);
-	i = find_env_index(memory->env, "OLDPWD");
+	if (!oldpwd)
+	{
+		i = find_env_index(memory->env, "OLDPWD=");
+		if (i != -1)
+		{
+			while (memory->env[i + 1])
+			{
+				memory->env[i] = memory->env[i + 1];
+				i++;
+			}
+			memory->env[i] = NULL;
+		}
+	}
+	i = find_env_index(memory->env, "OLDPWD=");
 	if (i != -1)
 	{
 		free(memory->env[i]);
 		memory->env[i] = ft_strjoin("OLDPWD=", oldpwd);
 	}
-	i = find_env_index(memory->env, "PWD");
+	i = find_env_index(memory->env, "PWD=");
 	if (i != -1)
 	{
 		free(memory->env[i]);
-		memory->env[i] = ft_strjoin("PWD=", pwd);
+		memory->env[i] = ft_strjoin("PWD=", memory->pwd);
 	}
-	free(pwd);
-	free(oldpwd);
 }
 
 void	execute_exit(t_memory *memory, bool is_redir, int saved_fds[2])

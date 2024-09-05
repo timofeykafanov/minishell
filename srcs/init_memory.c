@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/05 11:38:22 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:50:47 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_env_var(t_memory *memory, char *var)
 	while (memory->env[i])
 	{
 		if (ft_strncmp(memory->env[i], var, ft_strlen(var)) == 0)
-			return (memory->env[i] + ft_strlen(var) + 1);
+			return (memory->env[i] + ft_strlen(var));
 		i++;
 	}
 	return (NULL);
