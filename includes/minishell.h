@@ -101,7 +101,6 @@ typedef struct s_memory
 	char				*pwd;
 	char				*suffix;
 	char				**env;
-	char				**path;
 	int					env_lines;
 	int					env_space;
 	int					exit_status;
@@ -169,10 +168,11 @@ char		*read_heredoc_content();
 
 // find_path.c
 
-char		*find_path(char *command, char **paths);
+char		*find_path(char *command, t_memory *memory);
 
 // init_memory.c
 
+char		*get_env_var(t_memory *memory, char *var);
 t_memory	*init_memory(char **env);
 
 // echo.c
