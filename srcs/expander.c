@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/05 15:55:26 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:10:08 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,14 @@ void	*expand_tokens(t_memory *memory)
 			token->data = expand_double(memory, token->data);
 			if (!token->data)
 				return (NULL);
+			token->was_quoted = 1;
 		}
 		else if (token->type == T_S_QUOTE)
 		{
 			token->data = expand_single(token->data);
 			if (!token->data)
 				return (NULL);
+			token->was_quoted = 1;
 		}
 		else if (token->type == T_VAR)
 		{

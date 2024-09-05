@@ -101,6 +101,7 @@ typedef struct s_memory
 	struct s_tokens		*tokens;
 	struct s_command	*commands;
 	char 				**heredocs;
+	int					heredocs_count;
 	char				*input;
 	char				*pwd;
 	char				*suffix;
@@ -168,7 +169,8 @@ void		print_tokens_as_string(t_memory *memory);
 
 // heredoc.c
 
-void		heredoc(t_memory *memory,t_redir_out *redir);
+void		delete_heredocs(t_memory *memory);
+void		heredoc(t_memory *memory,t_redir_out *redir, int i);
 char		*read_heredoc_content();
 void		execute_heredoc(t_memory *memory);
 

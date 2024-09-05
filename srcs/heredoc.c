@@ -6,15 +6,28 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/05 16:48:00 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:29:04 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void delete_heredocs(t_memory *memory)
+{
+	int i = 0;
+
+	while(memory->heredocs[i])
+	{
+		unlink(memory->heredocs[i]);
+		i++;
+	}
+}
+
 void execute_heredoc(t_memory *memory)
 {
 	t_command *current_cmd;
 	t_redir_out *current_redir;
+	int i = 0;
 
 	current_cmd = memory->commands;
 	while (current_cmd)
@@ -23,7 +36,10 @@ void execute_heredoc(t_memory *memory)
 		while(current_redir)
 		{
 			if(current_redir->type == T_HEREDOC)
-				heredoc(memory, current_redir);
+			{
+				heredoc(memory, current_redir, i);
+				i++;
+			}
 			current_redir = current_redir->next;
 		}
 		current_cmd = current_cmd->next;
@@ -72,16 +88,19 @@ char *heredoc_expander(t_memory *memory, char *line)
 	return (expand_line);
 }
 
-void	heredoc(t_memory *memory, t_redir_out *redir)
+void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 {
 	char	*line;
 	int		fd;
-	char	*heredoc_file_name = redir->file_name;
 
-	//randomise filename
-	//add heredoc_file_name to memory->redirects
-	redir->heredoc_file_name = heredoc_file_name;
-	fd = open(heredoc_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	int randname = fork();
+	if (randname == 0)
+		exit(0);
+	char *filename = ft_itoa(randname);
+	redir->heredoc_file_name = ft_strjoin("heredoc/", filename);
+	memory->heredocs[i] = ft_strdup(redir->heredoc_file_name);
+	free(filename);
+	fd = open(redir->heredoc_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
 		line = readline("HEREDOC->");

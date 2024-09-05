@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/05 15:04:59 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:25:13 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void	parse_command(t_memory *memory)
 		current_cmd->args[args_count] = NULL;
 		memory->heredocs = (char **)malloc(sizeof(char *) * (heredoc_count + 1));
 		memory->heredocs [heredoc_count] = NULL;
+		memory->heredocs_count = heredoc_count;
 		args_count = 0;
 		heredoc_count = 0;
 		while (current_token)
@@ -170,11 +171,11 @@ void	parse_command(t_memory *memory)
 					current_redir->type = current_token->prev->type;
 				else
 					current_redir->type = current_token->type;
-				if (current_redir->type == T_HEREDOC)
-				{
-					memory->heredocs[heredoc_count] = current_redir->file_name;
-					heredoc_count++;
-				}
+				// if (current_redir->type == T_HEREDOC)
+				// {
+				// 	memory->heredocs[heredoc_count] = current_redir->file_name;
+				// 	heredoc_count++;
+				// }
 				current_redir->next = NULL;
 				if(!current_cmd->redir_struct)
 				{
