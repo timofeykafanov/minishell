@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/04 11:09:43 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:55:26 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ char	*expand_var(t_memory *memory, char *var)
 	char	*temp;
 
 	i = 0;
-	if (ft_strncmp(var, "$?", 2) == 0)
+	// if (ft_strncmp(var, "$?", 2) == 0)
+	if (*var == '$' && *(var + 1) == '?')
 	{
 		value = ft_itoa(memory->exit_status);
 		free(var);
@@ -145,6 +146,7 @@ void	merge_tokens(t_memory *memory)
 		{
 			current_token->prev->data = ft_strjoin(current_token->prev->data, current_token->data);
 			current_token->prev->type = T_WORD;
+			current_token->prev->was_quoted = 1;
 			current_token->prev->next = current_token->next;
 			if (current_token->next)
                 current_token->next->prev = current_token->prev;

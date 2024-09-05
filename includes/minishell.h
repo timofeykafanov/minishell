@@ -71,6 +71,7 @@ typedef struct s_tokens
 {
 	void			*data;
 	int				type;
+	int				was_quoted;
 	struct s_tokens	*next;
 	struct s_tokens	*prev;
 }   t_tokens;
@@ -78,6 +79,8 @@ typedef struct s_tokens
 typedef struct s_redir_out
 {
 	char				*file_name;
+	char				*heredoc_file_name;
+	int					was_quoted;
 	int					type;
 	struct s_redir_out	*next;
 }	t_redir_out;
@@ -97,6 +100,7 @@ typedef struct s_memory
 {
 	struct s_tokens		*tokens;
 	struct s_command	*commands;
+	char 				**heredocs;
 	char				*input;
 	char				*pwd;
 	char				*suffix;
@@ -164,8 +168,10 @@ void		print_tokens_as_string(t_memory *memory);
 
 // heredoc.c
 
-void		heredoc(char *delimiter);
+void		heredoc(t_memory *memory,t_redir_out *redir);
 char		*read_heredoc_content();
+void		execute_heredoc(t_memory *memory);
+
 
 // find_path.c
 

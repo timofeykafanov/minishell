@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/04 10:07:11 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:18:49 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ static t_tokens	*create_token(char *s, t_memory *memory)
 	token->type = get_type((char *)token->data);
 	if (token->type == T_WORD && ft_strchr((char *)token->data, '='))
 		token->type = T_VAR_DEF;
+	token->was_quoted = 0;
 	token->next = NULL;
 	token->prev = NULL;
 	return (token);
