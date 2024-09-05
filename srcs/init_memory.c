@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 14:48:24 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:14:44 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,19 @@ t_memory	*init_memory(char **env)
 		return (NULL);
 	ft_bzero(memory, sizeof(*memory));
 	create_env(memory, env);
-	if (!memory->env)
-		return (perror("Failed to copy environment"), \
-			free_memory(memory), NULL);
+	// printf("%d\n", memory->env ? 1 : 0);
+	// if (!memory->env)
+	// 	return (perror("Failed to copy environment"), \
+	// 		free_memory(memory), NULL);
 	memory->pwd = malloc(PATH_MAX);
 	if (!memory->pwd)
 		return (perror("Failed to allocate path"), free_memory(memory), NULL);
-	memory->path = ft_split(get_env_var(memory, "PATH"), ':');
-	if (!memory->path)
-		return (perror("Failed to split path"), free_memory(memory), NULL);
+	if (get_env_var(memory, "PATH"))
+	{	
+		memory->path = ft_split(get_env_var(memory, "PATH"), ':');
+		if (!memory->path)
+			return (perror("Failed to split path"), free_memory(memory), NULL);
+	}
 	getcwd(memory->pwd, PATH_MAX);
 	return (memory);
 }

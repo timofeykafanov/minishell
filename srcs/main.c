@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/04 14:55:03 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:14:50 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 		return (free_memory(memory), ERROR);
 	while (1)
 	{
-		memory->suffix = ft_strjoin(memory->pwd, "$ ");
+		memory->suffix = ft_strjoin(memory->pwd, "$ ");  
 		memory->input = readline(memory->suffix);
 		if (memory->input)
 		{
