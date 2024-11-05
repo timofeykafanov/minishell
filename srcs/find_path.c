@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/05 17:28:35 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/05 14:20:52 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,35 @@ void	free_paths(char **paths)
 	free(paths);
 }
 
+static char	*check_access(char *command, char **paths, int i)
+{
+	char	*path;
+	char	*temp;
+
+	if (access(command, F_OK) == 0)
+	{
+		free_paths(paths);
+		return (command);
+	}
+	path = ft_strjoin(paths[i], "/");
+	temp = path;
+	path = ft_strjoin(temp, command);
+	free(temp);
+	if (access(path, F_OK) == 0)
+	{
+		free_paths(paths);
+		return (path);
+	}
+	free(path);
+	return (NULL);
+}
+
 char	*find_path(char *command, t_memory *memory)
 {
 	int		i;
-	char	**paths;
-	char	*path;
 	char	*env_path;
-	char	*temp;
+	char	**paths;
+	char	*res;
 
 	env_path = get_env_var(memory, "PATH=");
 	if (!env_path)
@@ -42,21 +64,9 @@ char	*find_path(char *command, t_memory *memory)
 	i = 0;
 	while (paths[i])
 	{
-		if (access(command, F_OK) == 0)
-		{
-			free_paths(paths);	
-			return (command);
-		}
-		path = ft_strjoin(paths[i], "/");
-		temp = path;
-		path = ft_strjoin(temp, command);
-		free(temp);
-		if (access(path, F_OK) == 0)
-		{
-			free_paths(paths);
-			return (path);
-		}
-		free(path);
+		res = check_access(command, paths, i);
+		if (res)
+			return (res);
 		i++;
 	}
 	free_paths(paths);

@@ -3,39 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strljoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:21:03 by sopperma          #+#    #+#             */
-/*   Updated: 2024/08/08 12:21:15 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/05 11:04:32 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strljoin(char *s1, char *s2, int len)
+char	*ft_strljoin(char *s1, char *s2, int len)
 {
-    char *res;
-    int i;
-    int j;
-    if (!s1)
-        return (ft_strndup(s2, len));
-    res = malloc(sizeof(char) * (ft_strlen(s1) + len + 1));
-    if (!res)
-        return (NULL);
-    i = 0;
-    j = 0;
-    while (s1[i])
-    {
-        res[i] = s1[i];
-        i++;
-    }
-    while (j < len)
-    {
-        res[i] = s2[j];
-        i++;
-        j++;
-    }
-    res[i] = '\0';
-    free(s1);
-    return (res);
+	char	*res;
+	int		i;
+	int		j;
+
+	if (!s1)
+		return (ft_strndup(s2, len));
+	res = malloc(sizeof(char) * (ft_strlen(s1) + len + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	while (j < len)
+	{
+		res[i] = s2[j];
+		i++;
+		j++;
+	}
+	res[i] = '\0';
+	free(s1);
+	return (res);
 }

@@ -6,12 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/05 17:35:22 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/05 09:58:46 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <unistd.h>
 
 void handle_redir(t_command *cmd)
 {
@@ -136,7 +135,6 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 		return ;
 	}
 	cmd->path = find_path(cmd->args[0], mem);
-	printf("cmd->path: %s\n", cmd->path);
 	pid = fork();
 	if (pid == -1)
 	{

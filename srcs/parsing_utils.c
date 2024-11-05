@@ -3,55 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/04 10:07:39 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/05 13:29:44 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	is_whitespace(char *s)
-{
-	if (*s == ' ' || *s == '\t' || *s == '\n')
-		return (1);
-	else
-		return (0);
-}
-
-char	*find_whitespace(char *s)
-{
-	while (*s)
-	{
-		if (*s == ' ' || *s == '\t' || *s == '\n')
-			return (s);
-		else
-			s++;
-	}
-	return (NULL);
-}
-
-//WHY is this an infinte loop if the first char is a $?
-char	*is_var_end(char *s)
-{
-	int	i;
-
-	i = 1;
-	while (s[i])
-	{
-		if ((s[i] >= '!' && s[i] <= '/') \
-			|| (s[i] >= ':' && s[i] <= '@') \
-			|| (s[i] >= '[' && s[i] <= '^') \
-			|| (s[i] >= '{' && s[i] <= '~') \
-			|| is_whitespace(s + i))
-		{
-			break ;
-		}
-		i++;
-	}
-	return (s + i);
-}
 
 static int	is_metacharacter(char *s)
 {

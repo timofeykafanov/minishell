@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/04 14:20:48 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/05 09:55:57 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_env(t_memory *memory)
 	while (memory->env[i])
 	{
 		if (ft_strchr(memory->env[i], '='))
-			printf("%s\n", memory->env[i]);
+			ft_printf("%s\n", STDOUT_FILENO, memory->env[i]);
 		i++;
 	}
 }

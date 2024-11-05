@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/05 17:26:42 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/05 14:21:08 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,5 @@ void	free_memory(t_memory *memory)
 		free(memory->pwd);
 	if (memory->suffix)
 		free(memory->suffix);
-	// if (memory->commands)
-	// 	free_commands(memory->commands);
 	free(memory);
 }

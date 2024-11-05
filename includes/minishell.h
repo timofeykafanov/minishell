@@ -74,7 +74,7 @@ typedef struct s_tokens
 	int				was_quoted;
 	struct s_tokens	*next;
 	struct s_tokens	*prev;
-}   t_tokens;
+}	t_tokens;
 
 typedef struct s_redir_out
 {
@@ -100,7 +100,7 @@ typedef struct s_memory
 {
 	struct s_tokens		*tokens;
 	struct s_command	*commands;
-	char 				**heredocs;
+	char				**heredocs;
 	int					heredocs_count;
 	char				*input;
 	char				*pwd;
@@ -109,23 +109,30 @@ typedef struct s_memory
 	int					env_lines;
 	int					env_space;
 	int					exit_status;
-}   t_memory;
+}	t_memory;
 
-
-int	 		lexer(t_memory *memory);
+int			lexer(t_memory *memory);
 void		free_memory(t_memory *memory);
 void		*free_tokens(t_tokens *token);
-int	 		print_tokens(t_memory *memory);
-int	 		get_type(char *s);
+int			print_tokens(t_memory *memory);
+int			get_type(char *s);
 void		print_env(t_memory *memory);
 void		unset(t_memory *memory, char **args);
+
+// export.c
+
 void		execute_export(t_memory *memory, char **args);
+
+// export_utils.c
+
+// void		add_env_var(t_memory *memory, char **args);
+void		print_export(t_memory *memory);
 
 // parsing_utils.c
 
 int			is_whitespace(char *s);
 int			skip_non_whitespace(char *s);
-char 		*skip_whitespace(char *s);
+char		*skip_whitespace(char *s);
 char		*find_seperator(char *s);
 char		*find_whitespace(char *s);
 char		*is_var_end(char *s);
@@ -138,8 +145,11 @@ void		handle_sigint(int sig);
 
 void		print_history(void);
 void		execute_pwd(t_memory *memory);
-void		execute_cd(t_memory *memory, t_command *cmd);
 void		execute_exit(t_memory *memory, bool is_redir, int saved_fds[2]);
+
+// builtins_cd.c
+
+void		execute_cd(t_memory *memory, t_command *cmd);
 
 // parser.c
 
@@ -170,10 +180,9 @@ void		print_tokens_as_string(t_memory *memory);
 // heredoc.c
 
 void		delete_heredocs(t_memory *memory);
-void		heredoc(t_memory *memory,t_redir_out *redir, int i);
-char		*read_heredoc_content();
+void		heredoc(t_memory *memory, t_redir_out *redir, int i);
+char		*read_heredoc_content(void);
 void		execute_heredoc(t_memory *memory);
-
 
 // find_path.c
 
@@ -191,7 +200,8 @@ void		echo(char **args);
 // executor_utils.c
 
 bool		is_builtin(char *command);
-void		execute_builtin(t_command *cmd, t_memory *mem, bool is_redir, int saved_fds[2]);
+void		execute_builtin(t_command *cmd, t_memory *mem, bool is_redir, \
+	int saved_fds[2]);
 bool		is_cd_or_exit(char *command);
 void		execute_cd_or_exit(t_command *cmd, t_memory *mem);
 

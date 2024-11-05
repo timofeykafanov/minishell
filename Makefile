@@ -17,22 +17,25 @@ INCLUDES	= includes
 
 SRCS		= \
 			$(SRCSDIR)/main.c \
-			$(SRCSDIR)/lexer.c \
-			$(SRCSDIR)/freeing.c \
-			$(SRCSDIR)/lexer_utils.c \
-			$(SRCSDIR)/parsing_utils.c \
-			$(SRCSDIR)/builtins_env_unset.c  \
-			$(SRCSDIR)/builtins_pwd_cd_exit.c \
-			$(SRCSDIR)/signals.c \
-			$(SRCSDIR)/expander.c \
-			$(SRCSDIR)/heredoc.c \
-			$(SRCSDIR)/parser.c \
-			$(SRCSDIR)/executor.c \
-			$(SRCSDIR)/find_path.c \
 			$(SRCSDIR)/init_memory.c \
-			$(SRCSDIR)/echo.c \
-			$(SRCSDIR)/executor_utils.c \
+			$(SRCSDIR)/signals.c \
+			$(SRCSDIR)/freeing.c \
+			$(SRCSDIR)/lexer.c \
+			$(SRCSDIR)/lexer_utils.c \
+			$(SRCSDIR)/expander.c \
+			$(SRCSDIR)/parser.c \
+			$(SRCSDIR)/parsing_utils.c \
+			$(SRCSDIR)/parsing_utils_2.c \
+			$(SRCSDIR)/builtins_env_unset.c  \
+			$(SRCSDIR)/builtins_pwd_exit.c \
+			$(SRCSDIR)/builtins_cd.c \
 			$(SRCSDIR)/export.c  \
+			$(SRCSDIR)/echo.c \
+			$(SRCSDIR)/executor.c \
+			$(SRCSDIR)/executor_utils.c \
+			$(SRCSDIR)/find_path.c \
+			$(SRCSDIR)/export_utils.c \
+			$(SRCSDIR)/heredoc.c \
 
 
 OBJSDIR		= objs

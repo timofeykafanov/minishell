@@ -6,11 +6,22 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:41:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/03 09:40:49 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/05 11:01:24 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	print_args(char **args, int i)
+{
+	while (args[i])
+	{
+		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
+		i++;
+	}
+}
 
 void	echo(char **args)
 {
@@ -25,23 +36,11 @@ void	echo(char **args)
 	if (ft_strncmp(args[i], "-n", 2) == 0)
 	{
 		i++;
-		while (args[i])
-		{
-			printf("%s", args[i]);
-			if (args[i + 1])
-				printf(" ");
-			i++;
-		}
+		print_args(args, i);
 	}
 	else
 	{
-		while (args[i])
-		{
-			printf("%s", args[i]);
-			if (args[i + 1])
-				printf(" ");
-			i++;
-		}
+		print_args(args, i);
 		printf("\n");
 	}
 }
