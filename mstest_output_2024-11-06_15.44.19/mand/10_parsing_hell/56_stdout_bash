@@ -1,0 +1,16 @@
+.
+..
+.git
+.gitignore
+heredoc
+includes
+libft
+Makefile
+minishell
+mstest_output_2024-11-06_15.44.19
+objs
+readline.supp
+README.md
+srcs
+valgrind_command
+.vscode

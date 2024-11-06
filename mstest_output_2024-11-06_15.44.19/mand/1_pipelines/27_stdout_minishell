@@ -1,0 +1,60 @@
+echo
+heredoc
+includes
+libft
+Makefile
+minishell
+mstest_output_2024-11-06_15.44.19
+objs
+readline.supp
+README.md
+srcs
+valgrind_command
+echo
+heredoc
+includes
+libft
+Makefile
+minishell
+mstest_output_2024-11-06_15.44.19
+objs
+readline.supp
+README.md
+srcs
+valgrind_command
+total 136
+drwxr-xr-x 10 tkafanov 2024_vienna   4096 Nov  6 15:44 .
+drwxr-xr-x 11 tkafanov 2024_vienna    170 Oct  7 08:49 ..
+-rw-r--r--  1 tkafanov 2024_vienna      0 Nov  6 15:44 echo
+drwxr-xr-x  8 tkafanov 2024_vienna   4096 Nov  6 15:29 .git
+-rw-r--r--  1 tkafanov 2024_vienna    446 Jul 26 11:32 .gitignore
+drwxr-xr-x  2 tkafanov 2024_vienna    132 Nov  6 15:44 heredoc
+drwxr-xr-x  2 tkafanov 2024_vienna     25 Sep  5 17:33 includes
+drwxr-xr-x  4 tkafanov 2024_vienna   4096 Nov  6 13:53 libft
+-rw-r--r--  1 tkafanov 2024_vienna   2695 Nov  6 13:53 Makefile
+-rwxr-xr-x  1 tkafanov 2024_vienna 104112 Nov  6 15:42 minishell
+drwxr-xr-x  3 tkafanov 2024_vienna     18 Nov  6 15:44 mstest_output_2024-11-06_15.44.19
+drwxr-xr-x  3 tkafanov 2024_vienna     18 Nov  6 13:53 objs
+-rw-r--r--  1 tkafanov 2024_vienna    173 Sep  5 15:17 readline.supp
+-rw-r--r--  1 tkafanov 2024_vienna     10 Jul 26 11:26 README.md
+drwxr-xr-x  9 tkafanov 2024_vienna    164 Nov  6 13:53 srcs
+-rw-r--r--  1 tkafanov 2024_vienna    168 Sep  5 17:38 valgrind_command
+drwxr-xr-x  2 tkafanov 2024_vienna     27 Aug  5 15:13 .vscode
+total 136
+drwxr-xr-x 10 tkafanov 2024_vienna   4096 Nov  6 15:44 .
+drwxr-xr-x 11 tkafanov 2024_vienna    170 Oct  7 08:49 ..
+-rw-r--r--  1 tkafanov 2024_vienna      0 Nov  6 15:44 echo
+drwxr-xr-x  8 tkafanov 2024_vienna   4096 Nov  6 15:29 .git
+-rw-r--r--  1 tkafanov 2024_vienna    446 Jul 26 11:32 .gitignore
+drwxr-xr-x  2 tkafanov 2024_vienna    132 Nov  6 15:44 heredoc
+drwxr-xr-x  2 tkafanov 2024_vienna     25 Sep  5 17:33 includes
+drwxr-xr-x  4 tkafanov 2024_vienna   4096 Nov  6 13:53 libft
+-rw-r--r--  1 tkafanov 2024_vienna   2695 Nov  6 13:53 Makefile
+-rwxr-xr-x  1 tkafanov 2024_vienna 104112 Nov  6 15:42 minishell
+drwxr-xr-x  3 tkafanov 2024_vienna     18 Nov  6 15:44 mstest_output_2024-11-06_15.44.19
+drwxr-xr-x  3 tkafanov 2024_vienna     18 Nov  6 13:53 objs
+-rw-r--r--  1 tkafanov 2024_vienna    173 Sep  5 15:17 readline.supp
+-rw-r--r--  1 tkafanov 2024_vienna     10 Jul 26 11:26 README.md
+drwxr-xr-x  9 tkafanov 2024_vienna    164 Nov  6 13:53 srcs
+-rw-r--r--  1 tkafanov 2024_vienna    168 Sep  5 17:38 valgrind_command
+drwxr-xr-x  2 tkafanov 2024_vienna     27 Aug  5 15:13 .vscode

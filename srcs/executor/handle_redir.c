@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:26:44 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/06 10:34:36 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:45:07 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	redir_out(t_redir_out *redir)
 	fd_out = open(redir->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (fd_out == -1)
 	{
-		ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
+		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
 		perror("");
 		exit(1);
 	}
@@ -34,7 +34,7 @@ static void	redir_append(t_redir_out *redir)
 	fd_out = open(redir->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd_out == -1)
 	{
-		ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
+		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
 		perror("");
 		exit(1);
 	}
@@ -49,7 +49,7 @@ static void	redir_in(t_redir_out *redir)
 	fd_in = open(redir->file_name, O_RDONLY);
 	if (fd_in == -1)
 	{
-		ft_printf("minishell: %s: ", STDERR_FILENO, redir->file_name);
+		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
 		perror("");
 		exit(1);
 	}

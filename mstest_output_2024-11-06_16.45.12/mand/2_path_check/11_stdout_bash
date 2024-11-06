@@ -1,0 +1,3 @@
+/home/tkafanov/git/minishell$ cd /bin/
+/usr/bin$ ls -S
+/usr/bin$ exit
