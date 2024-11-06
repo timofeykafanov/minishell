@@ -113,8 +113,14 @@ typedef struct s_memory
 
 typedef struct s_parser
 {
-	char	*name;
-	void	(*func)(t_memory *memory, char **args);
+	t_command			*current_cmd;
+	t_command			*prev_cmd;
+	t_tokens			*start_token;
+	t_tokens			*current_token;
+	t_redir_out			*current_redir;
+	t_redir_out			*last_redir;
+	int					args_count;
+	int 				heredoc_count;
 }	t_parser;
 // lexer.c
 
