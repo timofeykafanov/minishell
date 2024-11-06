@@ -1,2 +1,0 @@
-malloc(): unaligned tcache chunk detected
-/home/tkafanov/42_minishell_tester/tester.sh: line 633: 391745 Aborted                 (core dumped) LD_PRELOAD=/home/tkafanov/42_minishell_tester/utils/libintercept/libintercept.so ./minishell

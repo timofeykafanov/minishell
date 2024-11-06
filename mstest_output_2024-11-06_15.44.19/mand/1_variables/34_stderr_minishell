@@ -1,4 +1,0 @@
-/bin/echo 42: command not found
-}: command not found
-free(): double free detected in tcache 2
-/home/tkafanov/42_minishell_tester/tester.sh: line 633: 404922 Aborted                 (core dumped) LD_PRELOAD=/home/tkafanov/42_minishell_tester/utils/libintercept/libintercept.so ./minishell
