@@ -17,9 +17,9 @@ INCLUDES	= includes
 
 SRCS		= \
 			$(SRCSDIR)/main.c \
-			$(SRCSDIR)/init_memory.c \
-			$(SRCSDIR)/signals.c \
-			$(SRCSDIR)/freeing.c \
+			$(SRCSDIR)/utils/init_memory.c \
+			$(SRCSDIR)/utils/signals.c \
+			$(SRCSDIR)/utils/freeing.c \
 			$(SRCSDIR)/lexer/lexer.c \
 			$(SRCSDIR)/lexer/lexer_utils.c \
 			$(SRCSDIR)/lexer/process_token.c \

@@ -6,11 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/09/05 13:50:47 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 13:53:22 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*get_env_var(t_memory *memory, char *var)
 {
