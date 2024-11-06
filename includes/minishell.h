@@ -45,8 +45,6 @@
 # define S_QUOTE	'\''
 # define SEMICOLON	';'
 # define AMPERSAND	'&'
-// # define BRACKET_O	'('
-// # define BRACKET_C	')'
 # define DASH		'-'
 # define EQUALS		'='
 
@@ -60,10 +58,9 @@
 # define T_R_OUT		8
 # define T_HEREDOC		9
 # define T_OUT_APPEND	10
-// # define T_BRACKETS		11
-# define T_SEMICOLON	12
-# define T_WHITESPACE	13
-# define T_VAR_DEF		14
+# define T_SEMICOLON	11
+# define T_WHITESPACE	12
+# define T_VAR_DEF		13
 
 # define COMMAND_NOT_FOUND 127
 
@@ -122,7 +119,6 @@ void		*process_token(char *s);
 // lexer_utils.c
 
 int			get_type(char *s);
-
 
 // freeing.c
 
