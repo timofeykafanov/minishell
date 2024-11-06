@@ -6,11 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:29:25 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/05 13:29:51 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:22:04 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_whitespace(char *s)
 {

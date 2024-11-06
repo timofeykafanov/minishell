@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/09/05 13:52:58 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:17:34 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	print_tokens(t_memory *memory)
 {

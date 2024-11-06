@@ -6,11 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:16:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/05 11:18:39 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:16:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static int	find_env_index(char **env, char *var)
 {

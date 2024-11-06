@@ -6,11 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/05 09:59:39 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:17:37 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static void	*process_token(char *s)
 {

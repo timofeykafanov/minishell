@@ -6,11 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/05 13:29:44 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:22:07 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static int	is_metacharacter(char *s)
 {

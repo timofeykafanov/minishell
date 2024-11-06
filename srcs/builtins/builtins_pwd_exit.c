@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_pwd_cd_exit.c                             :+:      :+:    :+:   */
+/*   builtins_pwd_exit.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/05 11:17:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:16:16 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	execute_pwd(t_memory *memory)
 {

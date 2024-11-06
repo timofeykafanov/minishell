@@ -6,11 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/05 13:55:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:18:34 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	find_var(t_memory *memory, char **args, int j, int *found)
 {

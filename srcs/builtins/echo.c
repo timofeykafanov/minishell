@@ -6,11 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:41:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/05 11:01:24 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:18:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	print_args(char **args, int i)
 {

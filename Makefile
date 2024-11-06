@@ -20,27 +20,27 @@ SRCS		= \
 			$(SRCSDIR)/init_memory.c \
 			$(SRCSDIR)/signals.c \
 			$(SRCSDIR)/freeing.c \
-			$(SRCSDIR)/lexer.c \
-			$(SRCSDIR)/lexer_utils.c \
-			$(SRCSDIR)/expander.c \
-			$(SRCSDIR)/parser.c \
-			$(SRCSDIR)/parsing_utils.c \
-			$(SRCSDIR)/parsing_utils_2.c \
-			$(SRCSDIR)/builtins_env_unset.c  \
-			$(SRCSDIR)/builtins_pwd_exit.c \
-			$(SRCSDIR)/builtins_cd.c \
-			$(SRCSDIR)/export.c  \
-			$(SRCSDIR)/echo.c \
+			$(SRCSDIR)/lexer/lexer.c \
+			$(SRCSDIR)/lexer/lexer_utils.c \
+			$(SRCSDIR)/lexer/expander.c \
+			$(SRCSDIR)/parser/parser.c \
+			$(SRCSDIR)/parser/parsing_utils.c \
+			$(SRCSDIR)/parser/parsing_utils_2.c \
+			$(SRCSDIR)/builtins/builtins_env_unset.c  \
+			$(SRCSDIR)/builtins/builtins_pwd_exit.c \
+			$(SRCSDIR)/builtins/builtins_cd.c \
+			$(SRCSDIR)/builtins/export.c  \
+			$(SRCSDIR)/builtins/export_utils.c \
+			$(SRCSDIR)/builtins/echo.c \
 			$(SRCSDIR)/executor/executor.c \
 			$(SRCSDIR)/executor/executor_utils.c \
 			$(SRCSDIR)/executor/handle_redir.c \
+			$(SRCSDIR)/executor/find_path.c \
 			$(SRCSDIR)/executor/single.c \
 			$(SRCSDIR)/executor/first.c \
 			$(SRCSDIR)/executor/next.c \
 			$(SRCSDIR)/executor/last.c \
-			$(SRCSDIR)/find_path.c \
-			$(SRCSDIR)/export_utils.c \
-			$(SRCSDIR)/heredoc.c \
+			$(SRCSDIR)/heredoc/heredoc.c \
 
 
 OBJSDIR		= objs

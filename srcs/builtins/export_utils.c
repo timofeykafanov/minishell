@@ -6,11 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:20:11 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/05 13:53:18 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:18:30 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static void	bubble_sort_char_array(char **array)
 {

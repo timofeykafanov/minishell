@@ -6,11 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/05 09:55:57 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:16:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	print_env(t_memory *memory)
 {
