@@ -31,8 +31,13 @@ SRCS		= \
 			$(SRCSDIR)/builtins_cd.c \
 			$(SRCSDIR)/export.c  \
 			$(SRCSDIR)/echo.c \
-			$(SRCSDIR)/executor.c \
-			$(SRCSDIR)/executor_utils.c \
+			$(SRCSDIR)/executor/executor.c \
+			$(SRCSDIR)/executor/executor_utils.c \
+			$(SRCSDIR)/executor/handle_redir.c \
+			$(SRCSDIR)/executor/single.c \
+			$(SRCSDIR)/executor/first.c \
+			$(SRCSDIR)/executor/next.c \
+			$(SRCSDIR)/executor/last.c \
 			$(SRCSDIR)/find_path.c \
 			$(SRCSDIR)/export_utils.c \
 			$(SRCSDIR)/heredoc.c \
