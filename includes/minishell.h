@@ -111,6 +111,11 @@ typedef struct s_memory
 	int					exit_status;
 }	t_memory;
 
+typedef struct s_parser
+{
+	char	*name;
+	void	(*func)(t_memory *memory, char **args);
+}	t_parser;
 // lexer.c
 
 int			lexer(t_memory *memory);
