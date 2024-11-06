@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:57 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/06 11:22:07 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:41:18 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static int	is_metacharacter(char *s)
 {
 	if (*s == PIPE || *s == R_IN || *s == R_OUT
-		|| *s == SEMICOLON || *s == BRACKET_O
-		|| *s == BRACKET_C || *s == AMPERSAND
+		|| *s == SEMICOLON || *s == AMPERSAND
+		// || *s == BRACKET_C || *s == BRACKET_O
 		|| *s == S_QUOTE || *s == D_QUOTE
 		|| *s == EQUALS || is_whitespace(s))
 		return (1);

@@ -22,7 +22,12 @@ SRCS		= \
 			$(SRCSDIR)/freeing.c \
 			$(SRCSDIR)/lexer/lexer.c \
 			$(SRCSDIR)/lexer/lexer_utils.c \
-			$(SRCSDIR)/lexer/expander.c \
+			$(SRCSDIR)/lexer/process_token.c \
+			$(SRCSDIR)/expander/expander.c \
+			$(SRCSDIR)/expander/expander_utils.c \
+			$(SRCSDIR)/expander/expand_var.c \
+			$(SRCSDIR)/expander/expand_double.c \
+			$(SRCSDIR)/expander/expand_single.c \
 			$(SRCSDIR)/parser/parser.c \
 			$(SRCSDIR)/parser/parsing_utils.c \
 			$(SRCSDIR)/parser/parsing_utils_2.c \

@@ -45,8 +45,8 @@
 # define S_QUOTE	'\''
 # define SEMICOLON	';'
 # define AMPERSAND	'&'
-# define BRACKET_O	'('
-# define BRACKET_C	')'
+// # define BRACKET_O	'('
+// # define BRACKET_C	')'
 # define DASH		'-'
 # define EQUALS		'='
 
@@ -60,7 +60,7 @@
 # define T_R_OUT		8
 # define T_HEREDOC		9
 # define T_OUT_APPEND	10
-# define T_BRACKETS		11
+// # define T_BRACKETS		11
 # define T_SEMICOLON	12
 # define T_WHITESPACE	13
 # define T_VAR_DEF		14
@@ -111,22 +111,23 @@ typedef struct s_memory
 	int					exit_status;
 }	t_memory;
 
+// lexer.c
+
 int			lexer(t_memory *memory);
+
+// process_token.c
+
+void		*process_token(char *s);
+
+// lexer_utils.c
+
+int			get_type(char *s);
+
+
+// freeing.c
+
 void		free_memory(t_memory *memory);
 void		*free_tokens(t_tokens *token);
-int			print_tokens(t_memory *memory);
-int			get_type(char *s);
-void		print_env(t_memory *memory);
-void		unset(t_memory *memory, char **args);
-
-// export.c
-
-void		execute_export(t_memory *memory, char **args);
-
-// export_utils.c
-
-// void		add_env_var(t_memory *memory, char **args);
-void		print_export(t_memory *memory);
 
 // parsing_utils.c
 
@@ -141,15 +142,27 @@ char		*is_var_end(char *s);
 
 void		handle_sigint(int sig);
 
-// builtins.c
+// builtins_pwd_exit.c
 
-void		print_history(void);
 void		execute_pwd(t_memory *memory);
 void		execute_exit(t_memory *memory, bool is_redir, int saved_fds[2]);
+
+// builtins_env_unset.c
+
+void		print_env(t_memory *memory);
+void		unset(t_memory *memory, char **args);
 
 // builtins_cd.c
 
 void		execute_cd(t_memory *memory, t_command *cmd);
+
+// export.c
+
+void		execute_export(t_memory *memory, char **args);
+
+// export_utils.c
+
+void		print_export(t_memory *memory);
 
 // parser.c
 
@@ -191,11 +204,25 @@ void		free_env(char **env);
 
 // expander.c
 
-char		*expand_double(t_memory *memory, char *s);
-char		*expand_single(char *s);
-char		*expand_var(t_memory *memory, char *var);
 void		*expand_tokens(t_memory *memory);
-void		print_tokens_as_string(t_memory *memory);
+
+// expander_utils.c
+
+int			is_single_quote(char c);
+int			is_double_quote(char c);
+int			is_dollar(char c);
+
+// expand_var.c
+
+char		*expand_var(t_memory *memory, char *var);
+
+// expand_double.c
+
+char		*expand_double(t_memory *memory, char *s);
+
+// expand_single.c
+
+char		*expand_single(char *s);
 
 // heredoc.c
 
