@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/07 10:51:19 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/07 10:55:52 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,19 @@ void parser_phase_one(t_parser **p, t_memory *memory)
 		(*p)->current_token = (*p)->current_token->next;
 	}
 }
-// static void parser_init_phase_two(t_parser **p, t_memory *memory)
-// {
-// 	(*p)->current_token = (*p)->start_token;
-// 	(*p)->current_cmd->args = (char **)malloc(sizeof(char *) * ((*p)->args_count + 1));
-// 	(*p)->current_cmd->args[(*p)->args_count] = NULL;
-// 	memory->heredocs = (char **)malloc(sizeof(char *) * ((*p)->heredoc_count + 1));
-// 	memory->heredocs [(*p)->heredoc_count] = NULL;
-// 	memory->heredocs_count = (*p)->heredoc_count;
-// 	(*p)->args_count = 0;
-// 	(*p)->heredoc_count = 0;
-// }
+static void parser_init_phase_two(t_parser **p, t_memory *memory)
+{
+	(*p)->current_token = (*p)->start_token;
+	(*p)->current_cmd->args = (char **)malloc(sizeof(char *) * ((*p)->args_count + 1));
+	(*p)->current_cmd->args[(*p)->args_count] = NULL;
+	memory->heredocs = (char **)malloc(sizeof(char *) * ((*p)->heredoc_count + 1));
+	memory->heredocs [(*p)->heredoc_count] = NULL;
+	memory->heredocs_count = (*p)->heredoc_count;
+	(*p)->args_count = 0;
+	(*p)->heredoc_count = 0;
+}
+
+
 // static void handle_R_token(t_parser **p)
 // {
 // 	if((*p)->current_token->next->type == T_WHITESPACE && (*p)->current_token->next->next != NULL)
@@ -169,14 +171,15 @@ void	parse_command(t_memory *memory)
 	while (p->current_token)
 	{
 		parser_phase_one(&p, memory);
-		p->current_token = p->start_token;
-		p->current_cmd->args = (char **)malloc(sizeof(char *) * (p->args_count + 1));
-		p->current_cmd->args[p->args_count] = NULL;
-		memory->heredocs = (char **)malloc(sizeof(char *) * (p->heredoc_count + 1));
-		memory->heredocs [p->heredoc_count] = NULL;
-		memory->heredocs_count = p->heredoc_count;
-		p->args_count = 0;
-		p->heredoc_count = 0;
+		// p->current_token = p->start_token;
+		// p->current_cmd->args = (char **)malloc(sizeof(char *) * (p->args_count + 1));
+		// p->current_cmd->args[p->args_count] = NULL;
+		// memory->heredocs = (char **)malloc(sizeof(char *) * (p->heredoc_count + 1));
+		// memory->heredocs [p->heredoc_count] = NULL;
+		// memory->heredocs_count = p->heredoc_count;
+		// p->args_count = 0;
+		// p->heredoc_count = 0;
+		parser_init_phase_two(&p, memory);
 		while (p->current_token)
 		{
 			if (check_current_token_type(&p) == T_WHITESPACE)
