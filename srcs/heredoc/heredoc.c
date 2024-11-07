@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/06 11:23:05 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:14:14 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 		}
 		if(!redir->was_quoted)
 			line = heredoc_expander(memory, line);
-		write(fd, line, ft_strlen(line));
+		if (line)
+			write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
 	}
