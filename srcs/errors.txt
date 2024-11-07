@@ -12,3 +12,7 @@ HEREDOC->
 [1]    727750 segmentation fault (core dumped)  ./minishell
 
 -->empty line causes segfault
+
+
+
+HEREDOCS DONT get deleted
