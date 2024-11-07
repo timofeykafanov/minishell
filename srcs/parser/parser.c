@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/07 10:48:33 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/07 10:51:19 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,40 +168,6 @@ void	parse_command(t_memory *memory)
 	p = init_parser(memory);
 	while (p->current_token)
 	{
-		// if(p->current_token->type == T_WHITESPACE)
-		// {
-		// 	p->current_token = p->current_token->next;
-		// 	continue;
-		// }
-		// p->current_cmd = create_command(p->current_token->data, NULL, p->current_token->type);
-		// if (!memory->commands)
-		// 	memory->commands = p->current_cmd;
-		// else
-		// 	p->prev_cmd->next = p->current_cmd;
-		// p->args_count = 0;
-		// while (p->current_token)
-		// {
-		// 	if(p->current_token->type == T_WHITESPACE)
-		// 	{
-		// 		p->current_token = p->current_token->next;
-		// 		continue;
-		// 	}
-		// 	if((p->current_token->type == T_R_OUT || p->current_token->type == T_OUT_APPEND
-		// 		|| p->current_token->type == T_R_IN || p->current_token->type == T_HEREDOC ) && p->current_token->next != NULL)
-		// 	{
-		// 		if (p->current_token->type == T_HEREDOC)
-		// 			p->heredoc_count++;
-		// 		if(p->current_token->next->type == T_WHITESPACE && p->current_token->next->next != NULL)
-		// 			p->current_token = p->current_token->next->next->next;
-		// 		else
-		// 			p->current_token = p->current_token->next->next;
-		// 		continue;
-		// 	}
-		// 	if (p->current_token->type == T_PIPE)
-		// 		break;
-		// 	p->args_count++;
-		// 	p->current_token = p->current_token->next;
-		// }
 		parser_phase_one(&p, memory);
 		p->current_token = p->start_token;
 		p->current_cmd->args = (char **)malloc(sizeof(char *) * (p->args_count + 1));
@@ -213,13 +179,9 @@ void	parse_command(t_memory *memory)
 		p->heredoc_count = 0;
 		while (p->current_token)
 		{
-			if(p->current_token->type == T_WHITESPACE)
-			{
-				p->current_token = p->current_token->next;
+			if (check_current_token_type(&p) == T_WHITESPACE)
 				continue;
-			}
-			if((p->current_token->type == T_R_OUT || p->current_token->type == T_OUT_APPEND \
-			|| p->current_token->type == T_R_IN || p->current_token->type == T_HEREDOC) && p->current_token->next != NULL)
+			if ((check_current_token_type(&p) == T_R_IN) && p->current_token->next != NULL)
 			{
 				if(p->current_token->next->type == T_WHITESPACE && p->current_token->next->next != NULL)
 					p->current_token = p->current_token->next;
