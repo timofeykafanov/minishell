@@ -4,7 +4,11 @@ HEREDOC->d
 HEREDOC->S
 [1]    726377 segmentation fault (core dumped)  ./minishell
 
+-->just HEREDOC causes segfault
+
 /sgoinfre/sopperma/minishell$ echo test << EOF
 HEREDOC->w
 HEREDOC->
 [1]    727750 segmentation fault (core dumped)  ./minishell
+
+-->empty line causes segfault

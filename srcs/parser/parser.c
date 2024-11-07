@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/07 10:55:52 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/07 11:06:43 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,47 +121,86 @@ static void parser_init_phase_two(t_parser **p, t_memory *memory)
 // 	}
 // 	(*p)->current_token = (*p)->current_token->next->next;
 // }
-// static void parser_phase_two(t_parser **p)
-// {
-// 	while ((*p)->current_token)
-// 	{
-// 		if(check_current_token_type(p))
-// 			continue;
-// 		if((check_current_token_type(p) == T_R_IN) && (*p)->current_token->next != NULL)
-// 		{
-// 			if((*p)->current_token->next->type == T_WHITESPACE && (*p)->current_token->next->next != NULL)
-// 			(*p)->current_token = (*p)->current_token->next;
-// 			(*p)->current_redir = malloc(sizeof(t_redir_out));
-// 			(*p)->current_redir->file_name = (*p)->current_token->next->data;
-// 			(*p)->current_redir->was_quoted = (*p)->current_token->next->was_quoted;
-// 			if ((*p)->current_token->type == T_WHITESPACE)
-// 				(*p)->current_redir->type = (*p)->current_token->prev->type;
-// 			else
-// 				(*p)->current_redir->type = (*p)->current_token->type;
-// 			(*p)->current_redir->next = NULL;
-// 			if(!(*p)->current_cmd->redir_struct)
-// 			{
-// 				(*p)->current_cmd->redir_struct = (*p)->current_redir;
-// 				(*p)->last_redir = (*p)->current_redir;	
-// 			}
-// 			else
-// 			{
-// 				(*p)->last_redir->next = (*p)->current_redir;
-// 				(*p)->last_redir = (*p)->current_redir;
-// 			}
-// 			(*p)->current_token = (*p)->current_token->next->next;
-// 			continue;
-// 		}
-// 		if ((*p)->current_token->type == T_PIPE)
-// 		{
-// 			(*p)->current_token = (*p)->current_token->next;
-// 			break;
-// 		}	
-// 		(*p)->current_cmd->args[(*p)->args_count] = (*p)->current_token->data;	
-// 		(*p)->current_token = (*p)->current_token->next;
-// 		(*p)->args_count++;
-// 	}
-// }
+
+static void parser_phase_two(t_parser *p)
+{
+	while (p->current_token)
+	{
+		if (check_current_token_type(&p) == T_WHITESPACE)
+			continue;
+		if ((check_current_token_type(&p) == T_R_IN) && p->current_token->next != NULL)
+		{
+			if(p->current_token->next->type == T_WHITESPACE && p->current_token->next->next != NULL)
+				p->current_token = p->current_token->next;
+			p->current_redir = malloc(sizeof(t_redir_out));
+			p->current_redir->file_name = p->current_token->next->data;
+			p->current_redir->was_quoted = p->current_token->next->was_quoted;
+			if (p->current_token->type == T_WHITESPACE)
+				p->current_redir->type = p->current_token->prev->type;
+			else
+				p->current_redir->type = p->current_token->type;
+			p->current_redir->next = NULL;
+			if(!p->current_cmd->redir_struct)
+			{
+				p->current_cmd->redir_struct = p->current_redir;
+				p->last_redir = p->current_redir;	
+			}
+			else
+			{
+				p->last_redir->next = p->current_redir;
+				p->last_redir = p->current_redir;
+			}
+			p->current_token = p->current_token->next->next;
+			continue;
+		}
+		if (p->current_token->type == T_PIPE)
+		{
+			p->current_token = p->current_token->next;
+			break;
+		}	
+		p->current_cmd->args[p->args_count] = p->current_token->data;	
+		p->current_token = p->current_token->next;
+		p->args_count++;
+	}
+	// while ((*p)->current_token)
+	// {
+	// 	if(check_current_token_type(p))
+	// 		continue;
+	// 	if((check_current_token_type(p) == T_R_IN) && (*p)->current_token->next != NULL)
+	// 	{
+	// 		if((*p)->current_token->next->type == T_WHITESPACE && (*p)->current_token->next->next != NULL)
+	// 		(*p)->current_token = (*p)->current_token->next;
+	// 		(*p)->current_redir = malloc(sizeof(t_redir_out));
+	// 		(*p)->current_redir->file_name = (*p)->current_token->next->data;
+	// 		(*p)->current_redir->was_quoted = (*p)->current_token->next->was_quoted;
+	// 		if ((*p)->current_token->type == T_WHITESPACE)
+	// 			(*p)->current_redir->type = (*p)->current_token->prev->type;
+	// 		else
+	// 			(*p)->current_redir->type = (*p)->current_token->type;
+	// 		(*p)->current_redir->next = NULL;
+	// 		if(!(*p)->current_cmd->redir_struct)
+	// 		{
+	// 			(*p)->current_cmd->redir_struct = (*p)->current_redir;
+	// 			(*p)->last_redir = (*p)->current_redir;	
+	// 		}
+	// 		else
+	// 		{
+	// 			(*p)->last_redir->next = (*p)->current_redir;
+	// 			(*p)->last_redir = (*p)->current_redir;
+	// 		}
+	// 		(*p)->current_token = (*p)->current_token->next->next;
+	// 		continue;
+	// 	}
+	// 	if ((*p)->current_token->type == T_PIPE)
+	// 	{
+	// 		(*p)->current_token = (*p)->current_token->next;
+	// 		break;
+	// 	}	
+	// 	(*p)->current_cmd->args[(*p)->args_count] = (*p)->current_token->data;	
+	// 	(*p)->current_token = (*p)->current_token->next;
+	// 	(*p)->args_count++;
+	// }
+}
 
 void	parse_command(t_memory *memory)
 {
@@ -171,53 +210,8 @@ void	parse_command(t_memory *memory)
 	while (p->current_token)
 	{
 		parser_phase_one(&p, memory);
-		// p->current_token = p->start_token;
-		// p->current_cmd->args = (char **)malloc(sizeof(char *) * (p->args_count + 1));
-		// p->current_cmd->args[p->args_count] = NULL;
-		// memory->heredocs = (char **)malloc(sizeof(char *) * (p->heredoc_count + 1));
-		// memory->heredocs [p->heredoc_count] = NULL;
-		// memory->heredocs_count = p->heredoc_count;
-		// p->args_count = 0;
-		// p->heredoc_count = 0;
 		parser_init_phase_two(&p, memory);
-		while (p->current_token)
-		{
-			if (check_current_token_type(&p) == T_WHITESPACE)
-				continue;
-			if ((check_current_token_type(&p) == T_R_IN) && p->current_token->next != NULL)
-			{
-				if(p->current_token->next->type == T_WHITESPACE && p->current_token->next->next != NULL)
-					p->current_token = p->current_token->next;
-				p->current_redir = malloc(sizeof(t_redir_out));
-				p->current_redir->file_name = p->current_token->next->data;
-				p->current_redir->was_quoted = p->current_token->next->was_quoted;
-				if (p->current_token->type == T_WHITESPACE)
-					p->current_redir->type = p->current_token->prev->type;
-				else
-					p->current_redir->type = p->current_token->type;
-				p->current_redir->next = NULL;
-				if(!p->current_cmd->redir_struct)
-				{
-					p->current_cmd->redir_struct = p->current_redir;
-					p->last_redir = p->current_redir;	
-				}
-				else
-				{
-					p->last_redir->next = p->current_redir;
-					p->last_redir = p->current_redir;
-				}
-				p->current_token = p->current_token->next->next;
-				continue;
-			}
-			if (p->current_token->type == T_PIPE)
-			{
-				p->current_token = p->current_token->next;
-				break;
-			}	
-			p->current_cmd->args[p->args_count] = p->current_token->data;	
-			p->current_token = p->current_token->next;
-			p->args_count++;
-		}
+		parser_phase_two(p);
 		p->start_token = p->current_token;
 		p->prev_cmd = p->current_cmd;
 	}
