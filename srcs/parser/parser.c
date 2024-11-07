@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/07 11:15:27 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:20:23 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,37 @@ void	parse_command(t_memory *memory)
 		parser_phase_two(p);
 		p->start_token = p->current_token;
 		p->prev_cmd = p->current_cmd;
+	}
+}
+
+void print_commands(t_memory *memory)
+{
+	t_command	*current;
+	int			i;
+	t_redir_out	*redir;
+	current = memory->commands;
+	while (current)
+	{
+		redir = current->redir_struct;
+		i = 0;
+		printf("command: %s\n", current->name);
+		while (current->args[i])
+		{
+			printf("arg %d: %s\n", i, current->args[i]);
+			i++;
+		}
+		i = 0;
+		// while (current->redir_out[i])
+		// {
+		// 	printf("red %d: %s\n", i, current->redir_out[i]);
+		// 	i++;
+		// }
+		while (redir)
+		{
+			printf("red %d: %s type: %d quoted: %d heredoc_filename: %s\n", i, redir->file_name, redir->type, redir->was_quoted, redir->heredoc_file_name);
+			redir = redir->next;
+			i++;
+		}
+		current = current->next;
 	}
 }

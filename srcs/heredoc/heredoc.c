@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/07 13:14:14 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:37:29 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 	{
 		line = readline("HEREDOC->");
 		if (line == NULL || ft_strncmp(line, redir->file_name, \
-			ft_strlen(redir->file_name)) == 0)
+			ft_strlen(line)) == 0)
 		{
 			free(line);
 			break ;

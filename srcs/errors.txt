@@ -1,18 +1,4 @@
-/sgoinfre/sopperma/minishell$ <<f <<d <<S
-HEREDOC->f
-HEREDOC->d
-HEREDOC->S
-[1]    726377 segmentation fault (core dumped)  ./minishell
-
--->just HEREDOC causes segfault
-
-/sgoinfre/sopperma/minishell$ echo test << EOF
-HEREDOC->w
-HEREDOC->
-[1]    727750 segmentation fault (core dumped)  ./minishell
-
--->empty line causes segfault
-
-
-
-HEREDOCS DONT get deleted
+redirection of heredoc doesnt work example>
+./minishell << e
+echo test
+e
