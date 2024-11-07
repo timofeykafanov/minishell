@@ -1,0 +1,7 @@
+/sgoinfre/sopperma/minishell$ <<f <<d <<S
+HEREDOC->f
+HEREDOC->d
+HEREDOC->S
+[1]    726377 segmentation fault (core dumped)  ./minishell
+
+
