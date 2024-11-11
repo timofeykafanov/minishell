@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/06 13:53:18 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/11 14:04:11 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void reset_minishell(t_memory *memory)
+{
+	free_tokens(memory->tokens);
+	memory->tokens = NULL;
+	free(memory->suffix);
+	free_commands(memory->commands);
+}
 
 void	*free_tokens(t_tokens *token)
 {

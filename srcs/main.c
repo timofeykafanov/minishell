@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/07 13:33:56 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/11 14:04:41 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,14 @@ int	main(int ac, char **av, char **env)
 			add_history(memory->input);
 			if (!(*memory->input))
 				continue ;
-			if (lexer(memory))
+			lexer(memory);
+			if (memory->lexer_error_code == ERROR_CODE_MALLOC)
 				return (free_memory(memory), ERROR);
+			else if (memory->lexer_error_code == ERROR_CODE_QUOTES)
+			{
+				reset_minishell(memory);
+				continue;
+			}
 			if (!memory->tokens)
 				return (free_memory(memory), ERROR);
 			// print_tokens(memory);
@@ -47,10 +53,7 @@ int	main(int ac, char **av, char **env)
 			// print_commands(memory);
 			execute_commands(memory);
 			delete_heredocs(memory);
-			free_tokens(memory->tokens);
-			memory->tokens = NULL;
-			free(memory->suffix);
-			free_commands(memory->commands);
+			reset_minishell(memory);
 		}
 		else
 		{

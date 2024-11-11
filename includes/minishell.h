@@ -64,6 +64,17 @@
 
 # define COMMAND_NOT_FOUND 127
 
+# define LEXER 1
+# define PARSER 2
+# define EXECUTOR 3
+
+# define ERROR_CODE_MALLOC 1
+# define ERROR_CODE_GENERAL 7
+# define ERROR_CODE_QUOTES 8
+
+# define ERROR_MSG_MALLOC "Memory Allocation Error\n"
+# define ERROR_MSG_QUOTE "Syntax Error: Missing Quote\n"
+
 typedef struct s_tokens
 {
 	void			*data;
@@ -106,6 +117,8 @@ typedef struct s_memory
 	int					env_lines;
 	int					env_space;
 	int					exit_status;
+	int					error_code;
+	int					lexer_error_code;
 }	t_memory;
 
 typedef struct s_parser
@@ -121,11 +134,11 @@ typedef struct s_parser
 }	t_parser;
 // lexer.c
 
-int			lexer(t_memory *memory);
+void			lexer(t_memory *memory);
 
 // process_token.c
 
-void		*process_token(char *s);
+void		*process_token(char *s, t_memory *memory);
 
 // lexer_utils.c
 
@@ -135,6 +148,12 @@ int			get_type(char *s);
 
 void		free_memory(t_memory *memory);
 void		*free_tokens(t_tokens *token);
+void		reset_minishell(t_memory *memory);
+
+
+// print_error_messages.c
+void		print_error_message(int segment, t_memory *memory);
+int			set_error_code(int segment, int error_code, t_memory *memory);
 
 // parsing_utils.c
 
@@ -144,6 +163,7 @@ char		*skip_whitespace(char *s);
 char		*find_seperator(char *s);
 char		*find_whitespace(char *s);
 char		*is_var_end(char *s);
+
 
 // signals.c
 
