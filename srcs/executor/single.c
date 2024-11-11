@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/07 13:34:58 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/11 15:57:34 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 
 void	execute_single_command(t_command *cmd, t_memory *mem)
 {
-	int		status;
-	int		saved_fds[2];
+	int			status;
+	int			saved_fds[2];
 
 	if (!cmd->args[0])
 		return ;

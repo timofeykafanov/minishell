@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/11 14:04:41 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/11 17:11:50 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ int	main(int ac, char **av, char **env)
 			// heredoc(memory->tokens->data);
 			// memory->input = read_heredoc_content();
 			expand_tokens(memory);
+			if (syntax_check(memory))
+			{
+				reset_minishell(memory);
+				continue ;
+			}
 			parse_command(memory);
 			execute_heredoc(memory); // segfalt after heredoc
 			// printf("heredoc count: %d\n", memory->heredocs_count);
@@ -58,7 +63,9 @@ int	main(int ac, char **av, char **env)
 		else
 		{
 			ft_printf("exit\n", STDOUT_FILENO);
-			break ;
+			free_memory(memory);
+			exit(memory->exit_status);
+			// break ;
 		}
 	}
 	return (free_memory(memory), SUCCESS);

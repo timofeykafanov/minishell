@@ -2,3 +2,14 @@ redirection of heredoc doesnt work example>
 ./minishell << e
 echo test
 e
+
+---
+
+/home/tkafanov/git/minishell$ srcs
+/home/tkafanov/git/minishell$ echo 
+
+/home/tkafanov/git/minishell$ echo Hello
+malloc(): unaligned tcache chunk detected
+[1]    1761749 IOT instruction (core dumped)  ./minishell
+
+---

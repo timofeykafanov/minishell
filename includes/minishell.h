@@ -25,6 +25,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <linux/limits.h>
+# include <sys/stat.h>
 
 # define SUCCESS 0
 # define ERROR 1
@@ -130,11 +131,11 @@ typedef struct s_parser
 	t_redir_out			*current_redir;
 	t_redir_out			*last_redir;
 	int					args_count;
-	int 				heredoc_count;
+	int					heredoc_count;
 }	t_parser;
 // lexer.c
 
-void			lexer(t_memory *memory);
+void		lexer(t_memory *memory);
 
 // process_token.c
 
@@ -150,7 +151,6 @@ void		free_memory(t_memory *memory);
 void		*free_tokens(t_tokens *token);
 void		reset_minishell(t_memory *memory);
 
-
 // print_error_messages.c
 void		print_error_message(int segment, t_memory *memory);
 int			set_error_code(int segment, int error_code, t_memory *memory);
@@ -164,6 +164,9 @@ char		*find_seperator(char *s);
 char		*find_whitespace(char *s);
 char		*is_var_end(char *s);
 
+// syntax_check.c
+
+int			syntax_check(t_memory *memory);
 
 // signals.c
 
