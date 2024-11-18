@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/18 16:13:48 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:41:31 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static t_tokens	*merge(t_tokens	*current_token)
     current_token->prev->next = current_token->next;
     if (current_token->next)
         current_token->next->prev = current_token->prev;
-    free(current_token->data);
+    // free(current_token->data);
     temp = current_token;
     current_token = current_token->next;
     free(temp);
