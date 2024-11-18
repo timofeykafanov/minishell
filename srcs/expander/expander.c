@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/06 13:11:27 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:13:48 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,51 @@ static bool	to_merge(t_tokens	*current_token)
 
 // TODO: protect join
 
-static void	merge(t_tokens	*current_token)
-{
-	char		*data;
-	t_tokens	*temp;
+// static void	merge(t_tokens	*current_token)
+// {
+// 	char		*data;
+// 	t_tokens	*temp;
 
-	data = current_token->prev->data;
-	current_token->prev->data = ft_strjoin(current_token->prev->data, \
-	current_token->data);
-	free(data);
-	current_token->prev->type = T_WORD;
-	current_token->prev->was_quoted = 1;
-	current_token->prev->next = current_token->next;
-	if (current_token->next)
-		current_token->next->prev = current_token->prev;
-	free(current_token->data);
-	temp = current_token;
-	current_token = current_token->next;
-	free(temp);
+// 	data = current_token->prev->data;
+// 	printf("current_token->data: %s\n", (char*)current_token->data);
+// 	printf("current_token->prev->data: %s\n\n", (char*)current_token->prev->data);
+	
+// 	current_token->prev->data = ft_strjoin(current_token->prev->data, \
+// 	current_token->data);
+// 	free(data);
+// 	current_token->prev->type = T_WORD;
+// 	current_token->prev->was_quoted = 1;
+// 	current_token->prev->next = current_token->next;
+// 	if (current_token->next)
+// 		current_token->next->prev = current_token->prev;
+// 	free(current_token->data);
+// 	temp = current_token;
+// 	current_token = current_token->next;
+// 	free(temp);
+// }
+
+static t_tokens	*merge(t_tokens	*current_token)
+{
+    char		*data;
+    t_tokens	*temp;
+
+    data = current_token->prev->data;
+    // printf("current_token->data: %s\n", (char*)current_token->data);
+    // printf("current_token->prev->data: %s\n\n", (char*)current_token->prev->data);
+    
+    current_token->prev->data = ft_strjoin(current_token->prev->data, \
+    current_token->data);
+    free(data);
+    current_token->prev->type = T_WORD;
+    current_token->prev->was_quoted = 1;
+    current_token->prev->next = current_token->next;
+    if (current_token->next)
+        current_token->next->prev = current_token->prev;
+    free(current_token->data);
+    temp = current_token;
+    current_token = current_token->next;
+    free(temp);
+    return current_token;
 }
 
 //  TODO: merge current if before is word and no whitespace 
@@ -60,7 +87,8 @@ void	merge_tokens(t_memory *memory)
 	while (current_token)
 	{
 		if (to_merge(current_token))
-			merge(current_token);
+			current_token = merge(current_token);
+
 		else
 			current_token = current_token->next;
 	}

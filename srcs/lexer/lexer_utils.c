@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/06 12:38:44 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:46:06 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// int	print_tokens(t_memory *memory)
-// {
-// 	t_tokens	*current;
-// 	int			i;
+int	print_tokens(t_memory *memory)
+{
+	t_tokens	*current;
+	int			i;
 
-// 	i = 1;
-// 	current = memory->tokens;
-// 	printf("Tokens:\n");
-// 	while (current)
-// 	{
-// 		printf("Nr: %d\nToken: %s Type: %d Quoted : %d\n", i++, \
-// 			(char *)current->data, current->type, current->was_quoted);
-// 		current = current->next;
-// 	}
-// 	return (1);
-// }
+	i = 1;
+	current = memory->tokens;
+	printf("Tokens:\n");
+	while (current)
+	{
+		printf("Nr: %d\nToken: %s Type: %d Quoted : %d\n", i++, \
+			(char *)current->data, current->type, current->was_quoted);
+		current = current->next;
+	}
+	return (1);
+}
 
 int	get_type(char *s)
 {

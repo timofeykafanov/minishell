@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/06 13:24:10 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:30:27 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@ char	*expand_var(t_memory *memory, char *var)
 	char	*value;
 	char	*temp;
 
+	// printf("%s end\n", var);
 	if (*var == '$' && *(var + 1) == '?')
 	{
 		value = ft_itoa(memory->exit_status);
 		free(var);
 		return (value);
 	}
+	else if (*var == '$' && (is_whitespace((var + 1)) || ft_strlen(var) == 1))
+		return (var);
 	value = malloc(1);
 	value[0] = '\0';
 	temp = ft_strjoin(var, "=");

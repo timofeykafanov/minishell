@@ -133,6 +133,7 @@ typedef struct s_parser
 	int					args_count;
 	int					heredoc_count;
 }	t_parser;
+
 // lexer.c
 
 void		lexer(t_memory *memory);
@@ -144,6 +145,8 @@ void		*process_token(char *s, t_memory *memory);
 // lexer_utils.c
 
 int			get_type(char *s);
+
+int		print_tokens(t_memory *memory);
 
 // freeing.c
 
