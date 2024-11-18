@@ -13,3 +13,22 @@ malloc(): unaligned tcache chunk detected
 [1]    1761749 IOT instruction (core dumped)  ./minishell
 
 ---
+
+$notexists echo "haha"
+
+echo should be executed
+
+---
+
+export A="haha         123"
+echo $A
+
+space can not follow space in var (it should be "haha 123")
+
+---
+
+"cd -" should move to OPDPWD
+
+somthing wrong with PWD and OLDPWD (probably on the expansion test)
+
+---

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:16:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/06 11:16:11 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/18 21:29:28 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,16 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 {
 	if (cmd->args)
 	{
-		if (chdir(cmd->args[1]) != 0)
+		if (cmd->args[1] == NULL)
+		{
+			if (chdir(get_env_var(memory, "HOME=")) != 0)
+			{
+				ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
+					cmd->args[0], cmd->args[1]);
+				perror("");
+			}
+		}
+		else if (chdir(cmd->args[1]) != 0)
 		{
 			ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
 				cmd->args[0], cmd->args[1]);

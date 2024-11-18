@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/11 15:57:34 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/18 21:11:57 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 		execute_builtin_and_handle_redir(cmd, mem, saved_fds);
 		return ;
 	}
+	if (ft_strlen(cmd->args[0]) == 0)
+		return ;
 	cmd->path = find_path(cmd->args[0], mem);
 	create_process_and_execute(cmd, mem, &status);
 	if (WIFEXITED(status))

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/06 11:09:39 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/18 21:13:46 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("pipe");
 		exit(1);
 	}
+	if (ft_strlen(cmd->args[0]) == 0)
+		return ;
 	cmd->path = find_path(cmd->args[0], mem);
 	create_process_and_execute(cmd, mem, fd1, fd2);
 }
