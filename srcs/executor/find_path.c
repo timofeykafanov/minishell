@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/11 15:43:14 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:06:41 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ char	*find_path(char *command, t_memory *memory)
 	char	**paths;
 	char	*res;
 
+	if (ft_strchr(command, '/'))
+	{
+		if (access(command, F_OK) == 0)
+			return (ft_strdup(command));
+		return (NULL);
+	}
 	env_path = get_env_var(memory, "PATH=");
 	if (!env_path)
 		return (NULL);
