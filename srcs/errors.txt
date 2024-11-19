@@ -16,7 +16,7 @@ malloc(): unaligned tcache chunk detected
 
 $notexists echo "haha"
 
-echo should be executed
+echo should be executed (probably parser side)
 
 ---
 
@@ -28,10 +28,6 @@ space can not follow space in var (it should be "haha 123")
 ---
 
 "cd -" should move to OPDPWD
-
----
-
-somthing wrong with PWD and OLDPWD (probably in the expansion part)
 
 ---
 

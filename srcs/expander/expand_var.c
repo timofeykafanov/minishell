@@ -3,55 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/18 15:30:27 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:19:40 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	find_env_value(t_memory *memory, char *value, char *temp)
+static char	*find_env_value(t_memory *memory, const char *key)
 {
-	int	i;
+	int		i;
+	size_t	key_len;
 
 	i = 0;
+	key_len = ft_strlen(key);
 	while (memory->env[i])
 	{
-		if (ft_strncmp(memory->env[i], temp, ft_strlen(temp)) == 0)
-		{
-			free(value);
-			value = ft_strdup(ft_strchr(memory->env[i], '=') + 1);
-			break ;
-		}
+		if (ft_strncmp(memory->env[i], key, key_len) == 0 && memory->env[i][key_len] == '=')
+			return (ft_strdup(ft_strchr(memory->env[i], '=') + 1));
 		i++;
 	}
+	return (ft_strdup(""));
 }
-
-// TODO: protect itoa
 
 char	*expand_var(t_memory *memory, char *var)
 {
 	char	*value;
 	char	*temp;
 
-	// printf("%s end\n", var);
 	if (*var == '$' && *(var + 1) == '?')
 	{
 		value = ft_itoa(memory->exit_status);
 		free(var);
 		return (value);
 	}
-	else if (*var == '$' && (is_whitespace((var + 1)) || ft_strlen(var) == 1))
+	else if (*var == '$' && (is_whitespace(var + 1) || ft_strlen(var) == 1))
 		return (var);
-	value = malloc(1);
-	value[0] = '\0';
-	temp = ft_strjoin(var, "=");
-	temp++;
-	find_env_value(memory, value, temp);
-	free(temp - 1);
+	temp = ft_strjoin(var + 1, "");
+	if (!temp)
+	{
+		free(var);
+		return (NULL);
+	}
+	value = find_env_value(memory, temp);
+	free(temp);
 	free(var);
-	var = NULL;
 	return (value);
 }
