@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/06 11:16:16 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:43:03 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ void	execute_exit(t_memory *memory, bool is_redir, int saved_fds[2])
 		close(saved_fds[1]);
 	}
 	free_memory(memory);
-	ft_printf("exit\n", STDOUT_FILENO);
+	// ft_printf("exit\n", STDOUT_FILENO);
 	exit(0);
 }

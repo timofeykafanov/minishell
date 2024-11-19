@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/19 16:27:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:45:00 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int ac, char **av, char **env)
 		}
 		else
 		{
-			ft_printf("exit\n", STDOUT_FILENO);
+			// ft_printf("exit\n", STDOUT_FILENO);
 			free_memory(memory);
 			exit(memory->exit_status);
 			// break ;

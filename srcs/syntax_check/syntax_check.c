@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:40:48 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/19 14:26:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:33:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ int	syntax_check(t_memory *memory)
 	t_tokens	*token;
 
 	token = memory->tokens;
-	if (token && ft_strncmp(token->data, ".", ft_strlen(token->data)) == 0)
-	{
-		ft_printf(".: filename argument required\n", STDERR_FILENO);
-		memory->exit_status = 2;
-		return (1);
-	}
+	// if (token && ft_strncmp(token->data, ".", ft_strlen(token->data)) == 0)
+	// {
+	// 	ft_printf(".: filename argument required\n", STDERR_FILENO);
+	// 	memory->exit_status = 2;
+	// 	return (1);
+	// }
 	if (token && token->type == T_PIPE)
 	{
 		ft_printf("syntax error near unexpected token `|'\n", STDERR_FILENO);

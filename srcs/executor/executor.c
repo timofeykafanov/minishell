@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/19 15:56:33 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:33:45 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static bool	is_directory(t_memory *memory, t_command *command)
 {
 	struct stat	fileStat;
 
-	if (command->args[0] && ft_strncmp(command->args[0], "..", ft_strlen(command->args[0])) == 0)
+	if (command->args[0] && (ft_strncmp(command->args[0], "..", ft_strlen(command->args[0])) == 0
+		|| ft_strncmp(command->args[0], ".", ft_strlen(command->args[0])) == 0))
 		return (true);
 	while (command)
 	{
