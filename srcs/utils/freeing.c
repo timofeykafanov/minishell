@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/11 14:04:11 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:43:59 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,17 @@ void	free_commands(t_command *commands)
 	{
 		next = current->next;
 		if (current->args)
+		{
 			free(current->args);
+			current->args = NULL;	
+		}
 		if (current->path)
+		{
 			free(current->path);
+			current->path = NULL;
+		}
 		free(current);
+		current = NULL;
 		current = next;
 	}
 }
