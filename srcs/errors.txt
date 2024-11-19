@@ -45,3 +45,10 @@ syntax error near unexpected token `|'
 
 ---
 
+heredoc doesn't redirect
+
+---
+
+heredocs should be executrd untill the syntax error, error shows first
+
+---

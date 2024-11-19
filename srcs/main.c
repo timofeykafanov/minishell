@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/19 14:26:42 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:27:25 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			parse_command(memory);
-			execute_heredoc(memory); // segfalt after heredoc
+			execute_heredoc(memory);
+			
+			// TODO: redirect heredoc content
+
 			// printf("heredoc count: %d\n", memory->heredocs_count);
 			// print_commands(memory);
 			execute_commands(memory);

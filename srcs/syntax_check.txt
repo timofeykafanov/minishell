@@ -1,9 +1,0 @@
-bash - /home/tkafanov: Is a directory
-minishell - /home/tkafanov: command not found
-
-space after redir - syntax error near unexpected token `newline'
-
-echo | | or |echo| - bash: syntax error near unexpected token `|'
-
-heredocs run untill the syntax error, error shows first
-
