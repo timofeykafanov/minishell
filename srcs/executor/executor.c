@@ -6,19 +6,24 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/11 16:53:22 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:16:03 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	execute_commands(t_memory *memory)
+static bool	is_directory(t_memory *memory, t_command *command)
 {
-	t_command	*command;
-	int			fd1[2];
 	struct stat	fileStat;
-	
-	command = memory->commands;
+
+	// if (ft_strncmp(command->args[0], ".", ft_strlen(command->args[0])) == 0)
+	// {
+	// 	ft_printf(".: filename argument required\n", STDERR_FILENO);
+	// 	memory->exit_status = 2;
+	// 	return (false);
+	// }
+	if (command->args[0] && ft_strncmp(command->args[0], "..", ft_strlen(command->args[0])) == 0)
+		return (true);
 	while (command)
 	{
 		if (stat(command->args[0], &fileStat) == 0)
@@ -27,13 +32,40 @@ void	execute_commands(t_memory *memory)
 			{
                 ft_printf("%s: Is a directory\n", STDERR_FILENO, command->args[0]);
                 memory->exit_status = 126;
-                return ;
+                return (false);
             }
 			// else
             // 	perror("stat");
 		}
 		command = command->next;
 	}
+	return (true);
+}
+
+void	execute_commands(t_memory *memory)
+{
+	t_command	*command;
+	int			fd1[2];
+	// struct stat	fileStat;
+	
+	command = memory->commands;
+	if (!is_directory(memory, command))
+		return ;
+	// while (command)
+	// {
+	// 	if (stat(command->args[0], &fileStat) == 0)
+	// 	{
+	// 		if (S_ISDIR(fileStat.st_mode))
+	// 		{
+    //             ft_printf("%s: Is a directory\n", STDERR_FILENO, command->args[0]);
+    //             memory->exit_status = 126;
+    //             return ;
+    //         }
+	// 		// else
+    //         // 	perror("stat");
+	// 	}
+	// 	command = command->next;
+	// }
 	command = memory->commands;
 	if (command->next == NULL)
 		execute_single_command(command, memory);

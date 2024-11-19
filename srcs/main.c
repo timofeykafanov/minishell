@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/18 16:14:00 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:26:42 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ int	main(int ac, char **av, char **env)
 			expand_tokens(memory);
 			if (syntax_check(memory))
 			{
-				reset_minishell(memory);
+				free_tokens(memory->tokens);
+				memory->tokens = NULL;
+				free(memory->suffix);
+				// free_commands(memory->commands);
 				continue ;
 			}
 			parse_command(memory);

@@ -6,13 +6,13 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/07 13:20:23 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/19 12:26:06 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_command	*create_command(char *name, char **args, int type)
+static t_command	*create_command(char *name, char **args, int type)
 {
 	t_command	*command;
 
@@ -43,7 +43,7 @@ static t_parser	*init_parser(t_memory *memory)
 	return (parser);
 }
 
-int check_current_token_type(t_parser **p)
+static int check_current_token_type(t_parser **p)
 {
 	if ((*p)->current_token->type == T_WHITESPACE)
 	{

@@ -29,6 +29,23 @@ space can not follow space in var (it should be "haha 123")
 
 "cd -" should move to OPDPWD
 
-somthing wrong with PWD and OLDPWD (probably on the expansion test)
+---
+
+somthing wrong with PWD and OLDPWD (probably in the expansion part)
 
 ---
+
+> ">" or > filename
+
+empty file should be created (probably parser side)
+
+---
+
+/home/tkafanov/git/minishell$ echo Hello | grep H
+Hello
+/home/tkafanov/git/minishell$ echo Hello |
+syntax error near unexpected token `|'
+[1]    458265 segmentation fault (core dumped)  ./minishell
+
+---
+
