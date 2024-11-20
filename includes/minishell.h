@@ -120,6 +120,7 @@ typedef struct s_memory
 	int					exit_status;
 	int					error_code;
 	int					lexer_error_code;
+	bool				exit_failed;
 }	t_memory;
 
 typedef struct s_parser
