@@ -280,6 +280,7 @@ void		echo(char **args);
 
 // executor_utils.c
 
+bool		contains_slash(char *command);
 bool		is_builtin(char *command);
 void		execute_builtin(t_command *cmd, t_memory *mem, bool is_redir, \
 	int saved_fds[2]);

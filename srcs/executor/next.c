@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/18 21:13:46 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:42:53 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 	{
 		if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
-			ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
+			if (contains_slash(cmd->args[0]))
+				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
+					cmd->args[0]);
+			else
+				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
 			exit(COMMAND_NOT_FOUND);
 		}
 	}

@@ -52,3 +52,10 @@ heredoc doesn't redirect
 heredocs should be executrd untill the syntax error, error shows first
 
 ---
+
+echo "$$" ???
+
+---
+
+
+where I stoped: cd ..$PWD (PWD doesn't expand, wrong exit_status)

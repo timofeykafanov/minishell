@@ -6,11 +6,25 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/19 21:16:59 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:41:53 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+bool	contains_slash(char *command)
+{
+	int	i;
+
+	i = 0;
+	while (command[i])
+	{
+		if (command[i] == '/')
+			return (true);
+		i++;
+	}
+	return (false);
+}
 
 bool	is_builtin(char *command)
 {

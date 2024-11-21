@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/20 17:05:28 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/21 15:42:16 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 			handle_redir(cmd);
 		if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
-			ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
+			if (contains_slash(cmd->args[0]))
+				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
+					cmd->args[0]);
+			else
+				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
 			exit(COMMAND_NOT_FOUND);
 		}
 	}
@@ -82,8 +86,8 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 		execute_builtin_and_handle_redir(cmd, mem, saved_fds);
 		return ;
 	}
-	if (ft_strlen(cmd->args[0]) == 0)
-		return ;
+	// if (ft_strlen(cmd->args[0]) == 0)
+	// 	return ;
 	cmd->path = find_path(cmd->args[0], mem);
 	create_process_and_execute(cmd, mem, &status);
 	if (WIFEXITED(status))
