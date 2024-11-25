@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/25 17:39:56 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:19:59 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			parse_command(memory);
-			// print_commands(memory);
 			execute_heredoc(memory);
+			// print_commands(memory);
 			
 			// TODO: redirect heredoc content
 

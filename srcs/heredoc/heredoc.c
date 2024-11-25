@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/25 16:26:04 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:26:01 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 	{
 		line = readline("HEREDOC->");
 		if (ft_strncmp(line, redir->file_name, \
-			ft_strlen(redir->file_name)) == 0)
+			ft_strlen(redir->file_name)) == 0
+			&& ft_strlen(line) == ft_strlen(redir->file_name))
 		{
 			free(line);
 			break ;

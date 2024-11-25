@@ -1,1 +1,0 @@
-/home/sopperma/42_minishell_tester/tester.sh: line 633: 1349417 Segmentation fault      (core dumped) LD_PRELOAD=/home/sopperma/42_minishell_tester/utils/libintercept/libintercept.so ./minishell
