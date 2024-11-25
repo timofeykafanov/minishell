@@ -1,0 +1,2 @@
+free(): double free detected in tcache 2
+/home/sopperma/42_minishell_tester/tester.sh: line 633: 1258996 Aborted                 (core dumped) LD_PRELOAD=/home/sopperma/42_minishell_tester/utils/libintercept/libintercept.so ./minishell

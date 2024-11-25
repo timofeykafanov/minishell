@@ -1,0 +1,13 @@
+LD_PRELOAD=/home/sopperma/42_minishell_tester/utils/libintercept/libintercept.so
+USER_ZDOTDIR=/home/sopperma
+PWD=/sgoinfre/sopperma/minishell
+LOGNAME=sopperma
+XAUTHORITY=/home/sopperma/.Xauthority
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/sopperma
+HOME=/home/sopperma
+ZSH=/home/sopperma/.oh-my-zsh
+ZDOTDIR=/home/sopperma
+USER=sopperma
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/sopperma/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+PATH=/bin:/usr/bin:/usr/sbin:/home/sopperma/.local/funcheck/host:/home/sopperma/bin:/home/sopperma/.local/funcheck/host:/home/sopperma/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/share/rust/cargo/bin
+OLDPWD=/home/sopperma/42_minishell_tester

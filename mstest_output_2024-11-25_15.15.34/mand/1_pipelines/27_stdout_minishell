@@ -1,0 +1,80 @@
+echo
+includes
+libft
+Makefile
+minishell
+mstest_output_2024-11-25_14.57.53
+mstest_output_2024-11-25_14.58.35
+mstest_output_2024-11-25_15.13.17
+mstest_output_2024-11-25_15.14.47
+mstest_output_2024-11-25_15.15.21
+mstest_output_2024-11-25_15.15.34
+objs
+readline.supp
+README.md
+srcs
+valgrind_command
+wrong errors.txt.
+echo
+includes
+libft
+Makefile
+minishell
+mstest_output_2024-11-25_14.57.53
+mstest_output_2024-11-25_14.58.35
+mstest_output_2024-11-25_15.13.17
+mstest_output_2024-11-25_15.14.47
+mstest_output_2024-11-25_15.15.21
+mstest_output_2024-11-25_15.15.34
+objs
+readline.supp
+README.md
+srcs
+valgrind_command
+wrong errors.txt.
+total 196
+drwxr-xr-x 14 sopperma 2024_vienna   4096 Nov 25 15:15 .
+drwx------  6 sopperma 2024_vienna   4096 Nov  6 15:12 ..
+-rw-r--r--  1 sopperma 2024_vienna      0 Nov 25 15:15 echo
+drwxr-xr-x  8 sopperma 2024_vienna   4096 Nov 25 14:57 .git
+-rw-r--r--  1 sopperma 2024_vienna    446 Nov  6 15:13 .gitignore
+drwxr-xr-x  2 sopperma 2024_vienna   4096 Nov 25 14:57 includes
+drwxr-xr-x  4 sopperma 2024_vienna   4096 Nov 18 15:46 libft
+-rw-r--r--  1 sopperma 2024_vienna   2783 Nov 25 14:57 Makefile
+-rwxr-xr-x  1 sopperma 2024_vienna 119696 Nov 25 15:14 minishell
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 14:57 mstest_output_2024-11-25_14.57.53
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 14:58 mstest_output_2024-11-25_14.58.35
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 15:13 mstest_output_2024-11-25_15.13.17
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 15:14 mstest_output_2024-11-25_15.14.47
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 15:15 mstest_output_2024-11-25_15.15.21
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 15:15 mstest_output_2024-11-25_15.15.34
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov  6 15:39 objs
+-rw-r--r--  1 sopperma 2024_vienna    173 Nov  6 15:13 readline.supp
+-rw-r--r--  1 sopperma 2024_vienna    222 Nov 18 14:41 README.md
+drwxr-xr-x 11 sopperma 2024_vienna   4096 Nov 25 14:57 srcs
+-rw-r--r--  1 sopperma 2024_vienna    168 Nov  6 15:13 valgrind_command
+drwxr-xr-x  2 sopperma 2024_vienna   4096 Nov  6 15:13 .vscode
+-rw-r--r--  1 sopperma 2024_vienna      0 Nov 25 15:03 wrong errors.txt.
+total 196
+drwxr-xr-x 14 sopperma 2024_vienna   4096 Nov 25 15:15 .
+drwx------  6 sopperma 2024_vienna   4096 Nov  6 15:12 ..
+-rw-r--r--  1 sopperma 2024_vienna      0 Nov 25 15:15 echo
+drwxr-xr-x  8 sopperma 2024_vienna   4096 Nov 25 14:57 .git
+-rw-r--r--  1 sopperma 2024_vienna    446 Nov  6 15:13 .gitignore
+drwxr-xr-x  2 sopperma 2024_vienna   4096 Nov 25 14:57 includes
+drwxr-xr-x  4 sopperma 2024_vienna   4096 Nov 18 15:46 libft
+-rw-r--r--  1 sopperma 2024_vienna   2783 Nov 25 14:57 Makefile
+-rwxr-xr-x  1 sopperma 2024_vienna 119696 Nov 25 15:14 minishell
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 14:57 mstest_output_2024-11-25_14.57.53
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 14:58 mstest_output_2024-11-25_14.58.35
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 15:13 mstest_output_2024-11-25_15.13.17
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 15:14 mstest_output_2024-11-25_15.14.47
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 15:15 mstest_output_2024-11-25_15.15.21
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov 25 15:15 mstest_output_2024-11-25_15.15.34
+drwxr-xr-x  3 sopperma 2024_vienna   4096 Nov  6 15:39 objs
+-rw-r--r--  1 sopperma 2024_vienna    173 Nov  6 15:13 readline.supp
+-rw-r--r--  1 sopperma 2024_vienna    222 Nov 18 14:41 README.md
+drwxr-xr-x 11 sopperma 2024_vienna   4096 Nov 25 14:57 srcs
+-rw-r--r--  1 sopperma 2024_vienna    168 Nov  6 15:13 valgrind_command
+drwxr-xr-x  2 sopperma 2024_vienna   4096 Nov  6 15:13 .vscode
+-rw-r--r--  1 sopperma 2024_vienna      0 Nov 25 15:03 wrong errors.txt.

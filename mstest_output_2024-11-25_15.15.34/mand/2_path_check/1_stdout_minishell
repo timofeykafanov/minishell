@@ -1,0 +1,20 @@
+includes
+libft
+Makefile
+minishell
+mstest_output_2024-11-25_14.57.53
+mstest_output_2024-11-25_14.58.35
+mstest_output_2024-11-25_15.13.17
+mstest_output_2024-11-25_15.14.47
+mstest_output_2024-11-25_15.15.21
+mstest_output_2024-11-25_15.15.34
+objs
+readline.supp
+README.md
+srcs
+tmp_redir_out
+valgrind_command
+wrong errors.txt.
+
+1
+42
