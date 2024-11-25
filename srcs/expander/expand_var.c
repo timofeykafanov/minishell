@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/21 15:13:34 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:30:46 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,36 @@ char	*expand_var(t_memory *memory, char *var)
 	free(temp);
 	free(var);
 	return (value);
+}
+
+t_tokens	*split_var(t_memory *memory, char *var)
+{
+	char	*value;
+	char	*temp;
+	t_tokens	*token;
+
+	if (*var == '$' && *(var + 1) == '?')
+	{
+		value = ft_itoa(memory->exit_status);
+		free(var);
+		token = variable_split_lexer(memory, value);
+		return (token);
+	}
+	else if (*var == '$' && (is_whitespace(var + 1) || ft_strlen(var) == 1))
+	{
+		token = variable_split_lexer(memory, var);
+		return (token);
+	}
+	temp = ft_strjoin(var + 1, "");
+	if (!temp)
+	{
+		free(var);
+		return (NULL);
+	}
+	value = find_env_value(memory, temp);
+	free(temp);
+	free(var);
+	token = variable_split_lexer(memory, value);
+	free(value);
+	return (token);
 }

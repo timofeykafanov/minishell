@@ -139,6 +139,7 @@ typedef struct s_parser
 // lexer.c
 
 void		lexer(t_memory *memory);
+t_tokens	*variable_split_lexer(t_memory *memory, char *s);
 
 // process_token.c
 
@@ -149,6 +150,7 @@ void		*process_token(char *s, t_memory *memory);
 int			get_type(char *s);
 
 int		print_tokens(t_memory *memory);
+int		print_expand_var_tokens(t_tokens *token);
 
 // freeing.c
 

@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/11 13:54:06 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:58:14 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,34 @@ void	lexer(t_memory *memory)
 		input += ft_strlen(current->data);
 	}
 	return;
+}
+
+//needs type handling for redirects and pipes?
+t_tokens	*variable_split_lexer(t_memory *memory, char *s)
+{
+	char		*input;
+	t_tokens	*start;
+	t_tokens	*current;
+	t_tokens	*previous;
+
+	start = NULL;
+	current = NULL;
+	previous = NULL;
+	input = s;
+	while (*input)
+	{
+		current = create_token(input, memory);
+		if (!current)
+			return (NULL);
+		if (!start)
+			start = current;
+		else
+		{
+			previous->next = current;
+			current->prev = previous;
+		}
+		previous = current;
+		input += ft_strlen(current->data);
+	}
+	return (start);
 }
