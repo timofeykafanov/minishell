@@ -49,13 +49,24 @@ heredoc doesn't redirect
 
 ---
 
-heredocs should be executrd untill the syntax error, error shows first
+heredocs should be executrd untill the syntax error, error shows first (we don't do that, we're not crazy)
 
----
-
-echo "$$" ???
 
 ---
 
 
 where I stoped: cd ..$PWD (PWD doesn't expand, wrong exit_status)
+
+
+
+
+---------------------------------IGNORE---------------------------------- 
+
+SYNTAX ERRORS
+94
+95
+
+GO WILD
+6
+7
+
