@@ -53,3 +53,5 @@ dkms.conf
 
 minishell
 objs
+
+mstest*
