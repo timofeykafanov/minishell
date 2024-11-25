@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/25 15:43:20 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:45:20 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,27 @@ int	print_tokens(t_memory *memory)
 
 	i = 1;
 	current = memory->tokens;
+	printf("Tokens:\n");
+	while (current)
+	{
+		if (current->was_quoted)
+			printf("Nr: %d\nToken: %s W/O Quotes: %s Type: %d Quoted : %d\n", i++, \
+			(char *)current->data, (char*)current->quotes_removed, current->type, current->was_quoted);
+		else
+			printf("Nr: %d\nToken: %s Type: %d Quoted : %d\n", i++, \
+			(char *)current->data, current->type, current->was_quoted);
+		current = current->next;
+	}
+	return (1);
+}
+
+int	print_expand_var_tokens(t_tokens *token)
+{
+	t_tokens	*current;
+	int			i;
+
+	i = 1;
+	current = token;
 	printf("Tokens:\n");
 	while (current)
 	{
