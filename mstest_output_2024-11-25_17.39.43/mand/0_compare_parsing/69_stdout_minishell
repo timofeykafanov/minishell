@@ -1,0 +1,11 @@
+~42
+Tokens:
+Nr: 1
+Token: /bin/echo Type: 1 Quoted : 0
+Nr: 2
+Token:   Type: 12 Quoted : 0
+Nr: 3
+Token: ~42 Type: 1 Quoted : 0
+command: /bin/echo
+arg 0: /bin/echo
+arg 1: ~42

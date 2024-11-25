@@ -1,0 +1,20 @@
+-n-nnnnnTokens:
+Nr: 1
+Token: /bin/echo Type: 1 Quoted : 0
+Nr: 2
+Token:   Type: 12 Quoted : 0
+Nr: 3
+Token: -n Type: 4 Quoted : 0
+Nr: 4
+Token:   Type: 12 Quoted : 0
+Nr: 5
+Token: -n Type: 4 Quoted : 0
+Nr: 6
+Token:   Type: 12 Quoted : 0
+Nr: 7
+Token: -n-nnnnn Type: 4 Quoted : 0
+command: /bin/echo
+arg 0: /bin/echo
+arg 1: -n
+arg 2: -n
+arg 3: -n-nnnnn

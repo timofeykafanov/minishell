@@ -1,0 +1,16 @@
+test1  test2 test3
+Tokens:
+Nr: 1
+Token: /bin/echo Type: 1 Quoted : 0
+Nr: 2
+Token:   Type: 12 Quoted : 0
+Nr: 3
+Token: test1  test2 W/O Quotes: test1  test2 Type: 2 Quoted : 1
+Nr: 4
+Token:   Type: 12 Quoted : 0
+Nr: 5
+Token: test3 Type: 1 Quoted : 0
+command: /bin/echo
+arg 0: /bin/echo
+arg 1: test1  test2
+arg 2: test3

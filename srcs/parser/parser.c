@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/25 16:31:33 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:39:16 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,10 @@ static void handle_redirect_parser(t_parser *p)
 		p->current_token = p->current_token->next;
 	p->current_redir = malloc(sizeof(t_redir_out));
 	p->current_redir->was_quoted = p->current_token->next->was_quoted;
-	// if (p->current_redir->was_quoted)
-	p->current_redir->file_name = p->current_token->next->quotes_removed;
-	// else
-	// 	p->current_redir->file_name = p->current_token->next->data;
+	if (p->current_redir->was_quoted && p->current_redir->type == T_HEREDOC)
+		p->current_redir->file_name = p->current_token->next->quotes_removed;
+	else
+		p->current_redir->file_name = p->current_token->next->data;
 	if (p->current_token->type == T_WHITESPACE)
 		p->current_redir->type = p->current_token->prev->type;
 	else

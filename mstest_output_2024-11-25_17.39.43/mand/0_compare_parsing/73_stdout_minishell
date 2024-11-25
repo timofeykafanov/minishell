@@ -1,0 +1,50 @@
+feel my painTokens:
+Nr: 1
+Token: /bin/echo Type: 1 Quoted : 0
+Nr: 2
+Token:   Type: 12 Quoted : 0
+Nr: 3
+Token: -n Type: 4 Quoted : 0
+Nr: 4
+Token:   Type: 12 Quoted : 0
+Nr: 5
+Token: -nnnnnnn Type: 4 Quoted : 0
+Nr: 6
+Token:   Type: 12 Quoted : 0
+Nr: 7
+Token: -n Type: 4 Quoted : 0
+Nr: 8
+Token:   Type: 12 Quoted : 0
+Nr: 9
+Token: -nnn Type: 4 Quoted : 0
+Nr: 10
+Token:   Type: 12 Quoted : 0
+Nr: 11
+Token: -nnnnn Type: 4 Quoted : 0
+Nr: 12
+Token:   Type: 12 Quoted : 0
+Nr: 13
+Token: -n Type: 4 Quoted : 0
+Nr: 14
+Token:   Type: 12 Quoted : 0
+Nr: 15
+Token: feel Type: 1 Quoted : 0
+Nr: 16
+Token:   Type: 12 Quoted : 0
+Nr: 17
+Token: my Type: 1 Quoted : 0
+Nr: 18
+Token:   Type: 12 Quoted : 0
+Nr: 19
+Token: pain Type: 1 Quoted : 0
+command: /bin/echo
+arg 0: /bin/echo
+arg 1: -n
+arg 2: -nnnnnnn
+arg 3: -n
+arg 4: -nnn
+arg 5: -nnnnn
+arg 6: -n
+arg 7: feel
+arg 8: my
+arg 9: pain

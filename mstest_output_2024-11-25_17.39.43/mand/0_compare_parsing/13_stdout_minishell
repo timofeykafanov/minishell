@@ -1,0 +1,65 @@
+Tokens:
+Nr: 1
+Token: /bin/echo Type: 1 Quoted : 0
+Nr: 2
+Token:   Type: 12 Quoted : 0
+Nr: 3
+Token: hi Type: 1 Quoted : 0
+Nr: 4
+Token:   Type: 12 Quoted : 0
+Nr: 5
+Token: > Type: 8 Quoted : 0
+Nr: 6
+Token: ./outfiles/outfile01 Type: 1 Quoted : 0
+Nr: 7
+Token:   Type: 12 Quoted : 0
+Nr: 8
+Token: | Type: 5 Quoted : 0
+Nr: 9
+Token:   Type: 12 Quoted : 0
+Nr: 10
+Token: /bin/echo Type: 1 Quoted : 0
+Nr: 11
+Token:   Type: 12 Quoted : 0
+Nr: 12
+Token: bye Type: 1 Quoted : 0
+command: /bin/echo
+arg 0: /bin/echo
+arg 1: hi
+red 0: ./outfiles/outfile01 type: 8 quoted: 0 heredoc_filename: (null)
+command:  
+arg 0: /bin/echo
+arg 1: bye
+bye
+Tokens:
+Nr: 1
+Token: /bin/echo Type: 1 Quoted : 0
+Nr: 2
+Token:   Type: 12 Quoted : 0
+Nr: 3
+Token: hi Type: 1 Quoted : 0
+Nr: 4
+Token:   Type: 12 Quoted : 0
+Nr: 5
+Token: > Type: 8 Quoted : 0
+Nr: 6
+Token: ./outfiles/outfile01 Type: 1 Quoted : 0
+Nr: 7
+Token:   Type: 12 Quoted : 0
+Nr: 8
+Token: | Type: 5 Quoted : 0
+Nr: 9
+Token:   Type: 12 Quoted : 0
+Nr: 10
+Token: /bin/echo Type: 1 Quoted : 0
+Nr: 11
+Token:   Type: 12 Quoted : 0
+Nr: 12
+Token: bye Type: 1 Quoted : 0
+command: /bin/echo
+arg 0: /bin/echo
+arg 1: hi
+red 0: ./outfiles/outfile01 type: 8 quoted: 0 heredoc_filename: (null)
+command:  
+arg 0: /bin/echo
+arg 1: bye

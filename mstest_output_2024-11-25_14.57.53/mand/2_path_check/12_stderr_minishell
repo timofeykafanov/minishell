@@ -1,3 +1,0 @@
-tmp_x_file1: command not found
-malloc(): unaligned tcache chunk detected
-/home/sopperma/42_minishell_tester/tester.sh: line 633: 1140694 Aborted                 (core dumped) LD_PRELOAD=/home/sopperma/42_minishell_tester/utils/libintercept/libintercept.so ./minishell

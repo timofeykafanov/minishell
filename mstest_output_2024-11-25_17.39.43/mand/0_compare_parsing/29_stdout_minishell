@@ -1,0 +1,21 @@
+text sopperma sopperma
+Tokens:
+Nr: 1
+Token: /bin/echo Type: 1 Quoted : 0
+Nr: 2
+Token:   Type: 12 Quoted : 0
+Nr: 3
+Token: text W/O Quotes: text Type: 2 Quoted : 1
+Nr: 4
+Token:     Type: 12 Quoted : 0
+Nr: 5
+Token: sopperma W/O Quotes: $USER Type: 2 Quoted : 1
+Nr: 6
+Token:      Type: 12 Quoted : 0
+Nr: 7
+Token: sopperma W/O Quotes: $USER Type: 2 Quoted : 1
+command: /bin/echo
+arg 0: /bin/echo
+arg 1: text
+arg 2: sopperma
+arg 3: sopperma
