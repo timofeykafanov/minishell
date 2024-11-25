@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:44:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/25 15:14:45 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:44:18 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,26 @@ char	*expand_double(t_memory *memory, char *s)
 		if (!res)
 			return (NULL);
 	}
-	res = reduce_spaces(res);
+	// res = reduce_spaces(res);
+	return (res);
+}
+
+char	*remove_quotes(char *s)
+{
+	char	*res;
+
+	res = NULL;
+	if (is_double_quote(*s) && is_double_quote(*(s + 1)))
+		return (create_null_string(&res));
+	s++;
+	while (*s)
+	{
+		if (is_double_quote(*s) || is_single_quote(*s))
+			break ;
+		res = ft_strljoin(res, s, 1);
+		s++;
+		if (!res)
+			return (NULL);
+	}
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/25 15:11:46 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:44:37 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 {
 	if (token->type == T_D_QUOTE)
 	{
+		token->quotes_removed = remove_quotes(token->data);
 		token->data = expand_double(memory, token->data);
 		if (!token->data)
 			return (false);

@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/25 15:07:59 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:24:34 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int ac, char **av, char **env)
 			// heredoc(memory->tokens->data);
 			// memory->input = read_heredoc_content();
 			expand_tokens(memory);
+			// print_tokens(memory);
 			if (syntax_check(memory))
 			{
 				free_tokens(memory->tokens);
@@ -56,12 +57,12 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			parse_command(memory);
+			// print_commands(memory);
 			execute_heredoc(memory);
 			
 			// TODO: redirect heredoc content
 
 			// printf("heredoc count: %d\n", memory->heredocs_count);
-			// print_commands(memory);
 			execute_commands(memory);
 			delete_heredocs(memory);
 			reset_minishell(memory);

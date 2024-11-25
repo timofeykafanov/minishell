@@ -79,6 +79,7 @@
 typedef struct s_tokens
 {
 	void			*data;
+	void			*quotes_removed;
 	int				type;
 	int				was_quoted;
 	struct s_tokens	*next;
@@ -253,6 +254,7 @@ char		*expand_var(t_memory *memory, char *var);
 // expand_double.c
 
 char		*expand_double(t_memory *memory, char *s);
+char		*remove_quotes(char *s);
 
 // expand_single.c
 
