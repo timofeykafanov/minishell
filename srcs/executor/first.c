@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/21 14:43:05 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/25 19:01:25 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 		close(fd1[0]);
 		close(fd1[1]);
 	}
-	if (is_builtin(cmd->args[0]))
+	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
 		execute_builtin(cmd, mem, false, NULL);
 		exit(0);

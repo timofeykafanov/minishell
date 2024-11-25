@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/21 15:42:16 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:49:57 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,16 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 	int			status;
 	int			saved_fds[2];
 
-	if (!cmd->args[0])
+	// printf("cmd->args[0]: %s\n", cmd->args[0]);
+	if (!cmd->args[0] && !cmd->redir_struct)
+	{
+		// if (cmd->redir_struct)
+		// 	handle_redir(cmd);
 		return ;
+	}
 	saved_fds[0] = dup(STDIN_FILENO);
 	saved_fds[1] = dup(STDOUT_FILENO);
-	if (is_builtin(cmd->args[0]))
+	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
 		execute_builtin_and_handle_redir(cmd, mem, saved_fds);
 		return ;
@@ -89,6 +94,7 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 	// if (ft_strlen(cmd->args[0]) == 0)
 	// 	return ;
 	cmd->path = find_path(cmd->args[0], mem);
+	// printf("path: %s\n", cmd->path);
 	create_process_and_execute(cmd, mem, &status);
 	if (WIFEXITED(status))
 		mem->exit_status = WEXITSTATUS(status);
