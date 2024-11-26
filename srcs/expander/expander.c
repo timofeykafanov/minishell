@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/26 17:41:04 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:27:19 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,15 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 	
 	if (token->type == T_D_QUOTE)
 	{
-		token->quotes_removed = remove_quotes(token->data);
+		if ((token->prev && token->prev->type == T_HEREDOC)
+		|| (token->prev->type == T_WHITESPACE && token->prev->prev
+		&& token->prev->prev->type == T_HEREDOC))
+		{
+			token->data = remove_quotes(token->data);
+			token->was_quoted = 1;
+			return (true);
+		}
+		// token->quotes_removed = remove_quotes(token->data);
 		token->data = expand_double(memory, token->data);
 		if (!token->data)
 			return (false);
@@ -121,6 +129,13 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 	// }
 	else if (token->type == T_VAR)
 	{
+		if ((token->prev && token->prev->type == T_HEREDOC)
+		|| (token->prev->type == T_WHITESPACE && token->prev->prev
+		&& token->prev->prev->type == T_HEREDOC))
+		{
+			// printf("not expanded\n");
+			return (true);
+		}
 		var_content = expand_var(memory, token->data);
 		// printf("var_content: %s\n", var_content);
 		if (!var_content)

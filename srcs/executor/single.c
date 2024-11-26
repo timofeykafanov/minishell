@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/25 18:49:57 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:50:14 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 		if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
 			if (contains_slash(cmd->args[0]))
+			{
 				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
 					cmd->args[0]);
+			}
 			else
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
 			exit(COMMAND_NOT_FOUND);
@@ -77,7 +79,6 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 	int			status;
 	int			saved_fds[2];
 
-	// printf("cmd->args[0]: %s\n", cmd->args[0]);
 	if (!cmd->args[0] && !cmd->redir_struct)
 	{
 		// if (cmd->redir_struct)
