@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/25 19:11:00 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/26 17:41:04 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,10 @@ void	merge_tokens(t_memory *memory)
 
 static bool	check_token_type(t_tokens *token, t_memory *memory)
 {
+	char		*var_content;
+	t_tokens	*next;
+	t_tokens	*start;
+	
 	if (token->type == T_D_QUOTE)
 	{
 		token->quotes_removed = remove_quotes(token->data);
@@ -109,49 +113,64 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 			return (false);
 		token->was_quoted = 1;
 	}
-	else if (token->type == T_VAR)
-	{
-		token->data = expand_var(memory, token->data);
-		if (!token->data)
-			return (false);
-	}
 	// else if (token->type == T_VAR)
 	// {
 	// 	token->data = expand_var(memory, token->data);
 	// 	if (!token->data)
 	// 		return (false);
-	// 	next = token->next;
-	// 	start = variable_split_lexer(memory, token->data);
-	// 	if (token->prev)
-	// 	{
-	// 		prev = token->prev;
-	// 		prev->next = start;
-	// 	}
-	// 	else
-	// 	{
-	// 		memory->tokens = start;
-	// 	}
-	// 	// print_expand_var_tokens(prev);
-	// 	free(token->data);
-	// 	free(token);
-	// 	token = start;
-	// 	while (token->next)
-	// 		token = token->next;
-	// 	token->next = next;
 	// }
+	else if (token->type == T_VAR)
+	{
+		var_content = expand_var(memory, token->data);
+		// printf("var_content: %s\n", var_content);
+		if (!var_content)
+			return (false);
+		if (ft_strlen(var_content) == 0)
+		{
+			free(var_content);
+			if (token->prev)
+				token->prev->next = token->next;
+			if (token->next)
+				token->next->prev = token->prev;
+			return (true);
+		}
+		next = token->next;
+		start = variable_split_lexer(memory, var_content);
+		// print_expand_var_tokens(start);
+		if (!start)
+			return (false);
+		if (token->prev)
+		{
+			token->prev->next = start;
+			start->prev = token->prev;
+		}
+		else
+		{
+			memory->tokens = start;
+		}
+		// free(token->data);
+		free(token);
+		while (start->next)
+			start = start->next;
+		start->next = next;
+		if (next)
+			next->prev = start;
+	}
 	return (true);
 }
 
 void	*expand_tokens(t_memory *memory)
 {
 	t_tokens	*token;
+	t_tokens	*next;
 
 	token = memory->tokens;
 	while (token)
 	{
+		next = token->next;
 		if (!check_token_type(token, memory))
 			return (NULL);
-		token = token->next;
+		token = next;
 	}
 	merge_tokens(memory);
 	return (memory);
