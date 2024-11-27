@@ -6,13 +6,15 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/27 18:00:44 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:46:40 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 extern volatile sig_atomic_t g_exit_status;
+
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -72,6 +74,7 @@ int	main(int ac, char **av, char **env)
 			// TODO: redirect heredoc content
 
 			// printf("heredoc count: %d\n", memory->heredocs_count);
+			// if (to_execute(memory)) 	
 			execute_commands(memory);
 			delete_heredocs(memory);
 			reset_minishell(memory);

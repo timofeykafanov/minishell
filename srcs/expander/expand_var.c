@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/27 17:33:53 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:50:21 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ char	*expand_var(t_memory *memory, char *var)
 	value = find_env_value(memory, temp);
 	free(temp);
 	free(var);
+	var = NULL;
 	return (value);
 }

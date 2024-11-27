@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/27 18:40:10 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:56:33 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,14 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 		var_content = expand_var(memory, token->data);
 		// printf("var_content: %s\n", var_content);
 		// printf("1var_content: %s\n", var_content);
-		
+		token->data = var_content;
 		if (!var_content)
 			return (false);
 		// printf("var_content: %s\n", var_content);
 		
 		if (ft_strlen(var_content) == 0 && token->next)
 		{
-			free(var_content);
+			// free(var_content);
 			if (token->prev)
 				token->prev->next = token->next;
 			else
@@ -160,7 +160,10 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 		next = token->next;
 		if (ft_strlen(var_content) == 0 && !next)
 		{
-			token->data = ft_strdup("");
+			// TODO: check for leaks (var_content)
+			// token->data = var_content;
+			token->type = T_WHITESPACE;
+			// free(var_content);
 			return (true);
 		}
 		start = variable_split_lexer(memory, var_content);
@@ -176,7 +179,7 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 		{
 			memory->tokens = start;
 		}
-		// free(token->data);
+		free(token->data);
 		free(token);
 		while (start->next)
 			start = start->next;
