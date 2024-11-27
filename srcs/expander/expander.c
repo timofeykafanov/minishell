@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/27 18:05:46 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:40:10 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 			if (token->prev)
 				token->prev->next = token->next;
 			else
-			
 				memory->tokens = token->next;
 			if (token->next && token->prev)
 				token->next->prev = token->prev;
@@ -159,6 +158,11 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 		
 		// printf("2var_content: %s\n", var_content);
 		next = token->next;
+		if (ft_strlen(var_content) == 0 && !next)
+		{
+			token->data = ft_strdup("");
+			return (true);
+		}
 		start = variable_split_lexer(memory, var_content);
 		// print_expand_var_tokens(start);
 		if (!start)
