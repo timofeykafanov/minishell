@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/27 18:56:33 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:44:49 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,20 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 	// }
 	else if (token->type == T_VAR)
 	{
-		if ((token->prev && token->prev->type == T_HEREDOC)
-		|| (token->prev && token->prev->type == T_WHITESPACE && token->prev->prev
-		&& token->prev->prev->type == T_HEREDOC))
+		if ((token->prev && (token->prev->type == T_HEREDOC || token->prev->type == T_R_OUT
+			|| token->prev->type == T_R_IN || token->prev->type == T_OUT_APPEND))
+			|| (token->prev && token->prev->type == T_WHITESPACE && token->prev->prev
+			&& (token->prev->prev->type == T_HEREDOC || token->prev->prev->type == T_R_OUT
+			|| token->prev->prev->type == T_R_IN || token->prev->prev->type == T_OUT_APPEND)))
 		{
-			// printf("not expanded\n");
+			if ((token->prev->type == T_R_OUT || token->prev->type == T_R_IN
+				|| token->prev->type == T_OUT_APPEND) || (token->prev->prev->type == T_R_OUT
+			|| token->prev->prev->type == T_R_IN || token->prev->prev->type == T_OUT_APPEND))
+			{
+				set_error_code(EXPANDER, ERROR_CODE_AMBIGUOUS_REDIRECT, memory);
+				if (!memory->ambiguous_redirect_name)
+					memory->ambiguous_redirect_name = ft_strdup(token->data);
+			}
 			return (true);
 		}
 		var_content = expand_var(memory, token->data);

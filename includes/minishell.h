@@ -68,13 +68,16 @@
 # define LEXER 1
 # define PARSER 2
 # define EXECUTOR 3
+# define EXPANDER 4
 
 # define ERROR_CODE_MALLOC 1
 # define ERROR_CODE_GENERAL 7
 # define ERROR_CODE_QUOTES 8
+# define ERROR_CODE_AMBIGUOUS_REDIRECT 9
 
 # define ERROR_MSG_MALLOC "Memory Allocation Error\n"
 # define ERROR_MSG_QUOTE "Syntax Error: Missing Quote\n"
+# define ERROR_MSG_AMBIGUOUS_REDIRECT "%s: ambiguous redirect\n"
 
 typedef struct s_tokens
 {
@@ -121,8 +124,10 @@ typedef struct s_memory
 	int					exit_status;
 	int					error_code;
 	int					lexer_error_code;
+	int					expander_error_code;
 	bool				exit_failed;
 	bool				cd_failed;
+	char				*ambiguous_redirect_name;
 }	t_memory;
 
 typedef struct s_parser

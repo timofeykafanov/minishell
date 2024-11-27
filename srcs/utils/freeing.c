@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/19 15:43:59 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:43:19 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void reset_minishell(t_memory *memory)
 	free_tokens(memory->tokens);
 	memory->tokens = NULL;
 	free(memory->suffix);
+	if (memory->ambiguous_redirect_name)
+	{
+		free(memory->ambiguous_redirect_name);
+		memory->ambiguous_redirect_name = NULL;	
+	}
 	free_commands(memory->commands);
 }
 
@@ -86,5 +91,10 @@ void	free_memory(t_memory *memory)
 		free(memory->pwd);
 	if (memory->suffix)
 		free(memory->suffix);
+	if (memory->ambiguous_redirect_name)
+	{
+		free(memory->ambiguous_redirect_name);
+		memory->ambiguous_redirect_name = NULL;	
+	}
 	free(memory);
 }

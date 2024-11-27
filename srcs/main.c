@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/27 18:46:40 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:44:25 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(int ac, char **av, char **env)
 			else if (memory->lexer_error_code == ERROR_CODE_QUOTES)
 			{
 				reset_minishell(memory);
+				memory->lexer_error_code = 0;
 				continue;
 			}
 			if (!memory->tokens)
@@ -56,6 +57,25 @@ int	main(int ac, char **av, char **env)
 			// memory->input = read_heredoc_content();
 			// print_tokens(memory);
 			expand_tokens(memory);
+			if (memory->expander_error_code)
+			{
+				print_error_message(EXPANDER, memory);
+				free_tokens(memory->tokens);
+				memory->tokens = NULL;
+				free(memory->suffix);
+				if (memory->ambiguous_redirect_name)
+				{
+					free(memory->ambiguous_redirect_name);
+					memory->ambiguous_redirect_name = NULL;	
+				}
+				memory->expander_error_code = 0;
+				continue ;
+			}
+			if (memory->error_code == ERROR_CODE_AMBIGUOUS_REDIRECT)
+			{
+				reset_minishell(memory);
+				continue ;
+			}
 			// printf("\n");
 			// print_tokens(memory);
 			// printf("\n");
