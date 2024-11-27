@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:16:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/19 15:27:36 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:09:40 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 			{
 				ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
 					cmd->args[0], cmd->args[1]);
+				memory->cd_failed = true;
 				perror("");
 			}
 		}
@@ -86,6 +87,7 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 			{
 				ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
 					cmd->args[0], cmd->args[1]);
+				memory->cd_failed = true;
 				perror("");
 			}
 		}
@@ -93,6 +95,7 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 		{
 			ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
 				cmd->args[0], cmd->args[1]);
+			memory->cd_failed = true;
 			perror("");
 		}
 	}

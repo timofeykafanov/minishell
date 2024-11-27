@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/26 18:50:14 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:25:33 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ static void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 		handle_redir(cmd);
 	}
 	execute_builtin(cmd, mem, is_redir, saved_fds);
-	if (mem->exit_failed)
+	if (mem->exit_failed || mem->cd_failed)
 	{
-		mem->exit_failed = false;	
+		mem->exit_failed = false;
+		mem->cd_failed = false;
 		mem->exit_status = 1;
 	}
 	else 
@@ -80,11 +81,7 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 	int			saved_fds[2];
 
 	if (!cmd->args[0] && !cmd->redir_struct)
-	{
-		// if (cmd->redir_struct)
-		// 	handle_redir(cmd);
 		return ;
-	}
 	saved_fds[0] = dup(STDIN_FILENO);
 	saved_fds[1] = dup(STDOUT_FILENO);
 	if (cmd->args[0] && is_builtin(cmd->args[0]))

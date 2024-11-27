@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:41:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/06 11:18:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:28:03 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	print_args(char **args, int i)
+static void	print_args(char **args, int i)
 {
 	while (args[i])
 	{
@@ -23,21 +23,45 @@ void	print_args(char **args, int i)
 	}
 }
 
-void	echo(char **args)
+static bool	is_only_n_flags(char *arg)
 {
 	int	i;
 
+	i = 1;
+	// if (!arg)
+	// 	return (false);
+	if (arg[0] != '-')
+		return (false);
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (false);
+		i++;
+	}
+	if (i == 1)
+		return (false);
+	return (true);
+}
+
+void	echo(char **args)
+{
+	int		i;
+	bool	n_flag;
+
+	n_flag = false;
 	i = 1;
 	if (!args[1])
 	{
 		printf("\n");
 		return ;
 	}
-	if (ft_strncmp(args[i], "-n", 2) == 0)
+	while (args[i] && is_only_n_flags(args[i]))
 	{
 		i++;
-		print_args(args, i);
+		n_flag = true;
 	}
+	if (n_flag)
+		print_args(args, i);
 	else
 	{
 		print_args(args, i);

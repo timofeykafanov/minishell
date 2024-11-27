@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/26 16:53:50 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:28:30 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ t_tokens	*variable_split_lexer(t_memory *memory, char *s)
 			previous->next = current;
 			current->prev = previous;
 		}
+		if (current->type != T_WHITESPACE)
+			current->type = T_WORD;
 		previous = current;
 		input += ft_strlen(current->data);
 	}

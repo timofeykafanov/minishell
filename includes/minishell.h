@@ -122,6 +122,7 @@ typedef struct s_memory
 	int					error_code;
 	int					lexer_error_code;
 	bool				exit_failed;
+	bool				cd_failed;
 }	t_memory;
 
 typedef struct s_parser
@@ -170,6 +171,7 @@ char		*skip_whitespace(char *s);
 char		*find_seperator(char *s);
 char		*find_whitespace(char *s);
 char		*is_var_end(char *s);
+bool		is_separator(char c);
 
 // syntax_check.c
 

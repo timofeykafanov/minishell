@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:29:25 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/06 11:22:04 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:23:40 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ char	*find_whitespace(char *s)
 	return (NULL);
 }
 
+bool	is_separator(char c)
+{
+	return ((c >= '!' && c <= '/')
+		|| (c >= ':' && c <= '@')
+		|| (c >= '[' && c <= '^')
+		|| (c >= '{' && c <= '~'));
+}
+
 //WHY is this an infinte loop if the first char is a $?
 char	*is_var_end(char *s)
 {
@@ -40,14 +48,8 @@ char	*is_var_end(char *s)
 	i = 1;
 	while (s[i])
 	{
-		if ((s[i] >= '!' && s[i] <= '/') \
-			|| (s[i] >= ':' && s[i] <= '@') \
-			|| (s[i] >= '[' && s[i] <= '^') \
-			|| (s[i] >= '{' && s[i] <= '~') \
-			|| is_whitespace(s + i))
-		{
+		if (is_separator(s[i]) || is_whitespace(s + i))
 			break ;
-		}
 		i++;
 	}
 	return (s + i);

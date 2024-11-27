@@ -6,25 +6,28 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:44:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/25 15:44:18 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:31:07 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static bool	handle_var_expansion(t_memory *memory, char **s, \
-	char **res, char **var)
+	char **res)
 {
-	*var = ft_strndup(*s, is_var_end(*s + 1) - *s);
-	if (!*var)
+	char	*var;
+	
+	var = ft_strndup(*s, is_var_end(*s + 1) - *s);
+	if (!var)
 		return (false);
-	if ((*var)[ft_strlen(*var) - 1] == '"')
-		(*var)[ft_strlen(*var) - 1] = '\0';
-	*var = expand_var(memory, *var);
-	if (!*var)
+	if ((var)[ft_strlen(var) - 1] == '"')
+		(var)[ft_strlen(var) - 1] = '\0';
+	if ((var && var[0] && var[1] && !is_separator(var[1])) || ft_strncmp(var, "$?", 2) == 0)	
+		var = expand_var(memory, var);
+	if (!var)
 		return (false);
-	*res = ft_strljoin(*res, *var, ft_strlen(*var));
-	free(*var);
+	*res = ft_strljoin(*res, var, ft_strlen(var));
+	free(var);
 	*s = is_var_end(*s + 1);
 	return (true);
 }
@@ -66,7 +69,6 @@ char	*reduce_spaces(char *str)
 char	*expand_double(t_memory *memory, char *s)
 {
 	char	*res;
-	char	*var;
 
 	res = NULL;
 	if (is_double_quote(*s) && is_double_quote(*(s + 1)))
@@ -76,7 +78,7 @@ char	*expand_double(t_memory *memory, char *s)
 	{
 		if (is_dollar(*s))
 		{
-			if (!handle_var_expansion(memory, &s, &res, &var))
+			if (!handle_var_expansion(memory, &s, &res))
 				return (NULL);
 		}
 		else
