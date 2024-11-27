@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/26 18:49:48 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:52:31 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+extern volatile sig_atomic_t g_exit_status;
 
 int	main(int ac, char **av, char **env)
 {
@@ -27,6 +29,10 @@ int	main(int ac, char **av, char **env)
 	{
 		memory->suffix = ft_strjoin(memory->pwd, "$ ");  
 		memory->input = readline(memory->suffix);
+		if (g_exit_status == 130) {
+			memory->exit_status = 130;
+			g_exit_status = 0;
+		}
 		if (memory->input)
 		{
 			add_history(memory->input);
@@ -69,6 +75,7 @@ int	main(int ac, char **av, char **env)
 			execute_commands(memory);
 			delete_heredocs(memory);
 			reset_minishell(memory);
+			// memory->exit_status = g_exit_status;
 		}
 		else
 		{
