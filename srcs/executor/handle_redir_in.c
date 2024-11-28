@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:55:23 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 14:58:22 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:25:25 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ static void	redir_in(t_redir_out *redir)
 		perror("");
 		exit(1);
 	}
-	printf("Before dup2: fd_in = %d\n", fd_in);
 	dup2(fd_in, STDIN_FILENO);
-	printf("After dup2: STDIN_FILENO = %d\n", STDIN_FILENO);
 	close(fd_in);
 }
 

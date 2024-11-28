@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 12:57:09 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:51:04 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			parse_command(memory);
-			// print_commands(memory);
 			if (!var_name_check(memory))
 			{
 				reset_minishell(memory);
@@ -101,6 +100,7 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			execute_heredoc(memory);
+			// print_commands(memory);
 			
 			// TODO: redirect heredoc content
 

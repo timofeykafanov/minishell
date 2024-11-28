@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/21 14:41:53 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:52:01 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ bool	contains_slash(char *command)
 
 bool	is_builtin(char *command)
 {
-	if (!ft_strncmp(command, ECHO, 5) || !ft_strncmp(command, CD, 2)
-		|| !ft_strncmp(command, PWD, 3) || !ft_strncmp(command, EXPORT, 6)
-		|| !ft_strncmp(command, UNSET, 6) || !ft_strncmp(command, ENV, 3)
+	if (!ft_strncmp(command, ECHO, 5) || !ft_strncmp(command, CD, 3)
+		|| !ft_strncmp(command, PWD, 4) || !ft_strncmp(command, EXPORT, 7)
+		|| !ft_strncmp(command, UNSET, 6) || !ft_strncmp(command, ENV, 4)
 		|| !ft_strncmp(command, EXIT, 5))
 		return (true);
 	return (false);

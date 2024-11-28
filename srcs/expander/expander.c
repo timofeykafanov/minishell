@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/28 11:55:10 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:39:04 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 			|| token->prev->prev->type == T_R_IN || token->prev->prev->type == T_OUT_APPEND))
 			{
 				set_error_code(EXPANDER, ERROR_CODE_AMBIGUOUS_REDIRECT, memory);
+				memory->exit_status = 1;
 				if (!memory->faulty_variable_name)
 					memory->faulty_variable_name = ft_strdup(token->data);
 			}

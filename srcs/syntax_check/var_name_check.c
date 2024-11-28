@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 13:55:28 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:31:29 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ bool	var_name_check(t_memory *memory)
 					// 	memory->faulty_variable_name = ft_strndup(cmd->args[i], ft_strchr(cmd->args[i], '=') - cmd->args[i]);
 					// }
 					memory->faulty_variable_name = ft_strdup(cmd->args[i]);
+					memory->exit_status = 1;
 					set_error_code(EXECUTOR, ERROR_CODE_INVALID_VAR_NAME, memory);
 					print_error_message(EXECUTOR, memory);
 					return (false);

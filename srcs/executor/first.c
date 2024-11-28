@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 15:06:00 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:39:09 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,33 @@
 
 static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 {
-	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT 
-		|| cmd->redir_struct->type == T_OUT_APPEND))
+	// if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT 
+	// 	|| cmd->redir_struct->type == T_OUT_APPEND))
+	// 	handle_redir_out(cmd);
+	// else
+	// {
+	// 	dup2(fd1[1], STDOUT_FILENO);
+	// 	close(fd1[0]);
+	// 	close(fd1[1]);
+	// }
+	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_IN || cmd->redir_struct->type == T_HEREDOC))
+		handle_redir_in(cmd);
+	else
+	{
+		dup2(fd1[0], STDIN_FILENO);
+		// close(fd1[0]);
+		// close(fd1[1]);
+	}
+	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT || cmd->redir_struct->type == T_OUT_APPEND))
 		handle_redir_out(cmd);
 	else
 	{
 		dup2(fd1[1], STDOUT_FILENO);
-		close(fd1[0]);
-		close(fd1[1]);
+		// close(fd1[0]);
+		// close(fd1[1]);
 	}
+	close(fd1[0]);
+	close(fd1[1]);
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
 		execute_builtin(cmd, mem, false, NULL);

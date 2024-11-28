@@ -6,29 +6,52 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 15:06:56 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:26:50 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir)
+// {
+// 	dup2(fd1[0], STDIN_FILENO);
+// 	close(fd1[0]);
+// 	close(fd1[1]);
+// 	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT 
+// 		|| cmd->redir_struct->type == T_OUT_APPEND))
+// 	{
+// 		*is_redir = true;
+// 		handle_redir_out(cmd);
+// 	}
+// 	else
+// 	{
+// 		dup2(fd2[1], STDOUT_FILENO);
+// 		close(fd2[0]);
+// 		close(fd2[1]);
+// 	}
+// }
 static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir)
 {
-	dup2(fd1[0], STDIN_FILENO);
+	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_IN
+		|| cmd->redir_struct->type == T_HEREDOC))
+	{
+		*is_redir = true;
+		handle_redir_in(cmd);
+	}
+	else
+		dup2(fd1[0], STDIN_FILENO);
 	close(fd1[0]);
 	close(fd1[1]);
-	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT 
+	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT
 		|| cmd->redir_struct->type == T_OUT_APPEND))
 	{
 		*is_redir = true;
 		handle_redir_out(cmd);
 	}
 	else
-	{
 		dup2(fd2[1], STDOUT_FILENO);
-		close(fd2[0]);
-		close(fd2[1]);
-	}
+	close(fd2[0]);
+	close(fd2[1]);
 }
 
 static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
