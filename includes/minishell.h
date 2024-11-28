@@ -226,7 +226,8 @@ void		execute_commands(t_memory *memory);
 
 // handle_redir.c
 
-void		handle_redir(t_command *cmd);
+void		handle_redir_out(t_command *cmd);
+void		handle_redir_in(t_command *cmd);
 
 // single.c
 

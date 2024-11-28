@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   next.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/26 18:47:06 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:06:56 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir)
 	dup2(fd1[0], STDIN_FILENO);
 	close(fd1[0]);
 	close(fd1[1]);
-	if (cmd->redir_struct)
+	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT 
+		|| cmd->redir_struct->type == T_OUT_APPEND))
 	{
 		*is_redir = true;
-		handle_redir(cmd);
+		handle_redir_out(cmd);
 	}
 	else
 	{

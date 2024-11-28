@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/26 18:47:28 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:06:00 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 {
-	if (cmd->redir_struct)
-		handle_redir(cmd);
+	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT 
+		|| cmd->redir_struct->type == T_OUT_APPEND))
+		handle_redir_out(cmd);
 	else
 	{
 		dup2(fd1[1], STDOUT_FILENO);

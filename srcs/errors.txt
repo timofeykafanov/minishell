@@ -59,6 +59,9 @@ where I stoped: cd ..$PWD (PWD doesn't expand, wrong exit_status)
 
 
 
+/home/tkafanov/git/minishell$ cat << test'
+Syntax Error: Missing Quote
+[1]    2539384 segmentation fault (core dumped)  ./minishell
 
 ---------------------------------IGNORE---------------------------------- 
 

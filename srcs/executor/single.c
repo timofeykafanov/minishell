@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/27 17:25:33 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:06:07 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,16 @@ static void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 	bool	is_redir;
 
 	is_redir = false;
-	if (cmd->redir_struct)
+	// if (cmd->redir_struct)
+	// {
+	// 	is_redir = true;
+	// 	handle_redir(cmd);
+	// }
+	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT 
+		|| cmd->redir_struct->type == T_OUT_APPEND))
 	{
 		is_redir = true;
-		handle_redir(cmd);
+		handle_redir_out(cmd);
 	}
 	execute_builtin(cmd, mem, is_redir, saved_fds);
 	if (mem->exit_failed || mem->cd_failed)
@@ -54,8 +60,9 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 	}
 	if (pid == 0)
 	{
-		if (cmd->redir_struct)
-			handle_redir(cmd);
+		if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT 
+			|| cmd->redir_struct->type == T_OUT_APPEND))
+			handle_redir_out(cmd);
 		if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
 			if (contains_slash(cmd->args[0]))

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redir.c                                     :+:      :+:    :+:   */
+/*   handle_redir_out.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:26:44 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/25 18:19:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:58:16 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,37 +42,39 @@ static void	redir_append(t_redir_out *redir)
 	close(fd_out);
 }
 
-static void	redir_in(t_redir_out *redir)
-{
-	int	fd_in;
+// static void	redir_in(t_redir_out *redir)
+// {
+// 	int	fd_in;
 
-	fd_in = open(redir->file_name, O_RDONLY);
-	if (fd_in == -1)
-	{
-		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
-		perror("");
-		exit(1);
-	}
-	dup2(fd_in, STDIN_FILENO);
-	close(fd_in);
-}
+// 	fd_in = open(redir->file_name, O_RDONLY);
+// 	if (fd_in == -1)
+// 	{
+// 		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
+// 		perror("");
+// 		exit(1);
+// 	}
+// 	printf("Before dup2: fd_in = %d\n", fd_in);
+// 	dup2(fd_in, STDIN_FILENO);
+// 	printf("After dup2: STDIN_FILENO = %d\n", STDIN_FILENO);
+// 	close(fd_in);
+// }
 
-static void redir_heredoc(t_redir_out *redir)
-{
-	int	fd_heredoc;
+// static void redir_heredoc(t_redir_out *redir)
+// {
+// 	int	fd_heredoc;
 	
-	fd_heredoc = open(redir->heredoc_file_name, O_RDONLY);
-	if (fd_heredoc == -1)
-	{
-		ft_printf("%s: ", STDERR_FILENO, redir->heredoc_file_name);
-		perror("");
-		exit(1);
-	}
-	dup2(fd_heredoc, STDIN_FILENO);
-	close(fd_heredoc);
-}
+// 	fd_heredoc = open(redir->heredoc_file_name, O_RDONLY);
+// 	if (fd_heredoc == -1)
+// 	{
+// 		ft_printf("%s: ", STDERR_FILENO, redir->heredoc_file_name);
+// 		perror("");
+// 		exit(1);
+// 	}
+// 	dup2(fd_heredoc, STDIN_FILENO);
+// 	close(fd_heredoc);
+// }
 
-void	handle_redir(t_command *cmd)
+void	handle_redir_out(t_command *cmd)
 {
 	t_redir_out	*redir;
 
@@ -83,10 +85,10 @@ void	handle_redir(t_command *cmd)
 			redir_out(redir);
 		if (redir->type == T_OUT_APPEND)
 			redir_append(redir);
-		if (redir->type == T_R_IN)
-			redir_in(redir);
-		if (redir->type == T_HEREDOC)
-			redir_heredoc(redir);
+		// if (redir->type == T_R_IN)
+		// 	redir_in(redir);
+		// if (redir->type == T_HEREDOC)
+		// 	redir_heredoc(redir);
 		redir = redir->next;
 	}
 }
