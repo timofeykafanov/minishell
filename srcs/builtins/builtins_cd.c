@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:16:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/27 15:09:40 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:29:17 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,13 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 {
 	if (cmd->args)
 	{
+		if (cmd->args[1] && cmd->args[2])
+		{
+			ft_printf("minishell: %s: too many arguments\n", STDERR_FILENO, \
+				cmd->args[0]);
+			memory->cd_failed = true;
+		}
+		else
 		if (cmd->args[1] == NULL)
 		{
 			if (chdir(get_env_var(memory, "HOME=")) != 0)
@@ -83,6 +90,7 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 		}
 		else if (ft_strncmp(cmd->args[1], "-", ft_strlen(cmd->args[1])) == 0)
 		{
+			printf("%s\n", get_env_var(memory, "OLDPWD="));
 			if (chdir(get_env_var(memory, "OLDPWD=")) != 0)
 			{
 				ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
