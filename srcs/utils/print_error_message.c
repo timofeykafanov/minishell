@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error_message.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:36:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/27 19:21:23 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:54:52 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ void print_error_message(int segment, t_memory *memory)
     else if (segment == EXPANDER)
     {
         if (memory->expander_error_code == ERROR_CODE_AMBIGUOUS_REDIRECT)
-            ft_printf(ERROR_MSG_AMBIGUOUS_REDIRECT, STDERR_FILENO, memory->ambiguous_redirect_name);
+            ft_printf(ERROR_MSG_AMBIGUOUS_REDIRECT, STDERR_FILENO, memory->faulty_variable_name);
+    }
+    else if (segment == EXECUTOR)
+    {
+        if (memory->error_code == ERROR_CODE_INVALID_VAR_NAME)
+            ft_printf(ERROR_MSG_INVALID_VAR_NAME, STDERR_FILENO, memory->faulty_variable_name);
     }
 }
 
@@ -39,6 +44,11 @@ int set_error_code(int segment, int error_code, t_memory *memory)
     {
         if (error_code == ERROR_CODE_AMBIGUOUS_REDIRECT)
             memory->expander_error_code = ERROR_CODE_AMBIGUOUS_REDIRECT;
+    }
+    else if (segment == EXECUTOR)
+    {
+        if (error_code == ERROR_CODE_INVALID_VAR_NAME)
+            memory->error_code = ERROR_CODE_INVALID_VAR_NAME;
     }
     return (1);
 }

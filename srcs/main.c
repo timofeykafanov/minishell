@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/27 19:44:25 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:57:09 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int	main(int ac, char **av, char **env)
 				free_tokens(memory->tokens);
 				memory->tokens = NULL;
 				free(memory->suffix);
-				if (memory->ambiguous_redirect_name)
+				if (memory->faulty_variable_name)
 				{
-					free(memory->ambiguous_redirect_name);
-					memory->ambiguous_redirect_name = NULL;	
+					free(memory->faulty_variable_name);
+					memory->faulty_variable_name = NULL;	
 				}
 				memory->expander_error_code = 0;
 				continue ;
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			// printf("\n");
-			// print_tokens(memory);
+			// // print_tokens(memory);
 			// printf("\n");
 			if (syntax_check(memory))
 			{
@@ -88,8 +88,19 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			parse_command(memory);
-			execute_heredoc(memory);
 			// print_commands(memory);
+			if (!var_name_check(memory))
+			{
+				reset_minishell(memory);
+				if (memory->faulty_variable_name)
+				{
+					free(memory->faulty_variable_name);
+					memory->faulty_variable_name = NULL;	
+				}
+				memory->expander_error_code = 0;
+				continue ;
+			}
+			execute_heredoc(memory);
 			
 			// TODO: redirect heredoc content
 

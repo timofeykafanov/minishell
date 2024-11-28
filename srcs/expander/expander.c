@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/27 19:44:49 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:55:10 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 			|| token->prev->prev->type == T_R_IN || token->prev->prev->type == T_OUT_APPEND))
 			{
 				set_error_code(EXPANDER, ERROR_CODE_AMBIGUOUS_REDIRECT, memory);
-				if (!memory->ambiguous_redirect_name)
-					memory->ambiguous_redirect_name = ft_strdup(token->data);
+				if (!memory->faulty_variable_name)
+					memory->faulty_variable_name = ft_strdup(token->data);
 			}
 			return (true);
 		}

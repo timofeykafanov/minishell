@@ -74,10 +74,12 @@
 # define ERROR_CODE_GENERAL 7
 # define ERROR_CODE_QUOTES 8
 # define ERROR_CODE_AMBIGUOUS_REDIRECT 9
+# define ERROR_CODE_INVALID_VAR_NAME 10
 
 # define ERROR_MSG_MALLOC "Memory Allocation Error\n"
 # define ERROR_MSG_QUOTE "Syntax Error: Missing Quote\n"
 # define ERROR_MSG_AMBIGUOUS_REDIRECT "%s: ambiguous redirect\n"
+# define ERROR_MSG_INVALID_VAR_NAME "export: `%s': not a valid identifier\n"
 
 typedef struct s_tokens
 {
@@ -127,7 +129,7 @@ typedef struct s_memory
 	int					expander_error_code;
 	bool				exit_failed;
 	bool				cd_failed;
-	char				*ambiguous_redirect_name;
+	char				*faulty_variable_name;
 }	t_memory;
 
 typedef struct s_parser
@@ -181,6 +183,7 @@ bool		is_separator(char c);
 // syntax_check.c
 
 int			syntax_check(t_memory *memory);
+bool    	var_name_check(t_memory *memory);
 
 // signals.c
 
