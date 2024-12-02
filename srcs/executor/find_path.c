@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/26 18:50:22 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:11:58 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ static char	*check_access(char *command, char **paths, int i)
 	return (NULL);
 }
 
+// static char	*check_in_current_dir(char *command)
+// {
+// 	if (access(command, F_OK) == 0)
+// 		return (ft_strdup(command));
+// 	return (NULL);
+// }
+
 char	*find_path(char *command, t_memory *memory)
 {
 	int		i;
@@ -63,6 +70,8 @@ char	*find_path(char *command, t_memory *memory)
 			return (ft_strdup(command));
 		return (NULL);
 	}
+	if (access(command, F_OK) == 0)
+		return (ft_strdup(command));
 	env_path = get_env_var(memory, "PATH=");
 	if (!env_path)
 		return (NULL);
@@ -74,7 +83,7 @@ char	*find_path(char *command, t_memory *memory)
 	{
 		res = check_access(command, paths, i);
 		if (res)
-			return (res);
+			return (ft_strdup(res));
 		i++;
 	}
 	free_paths(paths);

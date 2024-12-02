@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 16:29:59 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:11:43 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,15 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 		{
 			if (contains_slash(cmd->args[0]))
 			{
-				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
-					cmd->args[0]);
+				if (access(cmd->args[0], F_OK) == 0)
+				{
+					ft_printf("%s: Permission denied\n", STDERR_FILENO, \
+						cmd->args[0]);
+					exit(PERMISSION_DENIED);
+				}
+				else
+					ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
+						cmd->args[0]);
 			}
 			else
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
@@ -94,10 +101,8 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 		execute_builtin_and_handle_redir(cmd, mem, saved_fds);
 		return ;
 	}
-	// if (ft_strlen(cmd->args[0]) == 0)
-	// 	return ;
+
 	cmd->path = find_path(cmd->args[0], mem);
-	// printf("path: %s\n", cmd->path);
 	create_process_and_execute(cmd, mem, &status);
 	if (WIFEXITED(status))
 		mem->exit_status = WEXITSTATUS(status);

@@ -44,6 +44,7 @@ SRCS		= \
 			$(SRCSDIR)/executor/executor_utils.c \
 			$(SRCSDIR)/executor/handle_redir_out.c \
 			$(SRCSDIR)/executor/handle_redir_in.c \
+			$(SRCSDIR)/executor/has_redir.c \
 			$(SRCSDIR)/executor/find_path.c \
 			$(SRCSDIR)/executor/single.c \
 			$(SRCSDIR)/executor/first.c \

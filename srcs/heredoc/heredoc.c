@@ -6,11 +6,12 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/25 19:15:23 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:03:48 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 void delete_heredocs(t_memory *memory)
 {
@@ -105,7 +106,10 @@ void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 	{
 		line = readline("HEREDOC->");
 		if (!line)
+		{
+			ft_printf("warning: here-document delimited by end-of-file (wanted `%s')\n", STDERR_FILENO, redir->file_name);	
 			break ;
+		}
 		if (ft_strncmp(line, redir->file_name, \
 			ft_strlen(redir->file_name)) == 0
 			&& ft_strlen(line) == ft_strlen(redir->file_name))

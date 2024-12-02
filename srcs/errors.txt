@@ -14,29 +14,6 @@ malloc(): unaligned tcache chunk detected
 
 ---
 
-$notexists echo "haha"
-
-echo should be executed (probably parser side)
-
----
-
-export A="haha         123"
-echo $A
-
-space can not follow space in var (it should be "haha 123")
-
----
-
-"cd -" should move to OPDPWD
-
----
-
-> ">" or > filename
-
-empty file should be created (probably parser side)
-
----
-
 /home/tkafanov/git/minishell$ echo Hello | grep H
 Hello
 /home/tkafanov/git/minishell$ echo Hello |
@@ -45,23 +22,18 @@ syntax error near unexpected token `|'
 
 ---
 
-heredoc doesn't redirect
+heredocs should be executed untill the syntax error, error shows first (we don't do that, we're not crazy)
 
 ---
-
-heredocs should be executrd untill the syntax error, error shows first (we don't do that, we're not crazy)
-
-
----
-
-
-where I stoped: cd ..$PWD (PWD doesn't expand, wrong exit_status)
-
 
 
 /home/tkafanov/git/minishell$ cat << test'
 Syntax Error: Missing Quote
 [1]    2539384 segmentation fault (core dumped)  ./minishell
+
+---
+
+after useted PATH No such file or directory should displayed instead of command not found
 
 ---------------------------------IGNORE---------------------------------- 
 

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 15:26:50 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:35:01 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@
 // }
 static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir)
 {
-	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_IN
-		|| cmd->redir_struct->type == T_HEREDOC))
+	if (cmd->redir_struct && has_redir_in(cmd))
 	{
 		*is_redir = true;
 		handle_redir_in(cmd);
@@ -42,8 +41,7 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir)
 		dup2(fd1[0], STDIN_FILENO);
 	close(fd1[0]);
 	close(fd1[1]);
-	if (cmd->redir_struct && (cmd->redir_struct->type == T_R_OUT
-		|| cmd->redir_struct->type == T_OUT_APPEND))
+	if (cmd->redir_struct && has_redir_out(cmd))
 	{
 		*is_redir = true;
 		handle_redir_out(cmd);
@@ -66,8 +64,17 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 		if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
 			if (contains_slash(cmd->args[0]))
-				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
-					cmd->args[0]);
+			{
+				if (access(cmd->args[0], F_OK) == 0)
+				{
+					ft_printf("%s: Permission denied\n", STDERR_FILENO, \
+						cmd->args[0]);
+					exit(PERMISSION_DENIED);
+				}
+				else
+					ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
+						cmd->args[0]);
+			}
 			else
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
 			exit(COMMAND_NOT_FOUND);
