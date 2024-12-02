@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 16:51:04 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:47:29 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	main(int ac, char **av, char **env)
 		{
 			// ft_printf("exit\n", STDOUT_FILENO);
 			free_memory(memory);
+			// produces double free on slow machine???
 			exit(memory->exit_status);
 			// break ;
 		}

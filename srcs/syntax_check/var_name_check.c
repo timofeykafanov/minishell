@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_name_check.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 16:31:29 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:33:17 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool is_valid_variable_declaration(char *str)
 {
-	if (!str || (str && *str == '='))
+	if (!str || (str && *str == '=') || isdigit(*str))
 		return (false);
 	while (*str && *str != '=')
 	{
