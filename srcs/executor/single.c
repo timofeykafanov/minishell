@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/02 18:11:43 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:56:02 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 		}
 		if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
+			// if (access(cmd->args[0], F_OK) == 0)
+			// {
+			// 	ft_printf("%s: Permission denied\n", STDERR_FILENO, \
+			// 		cmd->args[0]);
+			// 	exit(PERMISSION_DENIED);
+			// }
 			if (contains_slash(cmd->args[0]))
 			{
 				if (access(cmd->args[0], F_OK) == 0)
@@ -80,6 +86,7 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 			exit(COMMAND_NOT_FOUND);
 		}
 	}
+	// (void)status;
 	if (waitpid(pid, status, 0) == -1)
 	{
 		perror("waitpid");
@@ -87,9 +94,9 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 	}
 }
 
-void	execute_single_command(t_command *cmd, t_memory *mem)
+void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 {
-	int			status;
+	// int			status;
 	int			saved_fds[2];
 
 	if (!cmd->args[0] && !cmd->redir_struct)
@@ -103,9 +110,9 @@ void	execute_single_command(t_command *cmd, t_memory *mem)
 	}
 
 	cmd->path = find_path(cmd->args[0], mem);
-	create_process_and_execute(cmd, mem, &status);
-	if (WIFEXITED(status))
-		mem->exit_status = WEXITSTATUS(status);
+	create_process_and_execute(cmd, mem, status);
+	if (WIFEXITED(*status))
+		mem->exit_status = WEXITSTATUS(*status);
 	else
 		mem->exit_status = 1;
 }

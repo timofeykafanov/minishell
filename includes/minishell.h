@@ -159,8 +159,8 @@ void		*process_token(char *s, t_memory *memory);
 
 int			get_type(char *s);
 
-int		print_tokens(t_memory *memory);
-int		print_expand_var_tokens(t_tokens *token);
+int			print_tokens(t_memory *memory);
+int			print_expand_var_tokens(t_tokens *token);
 
 // freeing.c
 
@@ -238,7 +238,7 @@ bool		has_redir_out(t_command *cmd);
 
 // single.c
 
-void		execute_single_command(t_command *cmd, t_memory *mem);
+void		execute_single_command(t_command *cmd, t_memory *mem, int *status);
 
 // first.c
 

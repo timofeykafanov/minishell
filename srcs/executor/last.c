@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/03 16:32:32 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:00:32 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 	}
 	if (pid == 0)
 		run_child_process(cmd, mem, fd1);
-	else
-	{
-		close(fd1[0]);
-		close(fd1[1]);
-		// waitpid(pid, &status, 0);
-		// mem->exit_status = WEXITSTATUS(status);
-	}
+	// else
+	// {
+	// 	close(fd1[0]);
+	// 	close(fd1[1]);
+	// 	// waitpid(pid, &status, 0);
+	// 	// mem->exit_status = WEXITSTATUS(status);
+	// }
 	return (pid);
 }

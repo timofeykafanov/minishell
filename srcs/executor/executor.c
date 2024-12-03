@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/03 16:51:52 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:07:10 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,25 @@ void	execute_commands(t_memory *memory)
 	int			fd1[2];
 	int			*pid;
 	int			process_count;
+	int 		status;
+	int			counter;
 	
-	process_count = 1;
+	counter = 1;
 	command = memory->commands;
 	while (command)
 	{
 		if (command->next)
-			process_count++;
+			counter++;
 		command = command->next;
 	}
-	pid = malloc(sizeof(int) * process_count);
+	pid = malloc(sizeof(int) * counter);
 	process_count = 0;
 	command = memory->commands;
 	if (!is_directory(memory, command))
 		return ;
 	command = memory->commands;
 	if (command->next == NULL)
-		execute_single_command(command, memory);
+		execute_single_command(command, memory, &status);
 	else
 	{
 		pid[process_count++] = execute_first_command(command, memory, fd1);
@@ -77,14 +79,26 @@ void	execute_commands(t_memory *memory)
 		close(fd1[0]);
         close(fd1[1]);
 	}
-	for (int i = 0; i < process_count; i++)
+	int i;
+	i = process_count - 1;
+	if (counter > 1)
 	{
-		int status;
-		if (pid[i] == -1)
-			continue ;
-		waitpid(pid[i], &status, 0);
-		if (i == process_count - 1)
-			memory->exit_status = WEXITSTATUS(status);
+		while (i >= 0)
+		{
+			if (pid[i] == -1)
+				continue ;
+			// printf("pid: %d\n", pid[i]);
+			// if (i > 0)
+			waitpid(pid[i], &status, WNOHANG);
+				// usleep(1000);
+			// else
+			i--;
+			// else
+			// 	waitpid(pid[i], &status, 0);
+			// if (i == process_count)
+			// 	memory->exit_status = WEXITSTATUS(status);
+		}
+		memory->exit_status = WEXITSTATUS(status);
 	}
 	free(pid);
 }
