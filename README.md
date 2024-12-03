@@ -19,3 +19,13 @@ after that
 htop
 
 after that killall yes
+
+
+actual errors
+redir
+61 (cat not remaining open)
+
+pathcheck
+12 wrong after unset PATH (command not found instead of permission denied)
+
+syntax error 94 & 95 (heredocs dont get exdcuted in our minishell if there is a syntax error)
