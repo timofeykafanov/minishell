@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/02 17:35:09 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:32:32 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	}
 }
 
-void	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
+int	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
-	int	status;
+	// int	status;
 
 	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
-		return ;
+		return (-1);
 	cmd->path = find_path(cmd->args[0], mem);
 	pid = fork();
 	if (pid == -1)
@@ -69,14 +69,13 @@ void	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 		exit(1);
 	}
 	if (pid == 0)
-	{
 		run_child_process(cmd, mem, fd1);
-	}
 	else
 	{
 		close(fd1[0]);
 		close(fd1[1]);
-		waitpid(pid, &status, 0);
-		mem->exit_status = WEXITSTATUS(status);
+		// waitpid(pid, &status, 0);
+		// mem->exit_status = WEXITSTATUS(status);
 	}
+	return (pid);
 }

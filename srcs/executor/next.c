@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   next.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/02 17:35:01 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:51:32 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 	}
 }
 
-static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
+static int	create_process_and_execute(t_command *cmd, t_memory *mem, \
 	int fd1[2], int fd2[2])
 {
 	int		pid;
@@ -110,10 +110,10 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 			fd1[1] = fd2[1];
 		}
 	}
+	return (pid);
 }
 
-// TODO: red does not work with middle commands
-void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
+int	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int		fd2[2];
 
@@ -122,8 +122,10 @@ void	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("pipe");
 		exit(1);
 	}
+	close(fd1[0]);
+    close(fd1[1]);
 	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
-		return ;
+		return (-1);
 	cmd->path = find_path(cmd->args[0], mem);
-	create_process_and_execute(cmd, mem, fd1, fd2);
+	return (create_process_and_execute(cmd, mem, fd1, fd2));
 }

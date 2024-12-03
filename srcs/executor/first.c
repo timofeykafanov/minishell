@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/02 17:34:43 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:32:03 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	}
 }
 
-void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
+int	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
 
@@ -80,7 +80,7 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 		exit(1);
 	}
 	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
-		return ;
+		return (-1);
 	cmd->path = find_path(cmd->args[0], mem);
 	pid = fork();
 	if (pid == -1)
@@ -90,4 +90,5 @@ void	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 	}
 	if (pid == 0)
 		run_child_process(cmd, mem, fd1);
+	return (pid);
 }

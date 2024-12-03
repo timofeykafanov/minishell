@@ -242,15 +242,15 @@ void		execute_single_command(t_command *cmd, t_memory *mem);
 
 // first.c
 
-void		execute_first_command(t_command *cmd, t_memory *mem, int fd1[2]);
+int			execute_first_command(t_command *cmd, t_memory *mem, int fd1[2]);
 
 // next.c
 
-void		execute_next_command(t_command *cmd, t_memory *mem, int fd1[2]);
+int			execute_next_command(t_command *cmd, t_memory *mem, int fd1[2]);
 
 // last.c
 
-void		execute_last_command(t_command *cmd, t_memory *mem, int fd1[2]);
+int			execute_last_command(t_command *cmd, t_memory *mem, int fd1[2]);
 
 // freeing.c
 

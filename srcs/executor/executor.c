@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/19 19:33:45 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:51:52 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,19 @@ void	execute_commands(t_memory *memory)
 {
 	t_command	*command;
 	int			fd1[2];
+	int			*pid;
+	int			process_count;
 	
+	process_count = 1;
+	command = memory->commands;
+	while (command)
+	{
+		if (command->next)
+			process_count++;
+		command = command->next;
+	}
+	pid = malloc(sizeof(int) * process_count);
+	process_count = 0;
 	command = memory->commands;
 	if (!is_directory(memory, command))
 		return ;
@@ -50,13 +62,29 @@ void	execute_commands(t_memory *memory)
 		execute_single_command(command, memory);
 	else
 	{
-		execute_first_command(command, memory, fd1);
+		pid[process_count++] = execute_first_command(command, memory, fd1);
+		// close(fd1[0]);
+       	// close(fd1[1]);
 		command = command->next;
 		while (command->next)
 		{
-			execute_next_command(command, memory, fd1);
+			pid[process_count++] = execute_next_command(command, memory, fd1);
 			command = command->next;
+			// close(fd1[0]);
+       		// close(fd1[1]);
 		}
-		execute_last_command(command, memory, fd1);
+		pid[process_count++] = execute_last_command(command, memory, fd1);
+		close(fd1[0]);
+        close(fd1[1]);
 	}
+	for (int i = 0; i < process_count; i++)
+	{
+		int status;
+		if (pid[i] == -1)
+			continue ;
+		waitpid(pid[i], &status, 0);
+		if (i == process_count - 1)
+			memory->exit_status = WEXITSTATUS(status);
+	}
+	free(pid);
 }
