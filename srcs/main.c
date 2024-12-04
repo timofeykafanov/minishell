@@ -6,15 +6,13 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/02 16:35:57 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:49:25 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 extern volatile sig_atomic_t g_exit_status;
-
-
 
 int	main(int ac, char **av, char **env)
 {

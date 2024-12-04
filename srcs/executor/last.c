@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/03 18:00:32 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:33:48 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 {
-	dup2(fd1[0], STDIN_FILENO);
-	close(fd1[0]);
-	close(fd1[1]);
+	// dup2(fd1[0], STDIN_FILENO);
+	// close(fd1[0]);
+	// close(fd1[1]);
 	if (cmd->redir_struct && has_redir_in(cmd))
 		handle_redir_in(cmd);
 	else
 		dup2(fd1[0], STDIN_FILENO);
-	close(fd1[0]);
-	close(fd1[1]);
 	if (cmd->redir_struct && has_redir_out(cmd))
 		handle_redir_out(cmd);
+	close(fd1[0]);
+	close(fd1[1]);
 
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{

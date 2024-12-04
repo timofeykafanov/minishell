@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/03 17:23:20 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:32:05 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir)
 	}
 	else
 		dup2(fd1[0], STDIN_FILENO);
-	close(fd1[0]);
-	close(fd1[1]);
 	if (cmd->redir_struct && has_redir_out(cmd))
 	{
 		*is_redir = true;
@@ -48,6 +46,8 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir)
 	}
 	else
 		dup2(fd2[1], STDOUT_FILENO);
+	close(fd1[0]);
+	close(fd1[1]);
 	close(fd2[0]);
 	close(fd2[1]);
 }

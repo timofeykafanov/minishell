@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/03 19:07:10 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:34:53 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,25 +80,28 @@ void	execute_commands(t_memory *memory)
         close(fd1[1]);
 	}
 	int i;
-	i = process_count - 1;
+	i = 0;
 	if (counter > 1)
 	{
-		while (i >= 0)
+		while (i < process_count)
 		{
 			if (pid[i] == -1)
 				continue ;
 			// printf("pid: %d\n", pid[i]);
 			// if (i > 0)
-			waitpid(pid[i], &status, WNOHANG);
+			waitpid(pid[i], &status, 0);
 				// usleep(1000);
 			// else
-			i--;
+			i++;
 			// else
 			// 	waitpid(pid[i], &status, 0);
 			// if (i == process_count)
 			// 	memory->exit_status = WEXITSTATUS(status);
 		}
-		memory->exit_status = WEXITSTATUS(status);
+		if (WEXITSTATUS(status))
+			memory->exit_status = WEXITSTATUS(status);
+		else
+			memory->exit_status = 0;
 	}
 	free(pid);
 }
