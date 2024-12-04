@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/26 18:25:15 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:03:43 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,28 +102,7 @@ static void handle_redirect_parser(t_parser *p)
 		p->current_token = p->current_token->next;
 	p->current_redir = malloc(sizeof(t_redir_out));
 	p->current_redir->was_quoted = p->current_token->next->was_quoted;
-	// if (p->current_redir->was_quoted && p->current_redir->type == T_HEREDOC)
-	// if (p->current_token->type == T_HEREDOC)
-	// {
-	// 	printf("heredoc\n");
-	// 	if (p->current_token->next->was_quoted)
-	// 	{
-	// 		printf("was quoted\n");
-	// 		p->current_redir->file_name = p->current_token->next->quotes_removed;
-	// 	}
-	// 	else
-	// 	{
-	// 		printf("was not quoted\n");	
-	// 		p->current_redir->file_name = p->current_token->next->data;
-	// 	}
-	// }
-	// else
-	// {
-	// 	printf("heredoc2\n");
-		// printf("%s\n", (char*)p->current_token->next->quotes_removed);
-		// printf("%d\n", p->current_redir->type);
-		p->current_redir->file_name = p->current_token->next->data;
-	// }
+	p->current_redir->file_name = p->current_token->next->data;
 	if (p->current_token->type == T_WHITESPACE)
 		p->current_redir->type = p->current_token->prev->type;
 	else
@@ -177,6 +156,7 @@ void	parse_command(t_memory *memory)
 		p->start_token = p->current_token;
 		p->prev_cmd = p->current_cmd;
 	}
+	free(p);
 }
 
 void print_commands(t_memory *memory)

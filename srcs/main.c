@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/04 14:49:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:07:12 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			// printf("\n");
-			// // print_tokens(memory);
+			// print_tokens(memory);
 			// printf("\n");
 			if (syntax_check(memory))
 			{
@@ -112,9 +112,10 @@ int	main(int ac, char **av, char **env)
 		else
 		{
 			// ft_printf("exit\n", STDOUT_FILENO);
+			g_exit_status = memory->exit_status;
 			free_memory(memory);
 			// produces double free on slow machine???
-			exit(memory->exit_status);
+			exit(g_exit_status);
 			// break ;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/04 16:30:54 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 19:06:44 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 		handle_redir_in(cmd);
 	else
 	{
-		dup2(fd1[0], STDIN_FILENO);
+		// dup2(fd1[0], STDIN_FILENO);
 		// close(fd1[0]);
 		// close(fd1[1]);
 	}
@@ -36,11 +36,14 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	else
 	{
 		dup2(fd1[1], STDOUT_FILENO);
-		// close(fd1[0]);
-		// close(fd1[1]);
+		close(fd1[0]);
+		close(fd1[1]);
 	}
-	close(fd1[0]);
-	close(fd1[1]);
+	// close(fd1[0]);
+	// close(fd1[1]);
+	// if (isatty(STDIN_FILENO)) {
+	// 	close(STDIN_FILENO);
+	// }
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
 		execute_builtin(cmd, mem, false, NULL);

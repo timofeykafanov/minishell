@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/28 16:39:04 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:59:54 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static	t_tokens	*merge(t_tokens	*current_token)
 	current_token->prev->next = current_token->next;
 	if (current_token->next)
 		current_token->next->prev = current_token->prev;
-	// free(current_token->data);
+	free(current_token->data);
 	temp = current_token;
 	current_token = current_token->next;
 	free(temp);
@@ -86,7 +86,6 @@ void	merge_tokens(t_memory *memory)
 	{
 		if (to_merge(current_token))
 			current_token = merge(current_token);
-
 		else
 			current_token = current_token->next;
 	}
@@ -97,6 +96,7 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 	char		*var_content;
 	t_tokens	*next;
 	t_tokens	*start;
+	char		*data;
 	
 	if (token->type == T_D_QUOTE)
 	{
@@ -108,8 +108,10 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 			token->was_quoted = 1;
 			return (true);
 		}
+		data = token->data;
 		// token->quotes_removed = remove_quotes(token->data);
 		token->data = expand_double(memory, token->data);
+		free(data);
 		if (!token->data)
 			return (false);
 		token->was_quoted = 1;

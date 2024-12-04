@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/02 17:01:31 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:23:52 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ void reset_minishell(t_memory *memory)
 	free_tokens(memory->tokens);
 	memory->tokens = NULL;
 	free(memory->suffix);
+	memory->suffix = NULL;
 	if (memory->faulty_variable_name)
 	{
 		free(memory->faulty_variable_name);
 		memory->faulty_variable_name = NULL;	
 	}
+	free(memory->heredocs);
+	memory->heredocs = NULL;
 	free_commands(memory->commands);
+	memory->commands = NULL;
 }
 
 void	*free_tokens(t_tokens *token)
@@ -84,6 +88,8 @@ void	free_commands(t_command *commands)
 
 void	free_memory(t_memory *memory)
 {
+	if (memory->heredocs)
+		free(memory->heredocs);
 	if (memory->tokens)
 		free_tokens(memory->tokens);
 	if (memory->env)

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/03 18:56:02 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:42:42 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 	{
 		dup2(saved_fds[0], STDIN_FILENO);
 		dup2(saved_fds[1], STDOUT_FILENO);
-		close(saved_fds[0]);
-		close(saved_fds[1]);
 	}
+	close(saved_fds[0]);
+	close(saved_fds[1]);
 }
 
 static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
@@ -111,6 +111,8 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 
 	cmd->path = find_path(cmd->args[0], mem);
 	create_process_and_execute(cmd, mem, status);
+	close(saved_fds[0]);
+	close(saved_fds[1]);
 	if (WIFEXITED(*status))
 		mem->exit_status = WEXITSTATUS(*status);
 	else

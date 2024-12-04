@@ -6,11 +6,12 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/04 16:34:53 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:56:41 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 static bool	is_directory(t_memory *memory, t_command *command)
 {
@@ -41,6 +42,7 @@ void	execute_commands(t_memory *memory)
 {
 	t_command	*command;
 	int			fd1[2];
+	// int			first_fds[2];
 	int			*pid;
 	int			process_count;
 	int 		status;
@@ -54,7 +56,7 @@ void	execute_commands(t_memory *memory)
 			counter++;
 		command = command->next;
 	}
-	pid = malloc(sizeof(int) * counter);
+	pid = malloc(sizeof(pid_t) * counter);
 	process_count = 0;
 	command = memory->commands;
 	if (!is_directory(memory, command))
@@ -67,6 +69,8 @@ void	execute_commands(t_memory *memory)
 		pid[process_count++] = execute_first_command(command, memory, fd1);
 		// close(fd1[0]);
        	// close(fd1[1]);
+		// first_fds[0] = fd1[0];
+		// first_fds[1] = fd1[1];
 		command = command->next;
 		while (command->next)
 		{
@@ -77,7 +81,9 @@ void	execute_commands(t_memory *memory)
 		}
 		pid[process_count++] = execute_last_command(command, memory, fd1);
 		close(fd1[0]);
-        close(fd1[1]);
+		close(fd1[1]);
+		// close(first_fds[0]);
+		// close(first_fds[1]);
 	}
 	int i;
 	i = 0;
