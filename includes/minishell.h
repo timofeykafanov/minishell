@@ -269,6 +269,7 @@ int			is_dollar(char c);
 
 // expand_var.c
 
+char		*find_env_value(t_memory *memory, const char *key);
 char		*expand_var(t_memory *memory, char *var);
 
 // expand_double.c

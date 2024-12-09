@@ -19,10 +19,6 @@ cat $USER
 
 ---
 
-heredoc_count doesnt count properly, we have Invalid read of size and crash
-
----
-
 after useted PATH No such file or directory should displayed instead of command not found
 
 ---------------------------------IGNORE---------------------------------- 

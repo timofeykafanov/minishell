@@ -6,13 +6,13 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/27 18:50:21 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:12:42 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*find_env_value(t_memory *memory, const char *key)
+char	*find_env_value(t_memory *memory, const char *key)
 {
 	int		i;
 	size_t	key_len;
