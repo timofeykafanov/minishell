@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/09 17:11:57 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:24:24 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 	// }
 	else if (token->type == T_VAR)
 	{
-
 		if ((token->prev && (token->prev->type == T_HEREDOC))
 			|| (token->prev && token->prev->type == T_WHITESPACE && token->prev->prev
 			&& (token->prev->prev->type == T_HEREDOC)))
@@ -144,10 +143,8 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 			&& (token->prev->prev->type == T_R_OUT
 			|| token->prev->prev->type == T_R_IN || token->prev->prev->type == T_OUT_APPEND)))
 		{
-			printf("test\n");
-			expanded_var = find_env_value(memory, token->data);
-			printf("%stest\n", expanded_var);
-			printf("%d\n", ft_strncmp(expanded_var, "", 1) == 0);
+			expanded_var = find_env_value(memory, token->data + 1);
+			// printf("%d\n", ft_strncmp(expanded_var, "", 1) == 0);
 			if (ft_strncmp(expanded_var, "", 1) == 0)
 			{
 				set_error_code(EXPANDER, ERROR_CODE_AMBIGUOUS_REDIRECT, memory);
