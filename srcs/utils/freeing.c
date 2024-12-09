@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/04 17:23:52 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:50:28 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ void reset_minishell(t_memory *memory)
 	free(memory->heredocs);
 	memory->heredocs = NULL;
 	free_commands(memory->commands);
+	if (memory->input)
+	{
+		free(memory->input);
+		memory->input = NULL;
+	}
 	memory->commands = NULL;
 }
 

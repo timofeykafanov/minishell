@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:45:47 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/06 12:45:52 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:07:07 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	*expand_single(char *s)
 	res = NULL;
 	if (is_single_quote(*s) && is_single_quote(*(s + 1)))
 	{
+		free(s);
 		res = malloc(1);
 		res[0] = '\0';
 		return (res);

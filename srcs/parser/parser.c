@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/04 17:03:43 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:26:20 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void parser_phase_one(t_parser **p, t_memory *memory)
 		{
 			if ((*p)->current_token->type == T_HEREDOC)
 				(*p)->heredoc_count++;
+			// printf("1 heredoc count: %d\n", (*p)->heredoc_count);
 			if((*p)->current_token->next->type == T_WHITESPACE && (*p)->current_token->next->next != NULL)
 				(*p)->current_token = (*p)->current_token->next->next->next;
 			else
@@ -89,6 +90,7 @@ static void parser_init_phase_two(t_parser **p, t_memory *memory)
 	(*p)->current_token = (*p)->start_token;
 	(*p)->current_cmd->args = (char **)malloc(sizeof(char *) * ((*p)->args_count + 1));
 	(*p)->current_cmd->args[(*p)->args_count] = NULL;
+	// printf("2 heredoc count: %d\n", (*p)->heredoc_count);
 	memory->heredocs = (char **)malloc(sizeof(char *) * ((*p)->heredoc_count + 1));
 	memory->heredocs [(*p)->heredoc_count] = NULL;
 	memory->heredocs_count = (*p)->heredoc_count;

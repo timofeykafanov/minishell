@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/04 17:07:12 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:52:09 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ int	main(int ac, char **av, char **env)
 					free(memory->faulty_variable_name);
 					memory->faulty_variable_name = NULL;	
 				}
+				if (memory->input)
+				{
+					free(memory->input);
+					memory->input = NULL;
+				}
 				memory->expander_error_code = 0;
 				continue ;
 			}
@@ -82,6 +87,11 @@ int	main(int ac, char **av, char **env)
 				free_tokens(memory->tokens);
 				memory->tokens = NULL;
 				free(memory->suffix);
+				if (memory->input)
+				{
+					free(memory->input);
+					memory->input = NULL;
+				}
 				// free_commands(memory->commands);
 				continue ;
 			}

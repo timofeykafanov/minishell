@@ -6,12 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/02 18:03:48 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:12:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <unistd.h>
 
 void delete_heredocs(t_memory *memory)
 {
