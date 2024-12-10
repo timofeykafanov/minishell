@@ -71,12 +71,14 @@
 # define PARSER 2
 # define EXECUTOR 3
 # define EXPANDER 4
+# define PATH 5
 
 # define ERROR_CODE_MALLOC 1
 # define ERROR_CODE_GENERAL 7
 # define ERROR_CODE_QUOTES 8
 # define ERROR_CODE_AMBIGUOUS_REDIRECT 9
 # define ERROR_CODE_INVALID_VAR_NAME 10
+# define ERROR_CODE_NO_PATH 11
 
 # define ERROR_MSG_MALLOC "Memory Allocation Error\n"
 # define ERROR_MSG_QUOTE "Syntax Error: Missing Quote\n"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/04 16:33:48 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:44:28 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	{
 		if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
-			if (contains_slash(cmd->args[0]))
+			if (contains_slash(cmd->args[0]) || mem->error_code == ERROR_CODE_NO_PATH)
 			{
 				if (access(cmd->args[0], F_OK) == 0)
 				{

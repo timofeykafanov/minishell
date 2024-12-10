@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error_message.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:36:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/28 11:54:52 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:27:53 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ int set_error_code(int segment, int error_code, t_memory *memory)
     {
         if (error_code == ERROR_CODE_INVALID_VAR_NAME)
             memory->error_code = ERROR_CODE_INVALID_VAR_NAME;
+    }
+    else if (segment == PATH)
+    {
+        if (error_code == ERROR_CODE_NO_PATH)
+            memory->error_code = ERROR_CODE_NO_PATH;
     }
     return (1);
 }
