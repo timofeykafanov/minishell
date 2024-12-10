@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/09 11:50:28 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:26:05 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void reset_minishell(t_memory *memory)
 	}
 	free(memory->heredocs);
 	memory->heredocs = NULL;
-	free_commands(memory->commands);
+	if (memory->commands)
+		free_commands(memory->commands);
 	if (memory->input)
 	{
 		free(memory->input);
@@ -84,6 +85,11 @@ void	free_commands(t_command *commands)
 		{
 			free(current->path);
 			current->path = NULL;
+		}
+		if (current->redir_struct)
+		{
+			free(current->redir_struct);
+			current->redir_struct = NULL;
 		}
 		free(current);
 		current = NULL;

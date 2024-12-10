@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 15:57:57 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:50:50 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,6 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 		}
 		if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
-			// if (access(cmd->args[0], F_OK) == 0)
-			// {
-			// 	ft_printf("%s: Permission denied\n", STDERR_FILENO, \
-			// 		cmd->args[0]);
-			// 	exit(PERMISSION_DENIED);
-			// }
 			if (contains_slash(cmd->args[0]) || mem->error_code == ERROR_CODE_NO_PATH)
 			{
 				if (access(cmd->args[0], F_OK) == 0)
@@ -86,7 +80,6 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 			exit(COMMAND_NOT_FOUND);
 		}
 	}
-	// (void)status;
 	if (waitpid(pid, status, 0) == -1)
 	{
 		perror("waitpid");
@@ -96,7 +89,6 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 
 void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 {
-	// int			status;
 	int			saved_fds[2];
 
 	if (!cmd->args[0] && !cmd->redir_struct)
@@ -108,7 +100,6 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 		execute_builtin_and_handle_redir(cmd, mem, saved_fds);
 		return ;
 	}
-
 	cmd->path = find_path(cmd->args[0], mem);
 	create_process_and_execute(cmd, mem, status);
 	close(saved_fds[0]);

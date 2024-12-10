@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/04 18:56:41 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:13:12 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,15 @@ void	execute_commands(t_memory *memory)
 	else
 	{
 		pid[process_count++] = execute_first_command(command, memory, fd1);
-		// close(fd1[0]);
-       	// close(fd1[1]);
-		// first_fds[0] = fd1[0];
-		// first_fds[1] = fd1[1];
 		command = command->next;
 		while (command->next)
 		{
 			pid[process_count++] = execute_next_command(command, memory, fd1);
 			command = command->next;
-			// close(fd1[0]);
-       		// close(fd1[1]);
 		}
 		pid[process_count++] = execute_last_command(command, memory, fd1);
 		close(fd1[0]);
 		close(fd1[1]);
-		// close(first_fds[0]);
-		// close(first_fds[1]);
 	}
 	int i;
 	i = 0;

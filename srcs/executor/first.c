@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 15:44:13 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:11:03 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,26 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	// 	close(fd1[1]);
 	// }
 	if (cmd->redir_struct && has_redir_in(cmd))
-		handle_redir_in(cmd);
-	else
 	{
-		// dup2(fd1[0], STDIN_FILENO);
+		handle_redir_in(cmd);
 		// close(fd1[0]);
-		// close(fd1[1]);
+		// close(fd1[1]);	
 	}
+
 	if (cmd->redir_struct && has_redir_out(cmd))
+	{
 		handle_redir_out(cmd);
+		// close(fd1[0]);
+		// close(fd1[1]);	
+	}
 	else
 	{
 		dup2(fd1[1], STDOUT_FILENO);
-		close(fd1[0]);
-		close(fd1[1]);
+		// close(fd1[0]);
+		// close(fd1[1]);
 	}
+	close(fd1[0]);
+	close(fd1[1]);	
 	// close(fd1[0]);
 	// close(fd1[1]);
 	// if (isatty(STDIN_FILENO)) {
@@ -82,8 +87,6 @@ int	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("pipe");
 		exit(1);
 	}
-	// close(fd1[0]);
-    // close(fd1[1]);
 	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
 		return (-1);
 	cmd->path = find_path(cmd->args[0], mem);

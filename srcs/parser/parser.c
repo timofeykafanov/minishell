@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/09 13:29:57 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:23:31 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,8 @@ void	parse_command(t_memory *memory)
 	}
 	memory->heredocs = (char **)malloc(sizeof(char *) * (memory->heredocs_count + 1));
 	memory->heredocs [memory->heredocs_count] = NULL;
+	// free(p->current_redir);
+	// free(p->current_cmd->args);
 	free(p);
 }
 
