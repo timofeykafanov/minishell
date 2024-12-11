@@ -134,6 +134,7 @@ typedef struct s_memory
 	bool				exit_failed;
 	bool				cd_failed;
 	char				*faulty_variable_name;
+	int					*pid;
 }	t_memory;
 
 typedef struct s_parser
@@ -180,6 +181,7 @@ int			is_whitespace(char *s);
 int			skip_non_whitespace(char *s);
 char		*skip_whitespace(char *s);
 char		*find_seperator(char *s);
+bool		is_redirect(int type);
 char		*find_whitespace(char *s);
 char		*is_var_end(char *s);
 bool		is_separator(char c);

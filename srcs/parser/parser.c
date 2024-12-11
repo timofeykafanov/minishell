@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 16:23:31 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:06:59 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ static int check_current_token_type(t_parser **p)
 
 void parser_phase_one(t_parser *p, t_memory *memory)
 {
-	p->current_cmd = create_command(p->current_token->data, NULL, p->current_token->type);
+	if (is_redirect(p->current_token->type))
+		p->current_cmd = create_command("", NULL, p->current_token->type);
+	else
+		p->current_cmd = create_command(p->current_token->data, NULL, p->current_token->type);
 	if (!memory->commands)
 		memory->commands = p->current_cmd;
 	else
@@ -85,37 +88,6 @@ void parser_phase_one(t_parser *p, t_memory *memory)
 	}
 }
 
-// void parser_phase_one(t_parser **p, t_memory *memory)
-// {
-// 	(*p)->current_cmd = create_command((*p)->current_token->data, NULL, (*p)->current_token->type);
-// 	if (!memory->commands)
-// 		memory->commands = (*p)->current_cmd;
-// 	else
-// 		(*p)->prev_cmd->next = (*p)->current_cmd;
-// 	(*p)->args_count = 0;
-// 	while ((*p)->current_token)
-// 	{
-// 		if (check_current_token_type(p) == T_WHITESPACE)
-// 			continue;
-// 		if ((*p)->current_token->type == T_HEREDOC)
-// 		{
-// 			(*p)->heredoc_count++;
-// 			ft_printf("1 heredoc count: %d\n", 1, (*p)->heredoc_count);
-// 		}
-// 		if ((check_current_token_type(p) == T_R_IN) && (*p)->current_token->next != NULL)
-// 		{
-// 			if((*p)->current_token->next->type == T_WHITESPACE && (*p)->current_token->next->next != NULL)
-// 				(*p)->current_token = (*p)->current_token->next->next->next;
-// 			else
-// 				(*p)->current_token = (*p)->current_token->next->next;
-// 			continue;
-// 		}
-// 		if ((*p)->current_token->type == T_PIPE)
-// 			break;
-// 		(*p)->args_count++;
-// 		(*p)->current_token = (*p)->current_token->next;
-// 	}
-// }
 static void parser_init_phase_two(t_parser **p, t_memory *memory)
 {
 	(*p)->current_token = (*p)->start_token;
@@ -167,7 +139,7 @@ static void parser_phase_two(t_parser *p)
 		{
 			p->current_token = p->current_token->next;
 			break;
-		}	
+		}
 		p->current_cmd->args[p->args_count] = p->current_token->data;	
 		p->current_token = p->current_token->next;
 		p->args_count++;

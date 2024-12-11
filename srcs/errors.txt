@@ -1,33 +1,4 @@
 
-
-heredocs should be executed untill the syntax error, error shows first (we don't do that, we're not crazy)
-
----
-
-path_check 12
-
-tkafanov@c4r6p8:~/git/minishell$ tmp_x_file1
-bash: tmp_x_file1: Permission denied
-
-/home/tkafanov/git/minishell$ tmp_x_file1
-tmp_x_file1: command not found
-
----
-
-path_check 14
-
-tkafanov@c4r6p8:~/git/minishell$ export PATH=""
-tkafanov@c4r6p8:~/git/minishell$ ls
-bash: ls: No such file or directory
-
-/home/tkafanov/git/minishell$ export PATH=""
-/home/tkafanov/git/minishell$ ls
-ls: command not found
-
----
-
-after useted PATH No such file or directory (or permission denied) should displayed instead of command not found
-
 ---------------------------------IGNORE---------------------------------- 
 
 SYNTAX ERRORS

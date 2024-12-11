@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 16:50:50 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:22:49 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,29 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 			handle_redir_in(cmd);
 			handle_redir_out(cmd);
 		}
-		if (execve(cmd->path, cmd->args, mem->env) == -1)
+		if (!cmd->path)
 		{
-			if (contains_slash(cmd->args[0]) || mem->error_code == ERROR_CODE_NO_PATH)
-			{
-				if (access(cmd->args[0], F_OK) == 0)
-				{
-					ft_printf("%s: Permission denied\n", STDERR_FILENO, \
+			if (mem->error_code == ERROR_CODE_NO_PATH)
+				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
 						cmd->args[0]);
-					exit(PERMISSION_DENIED);
-				}
-				else
-					ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
-						cmd->args[0]);
-			}
 			else
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
+			free_memory(mem);
 			exit(COMMAND_NOT_FOUND);
+		}
+		else if (execve(cmd->path, cmd->args, mem->env) == -1)
+		{
+			if (ft_strlen(cmd->args[0]) == 0)
+			{
+				free_memory(mem);
+				exit(0);
+			}
+			ft_printf("%s: Permission denied\n", STDERR_FILENO, \
+				cmd->args[0]);
+			{
+				free_memory(mem);	
+				exit(PERMISSION_DENIED);
+			}
 		}
 	}
 	if (waitpid(pid, status, 0) == -1)
@@ -100,7 +106,7 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 		execute_builtin_and_handle_redir(cmd, mem, saved_fds);
 		return ;
 	}
-	cmd->path = find_path(cmd->args[0], mem);
+	cmd->path = find_path(cmd->name, mem);
 	create_process_and_execute(cmd, mem, status);
 	close(saved_fds[0]);
 	close(saved_fds[1]);

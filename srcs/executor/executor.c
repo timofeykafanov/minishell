@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 17:13:12 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:50:22 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	execute_commands(t_memory *memory)
 		command = command->next;
 	}
 	pid = malloc(sizeof(pid_t) * counter);
+	memory->pid = pid;
 	process_count = 0;
 	command = memory->commands;
 	if (!is_directory(memory, command))
@@ -101,5 +102,4 @@ void	execute_commands(t_memory *memory)
 		else
 			memory->exit_status = 0;
 	}
-	free(pid);
 }

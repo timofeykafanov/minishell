@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 15:57:18 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:18:26 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*find_path(char *command, t_memory *memory)
 	char	*env_path;
 	char	**paths;
 	char	*res;
-
+	
 	if (!command)
 		return (NULL);
 	if (ft_strchr(command, '/'))
@@ -79,7 +79,7 @@ char	*find_path(char *command, t_memory *memory)
 		return (NULL);
 	paths = ft_split(env_path, ':');
 	if (!paths)
-		return (NULL);
+		return (free(env_path), NULL);
 	i = 0;
 	while (paths[i])
 	{
@@ -89,5 +89,6 @@ char	*find_path(char *command, t_memory *memory)
 		i++;
 	}
 	free_paths(paths);
+	free(env_path);
 	return (NULL);
 }

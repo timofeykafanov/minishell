@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   next.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 17:09:05 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:23:06 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir)
 	if (cmd->redir_struct && has_redir_in(cmd))
 	{
 		*is_redir = true;
+		close(fd1[0]);
+		close(fd1[1]);
 		handle_redir_in(cmd);
 	}
 	else
@@ -42,6 +44,8 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir)
 	if (cmd->redir_struct && has_redir_out(cmd))
 	{
 		*is_redir = true;
+		close(fd2[0]);
+		close(fd2[1]);
 		handle_redir_out(cmd);
 	}
 	else
@@ -61,23 +65,29 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 	}
 	else
 	{
-		if (execve(cmd->path, cmd->args, mem->env) == -1)
+		if (!cmd->path)
 		{
-			if (contains_slash(cmd->args[0]) || mem->error_code == ERROR_CODE_NO_PATH)
-			{
-				if (access(cmd->args[0], F_OK) == 0)
-				{
-					ft_printf("%s: Permission denied\n", STDERR_FILENO, \
+			if (mem->error_code == ERROR_CODE_NO_PATH)
+				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
 						cmd->args[0]);
-					exit(PERMISSION_DENIED);
-				}
-				else
-					ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
-						cmd->args[0]);
-			}
 			else
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
+			free_memory(mem);
 			exit(COMMAND_NOT_FOUND);
+		}
+		else if (execve(cmd->path, cmd->args, mem->env) == -1)
+		{
+			if (ft_strlen(cmd->args[0]) == 0)
+			{
+				free_memory(mem);
+				exit(0);
+			}
+			ft_printf("%s: Permission denied\n", STDERR_FILENO, \
+				cmd->args[0]);
+			{
+				free_memory(mem);	
+				exit(PERMISSION_DENIED);
+			}
 		}
 	}
 }
