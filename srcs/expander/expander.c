@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/12 14:43:24 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:23:38 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 				memory->exit_status = 1;
 				if (!memory->faulty_variable_name)
 					memory->faulty_variable_name = ft_strdup(token->data);
+				free(expanded_var);
 				return (true);
 			}
 			free(expanded_var);
