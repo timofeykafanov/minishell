@@ -6,11 +6,13 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 18:30:05 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:02:47 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+extern volatile sig_atomic_t g_exit_status;
 
 void	execute_pwd(t_memory *memory)
 {
@@ -73,8 +75,11 @@ static void	exit_shell(t_memory *memory, bool is_redir, int saved_fds[2])
 		close(saved_fds[0]);
 		close(saved_fds[1]);
 	}
+	g_exit_status = memory->exit_status;
 	free_memory(memory);
-	exit(memory->exit_status);
+	close(saved_fds[0]);
+	close(saved_fds[1]);
+	exit(g_exit_status);
 }
 
 static bool is_within_long_range(char *str, int sign)
@@ -96,8 +101,10 @@ static bool is_within_long_range(char *str, int sign)
 	{	
 		len++;
 	}
-	while (str[len - 1] == ' ' || str[len - 1] == '\t' || str[len - 1] == '\n' || str[len - 1] == '\v' || str[len - 1] == '\f' || str[len - 1] == '\r')
-		len--;
+	while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t'
+		|| str[len - 1] == '\n' || str[len - 1] == '\v'
+		|| str[len - 1] == '\f' || str[len - 1] == '\r'))
+    	len--;
 	if (len > 19)
 		return false;
 	if (len == 19)

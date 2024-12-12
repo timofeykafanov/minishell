@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 16:52:01 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:27:41 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,6 @@ void	execute_builtin(t_command *cmd, t_memory *mem, bool is_redir, \
 		print_env(mem);
 	else if (!ft_strncmp(cmd->args[0], EXIT, 5))
 		execute_exit(mem, is_redir, saved_fds);
+	// close(saved_fds[0]);
+	// close(saved_fds[1]);
 }
