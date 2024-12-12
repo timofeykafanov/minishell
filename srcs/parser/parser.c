@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 12:49:56 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:17:17 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,17 +168,6 @@ void	parse_command(t_memory *memory)
 	// free(p->current_cmd->args);
 	free(p);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 void print_commands(t_memory *memory)

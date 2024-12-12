@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/12 13:17:11 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:43:24 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,24 @@ static bool	to_merge(t_tokens	*current_token)
 
 static	t_tokens	*merge(t_tokens	*current_token)
 {
-	char		*data;
-	t_tokens	*temp;
+	char		*prev_token_old_data;
+	t_tokens	*to_be_freed_token;
 
-	data = current_token->prev->data;
+	prev_token_old_data = current_token->prev->data;
 		
 	current_token->prev->data = ft_strjoin(current_token->prev->data, \
 	current_token->data);
-	free(data);
+	free(prev_token_old_data);
 	current_token->prev->type = T_WORD;
 	current_token->prev->was_quoted = 1;
 	current_token->prev->next = current_token->next;
 	if (current_token->next)
 		current_token->next->prev = current_token->prev;
+	to_be_freed_token = current_token;
+	// printf("freed merge %p %s\n", (void *)to_be_freed_token, (char *)to_be_freed_token->data);
 	free(current_token->data);
-	temp = current_token;
 	current_token = current_token->next;
-	free(temp);
+	free(to_be_freed_token);
 	return current_token;
 }
 
@@ -167,12 +168,15 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 		if (ft_strlen(var_content) == 0 && token->next)
 		{
 			// free(var_content);
+			// printf("freed expander2 %p %s\n", (void *)token, (char *)token->data);
 			if (token->prev)
 				token->prev->next = token->next;
 			else
 				memory->tokens = token->next;
 			if (token->next && token->prev)
 				token->next->prev = token->prev;
+			free(token->data);
+			free(token);
 			return (true);
 		}
 		
@@ -199,6 +203,7 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 		{
 			memory->tokens = start;
 		}
+		// printf("freed expander %p %s\n", (void *)token, (char *)token->data);
 		free(token->data);
 		free(token);
 		while (start->next)
