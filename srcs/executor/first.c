@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 09:35:30 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 12:57:26 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	// }
 	if (cmd->redir_struct && has_redir_in(cmd))
 	{
+		close(fd1[0]);
+		close(fd1[1]);
 		handle_redir_in(cmd, mem);
-		// close(fd1[0]);
-		// close(fd1[1]);	
 	}
 
 	if (cmd->redir_struct && has_redir_out(cmd))

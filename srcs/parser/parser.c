@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 08:50:30 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 12:49:56 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,18 @@ void	parse_command(t_memory *memory)
 	// free(p->current_cmd->args);
 	free(p);
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 void print_commands(t_memory *memory)
 {

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/09 17:24:24 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:17:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 		var_content = expand_var(memory, token->data);
 		// printf("var_content: %s\n", var_content);
 		// printf("1var_content: %s\n", var_content);
+		// free(token->data);
 		token->data = var_content;
 		if (!var_content)
 			return (false);

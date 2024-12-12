@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:26:44 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 09:33:48 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:45:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ static void	redir_out(t_redir_out *redir, t_memory *mem)
 		exit(1);
 	}
 	dup2(fd_out, STDOUT_FILENO);
+	if (dup2(fd_out, STDOUT_FILENO) == -1)
+	{
+		perror("dup2 failed");
+		close(fd_out);
+		free_memory(mem);
+		exit(1);
+	}
 	close(fd_out);
 }
 
@@ -41,6 +48,13 @@ static void	redir_append(t_redir_out *redir, t_memory *mem)
 		exit(1);
 	}
 	dup2(fd_out, STDOUT_FILENO);
+	if (dup2(fd_out, STDOUT_FILENO) == -1)
+	{
+		perror("dup2 failed");
+		close(fd_out);
+		free_memory(mem);
+		exit(1);
+	}
 	close(fd_out);
 }
 

@@ -6,12 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/12 09:38:27 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:30:15 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdio.h>
 
 void reset_minishell(t_memory *memory)
 {
@@ -32,6 +31,11 @@ void reset_minishell(t_memory *memory)
 	{
 		free(memory->input);
 		memory->input = NULL;
+	}
+	if (memory->pid)
+	{
+		free(memory->pid);
+		memory->pid = NULL;
 	}
 	memory->commands = NULL;
 }
@@ -68,6 +72,19 @@ void	free_env(char **env)
 	free(env);
 }
 
+void	free_redir_struct(t_redir_out *current)
+{
+	t_redir_out	*next;
+
+	while (current)
+	{
+		next = current->next;
+		free(current);
+		current = NULL;
+		current = next;
+	}
+}
+
 void	free_commands(t_command *commands)
 {
 	t_command	*current;
@@ -89,7 +106,7 @@ void	free_commands(t_command *commands)
 		}
 		if (current->redir_struct)
 		{
-			free(current->redir_struct);
+			free_redir_struct(current->redir_struct);
 			current->redir_struct = NULL;
 		}
 		free(current);
@@ -123,6 +140,11 @@ void	free_memory(t_memory *memory)
 	{
 		free(memory->pid);
 		memory->pid = NULL;
+	}
+	if (memory->env_path)
+	{
+		free(memory->env_path);
+		memory->env_path = NULL;
 	}
 	free(memory);
 }

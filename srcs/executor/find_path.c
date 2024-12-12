@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 08:41:47 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:13:34 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static char	*check_access(char *command, char **paths, int i)
 char	*find_path(char *command, t_memory *memory)
 {
 	int		i;
-	char	*env_path;
 	char	**paths;
 	char	*res;
 	
@@ -70,16 +69,16 @@ char	*find_path(char *command, t_memory *memory)
 			return (ft_strdup(command));
 		return (NULL);
 	}
-	env_path = find_env_value(memory, "PATH");
-	if (ft_strlen(env_path) == 0)
+	memory->env_path = find_env_value(memory, "PATH");
+	if (ft_strlen(memory->env_path) == 0)
 		set_error_code(PATH, ERROR_CODE_NO_PATH, memory);
 	if (access(command, F_OK) == 0)
 		return (ft_strdup(command));
-	if (!env_path)
+	if (!memory->env_path)
 		return (NULL);
-	paths = ft_split(env_path, ':');
+	paths = ft_split(memory->env_path, ':');
 	if (!paths)
-		return (free(env_path), NULL);
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
@@ -89,6 +88,5 @@ char	*find_path(char *command, t_memory *memory)
 		i++;
 	}
 	free_paths(paths);
-	free(env_path);
 	return (NULL);
 }

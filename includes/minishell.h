@@ -135,6 +135,7 @@ typedef struct s_memory
 	bool				cd_failed;
 	char				*faulty_variable_name;
 	int					*pid;
+	char				*env_path;
 }	t_memory;
 
 typedef struct s_parser

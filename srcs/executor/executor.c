@@ -6,12 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/11 17:50:22 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:32:12 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <unistd.h>
 
 static bool	is_directory(t_memory *memory, t_command *command)
 {
@@ -30,8 +29,6 @@ static bool	is_directory(t_memory *memory, t_command *command)
 				memory->exit_status = 126;
 				return (false);
 			}
-			// else
-			// 	perror("stat");
 		}
 		command = command->next;
 	}
@@ -42,8 +39,6 @@ void	execute_commands(t_memory *memory)
 {
 	t_command	*command;
 	int			fd1[2];
-	// int			first_fds[2];
-	int			*pid;
 	int			process_count;
 	int 		status;
 	int			counter;
@@ -56,8 +51,7 @@ void	execute_commands(t_memory *memory)
 			counter++;
 		command = command->next;
 	}
-	pid = malloc(sizeof(pid_t) * counter);
-	memory->pid = pid;
+	memory->pid = malloc(sizeof(pid_t) * counter);
 	process_count = 0;
 	command = memory->commands;
 	if (!is_directory(memory, command))
@@ -67,14 +61,14 @@ void	execute_commands(t_memory *memory)
 		execute_single_command(command, memory, &status);
 	else
 	{
-		pid[process_count++] = execute_first_command(command, memory, fd1);
+		memory->pid[process_count++] = execute_first_command(command, memory, fd1);
 		command = command->next;
 		while (command->next)
 		{
-			pid[process_count++] = execute_next_command(command, memory, fd1);
+			memory->pid[process_count++] = execute_next_command(command, memory, fd1);
 			command = command->next;
 		}
-		pid[process_count++] = execute_last_command(command, memory, fd1);
+		memory->pid[process_count++] = execute_last_command(command, memory, fd1);
 		close(fd1[0]);
 		close(fd1[1]);
 	}
@@ -84,18 +78,10 @@ void	execute_commands(t_memory *memory)
 	{
 		while (i < process_count)
 		{
-			if (pid[i] == -1)
+			if (memory->pid[i] == -1)
 				continue ;
-			// printf("pid: %d\n", pid[i]);
-			// if (i > 0)
-			waitpid(pid[i], &status, 0);
-				// usleep(1000);
-			// else
+			waitpid(memory->pid[i], &status, 0);
 			i++;
-			// else
-			// 	waitpid(pid[i], &status, 0);
-			// if (i == process_count)
-			// 	memory->exit_status = WEXITSTATUS(status);
 		}
 		if (WEXITSTATUS(status))
 			memory->exit_status = WEXITSTATUS(status);
