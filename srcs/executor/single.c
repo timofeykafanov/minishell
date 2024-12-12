@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 15:18:16 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:37:59 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 		close(saved_fds[1]);
 		return ;
 	}
-	cmd->path = find_path(cmd->name, mem);
+	cmd->path = find_path(cmd->name, mem, cmd);
 	close(saved_fds[0]);
 	close(saved_fds[1]);
 	create_process_and_execute(cmd, mem, status, saved_fds);

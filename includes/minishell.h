@@ -112,6 +112,7 @@ typedef struct s_command
 	t_redir_out			*redir_struct;
 	int					type;
 	char				*path;
+	char				*env_path;
 	struct s_command	*next;
 }	t_command;
 
@@ -135,7 +136,6 @@ typedef struct s_memory
 	bool				cd_failed;
 	char				*faulty_variable_name;
 	int					*pid;
-	char				*env_path;
 }	t_memory;
 
 typedef struct s_parser
@@ -295,7 +295,7 @@ void		execute_heredoc(t_memory *memory);
 
 // find_path.c
 
-char		*find_path(char *command, t_memory *memory);
+char		*find_path(char *command, t_memory *memory, t_command *cmd);
 
 // init_memory.c
 
