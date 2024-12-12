@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 17:38:20 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:47:24 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 		execute_builtin(cmd, mem, false, NULL);
 		free_memory(mem);
 		close(1);
+		close(0);
 		exit(0);
 	}
 	else
@@ -52,7 +53,8 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 		if (!cmd->path || !cmd->args[0][0])
 		{
 			close(1);
-			if (mem->error_code == ERROR_CODE_NO_PATH || ft_strchr(cmd->name, '/'))
+			close(0);
+			if (mem->error_code == ERROR_CODE_NO_PATH || (cmd->name && ft_strchr(cmd->name, '/')))
 				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
 						cmd->args[0]);
 			else
@@ -70,6 +72,7 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 		else if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
 			close(1);
+			close(0);
 			if (ft_strlen(cmd->args[0]) == 0)
 			{
 				free_memory(mem);

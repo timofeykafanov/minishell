@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/12 17:41:55 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:38:48 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void free_heredocs(t_memory *memory)
 	int	i;
 
 	i = 0;
-	while(memory->heredocs[i] && memory->heredocs_count)
+	while(memory->heredocs_count && memory->heredocs[i])
 	{
 		free(memory->heredocs[i]);
 		memory->heredocs[i] = NULL;
