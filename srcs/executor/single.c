@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 13:40:30 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:36:15 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 }
 
 static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
-	int *status)
+	int *status, int saved_fds[2])
 {
 	int		pid;
 
@@ -61,6 +61,8 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 			handle_redir_in(cmd, mem);
 			handle_redir_out(cmd, mem);
 		}
+		close(saved_fds[0]);
+		close(saved_fds[1]);
 		if (!cmd->path || !cmd->args[0][0] || (ft_strncmp(cmd->name, "..", 2) == 0 && ft_strlen(cmd->name) == 2))
 		{
 			if (mem->error_code == ERROR_CODE_NO_PATH || ft_strchr(cmd->name, '/'))
@@ -121,9 +123,9 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 		return ;
 	}
 	cmd->path = find_path(cmd->name, mem);
-	create_process_and_execute(cmd, mem, status);
 	close(saved_fds[0]);
 	close(saved_fds[1]);
+	create_process_and_execute(cmd, mem, status, saved_fds);
 	if (WIFEXITED(*status))
 		mem->exit_status = WEXITSTATUS(*status);
 	else
