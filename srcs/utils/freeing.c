@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/12 13:30:15 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:42:46 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	*free_tokens(t_tokens *token)
 	while (current)
 	{
 		current = token->next;
+		// printf("freed ending %p %s\n", (void *)token, (char *)token->data);
 		if (token->data)
 		{
 			free(token->data);

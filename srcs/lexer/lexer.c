@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/27 15:28:30 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:42:36 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_tokens	*create_token(char *s, t_memory *memory)
 	if (!token)
 		return (set_error_code(LEXER, ERROR_CODE_MALLOC, memory), NULL);
 	token->data = process_token(s, memory);
+	// printf("allocated %p %s\n", (void *)token, (char *)token->data);
 	if (memory->lexer_error_code == ERROR_CODE_QUOTES)
 		return (print_error_message(LEXER, memory), NULL);
 	else if (!token->data)
