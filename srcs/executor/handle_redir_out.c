@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir_out.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:26:44 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 16:28:58 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:33:48 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	redir_out(t_redir_out *redir)
+static void	redir_out(t_redir_out *redir, t_memory *mem)
 {
 	int	fd_out;
 
@@ -21,13 +21,14 @@ static void	redir_out(t_redir_out *redir)
 	{
 		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
 		perror("");
+		free_memory(mem);
 		exit(1);
 	}
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 }
 
-static void	redir_append(t_redir_out *redir)
+static void	redir_append(t_redir_out *redir, t_memory *mem)
 {
 	int	fd_out;
 
@@ -36,13 +37,14 @@ static void	redir_append(t_redir_out *redir)
 	{
 		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
 		perror("");
+		free_memory(mem);
 		exit(1);
 	}
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 }
 
-void	handle_redir_out(t_command *cmd)
+void	handle_redir_out(t_command *cmd, t_memory *mem)
 {
 	t_redir_out	*redir;
 
@@ -50,9 +52,9 @@ void	handle_redir_out(t_command *cmd)
 	while (redir)
 	{
 		if (redir->type == T_R_OUT)
-			redir_out(redir);
+			redir_out(redir, mem);
 		if (redir->type == T_OUT_APPEND)
-			redir_append(redir);
+			redir_append(redir, mem);
 		redir = redir->next;
 	}
 }

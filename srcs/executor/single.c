@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 09:22:42 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:36:42 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 	if (cmd->redir_struct)
 	{
 		is_redir = true;
-		handle_redir_in(cmd);
-		handle_redir_out(cmd);
+		handle_redir_in(cmd, mem);
+		handle_redir_out(cmd, mem);
 	}
 	
 	execute_builtin(cmd, mem, is_redir, saved_fds);
@@ -58,8 +58,8 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 	{
 		if (cmd->redir_struct)
 		{
-			handle_redir_in(cmd);
-			handle_redir_out(cmd);
+			handle_redir_in(cmd, mem);
+			handle_redir_out(cmd, mem);
 		}
 		if (!cmd->path || !cmd->args[0][0] || (ft_strncmp(cmd->name, "..", 2) == 0 && ft_strlen(cmd->name) == 2))
 		{

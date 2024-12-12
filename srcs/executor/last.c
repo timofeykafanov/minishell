@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 09:12:39 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:35:39 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	{
 		close(fd1[0]);
 		close(fd1[1]);
-		handle_redir_in(cmd);
+		handle_redir_in(cmd, mem);
 	}
 	else
 		dup2(fd1[0], STDIN_FILENO);
 	if (cmd->redir_struct && has_redir_out(cmd))
-		handle_redir_out(cmd);
+		handle_redir_out(cmd, mem);
 	close(fd1[0]);
 	close(fd1[1]);
 
