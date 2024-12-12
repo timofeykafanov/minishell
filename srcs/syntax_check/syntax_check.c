@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:40:48 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/09 10:53:51 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:27:24 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ int	syntax_check(t_memory *memory)
 	t_tokens	*token;
 
 	token = memory->tokens;
-	// if (token && ft_strncmp(token->data, ".", ft_strlen(token->data)) == 0)
-	// {
-	// 	ft_printf(".: filename argument required\n", STDERR_FILENO);
-	// 	memory->exit_status = 2;
-	// 	return (1);
-	// }
+	if (token && ft_strncmp(token->data, ".", 1) == 0 && ft_strlen(token->data) == 1)
+	{
+		ft_printf(".: filename argument required\n", STDERR_FILENO);
+		memory->exit_status = 2;
+		return (1);
+	}
 	if (token && token->type == T_PIPE)
 	{
 		ft_printf("syntax error near unexpected token `|'\n", STDERR_FILENO);
@@ -35,9 +35,7 @@ int	syntax_check(t_memory *memory)
 		{
 			if (token->next && token->next->type == T_WHITESPACE)
 				token = token->next;
-			// if (token->type == T_PIPE)
-			// 	continue ;
-			if (token->next && ft_strncmp(token->next->data, ".", ft_strlen(token->next->data)) == 0 && ft_strlen(token->next->data) == 1)
+			if (token->next && ft_strncmp(token->next->data, ".", 1) == 0 && ft_strlen(token->next->data) == 1)
 			{
 				ft_printf(".: filename argument required\n", STDERR_FILENO);
 				memory->exit_status = 2;

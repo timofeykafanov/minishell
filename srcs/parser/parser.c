@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/11 20:06:59 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 08:50:30 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ static void parser_phase_two(t_parser *p)
 		p->current_token = p->current_token->next;
 		p->args_count++;
 	}
+	if (p->current_cmd->args && p->current_cmd->name && ft_strlen(p->current_cmd->name) == 0)
+		p->current_cmd->name = p->current_cmd->args[0];
 }
 
 void	parse_command(t_memory *memory)

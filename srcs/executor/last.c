@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/11 20:23:11 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:12:39 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,20 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	}
 	else
 	{
-		if (!cmd->path)
+		if (!cmd->path || !cmd->args[0][0])
 		{
-			if (mem->error_code == ERROR_CODE_NO_PATH)
+			if (mem->error_code == ERROR_CODE_NO_PATH || ft_strchr(cmd->name, '/'))
 				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
 						cmd->args[0]);
 			else
+			{
+				if (!cmd->args[0])
+				{
+					free_memory(mem);
+					exit(0);
+				}
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
+			}
 			free_memory(mem);
 			exit(COMMAND_NOT_FOUND);
 		}

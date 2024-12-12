@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/11 20:22:49 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:22:42 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,20 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 			handle_redir_in(cmd);
 			handle_redir_out(cmd);
 		}
-		if (!cmd->path)
+		if (!cmd->path || !cmd->args[0][0] || (ft_strncmp(cmd->name, "..", 2) == 0 && ft_strlen(cmd->name) == 2))
 		{
-			if (mem->error_code == ERROR_CODE_NO_PATH)
+			if (mem->error_code == ERROR_CODE_NO_PATH || ft_strchr(cmd->name, '/'))
 				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
 						cmd->args[0]);
 			else
+			{
+				if (!cmd->args[0])
+				{
+					free_memory(mem);
+					exit(0);
+				}
 				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
+			}
 			free_memory(mem);
 			exit(COMMAND_NOT_FOUND);
 		}
