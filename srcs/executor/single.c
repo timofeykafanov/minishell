@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 14:36:15 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:18:16 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 		close(saved_fds[1]);
 		if (!cmd->path || !cmd->args[0][0] || (ft_strncmp(cmd->name, "..", 2) == 0 && ft_strlen(cmd->name) == 2))
 		{
-			if (mem->error_code == ERROR_CODE_NO_PATH || ft_strchr(cmd->name, '/'))
+			close(1);
+			if (mem->error_code == ERROR_CODE_NO_PATH || (cmd->name && ft_strchr(cmd->name, '/')))
 				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
 						cmd->args[0]);
 			else
@@ -82,6 +83,7 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 		}
 		else if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
+			close(1);
 			if (ft_strlen(cmd->args[0]) == 0)
 			{
 				free_memory(mem);

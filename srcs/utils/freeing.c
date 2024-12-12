@@ -6,16 +6,34 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/12 14:42:46 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:34:40 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+void free_heredocs(t_memory *memory)
+{
+	int	i;
+
+	i = 0;
+	while(memory->heredocs[i] && memory->heredocs_count)
+	{
+		free(memory->heredocs[i]);
+		memory->heredocs[i] = NULL;
+		i++;
+	}
+	memory->heredocs_count = 0;
+	free(memory->heredocs);
+	memory->heredocs = NULL;
+}
+
 void reset_minishell(t_memory *memory)
 {
 	free_tokens(memory->tokens);
 	memory->tokens = NULL;
+	if (memory->heredocs)
+		free_heredocs(memory);
 	free(memory->suffix);
 	memory->suffix = NULL;
 	if (memory->faulty_variable_name)
@@ -23,8 +41,6 @@ void reset_minishell(t_memory *memory)
 		free(memory->faulty_variable_name);
 		memory->faulty_variable_name = NULL;	
 	}
-	free(memory->heredocs);
-	memory->heredocs = NULL;
 	if (memory->commands)
 		free_commands(memory->commands);
 	if (memory->input)
@@ -80,6 +96,11 @@ void	free_redir_struct(t_redir_out *current)
 	while (current)
 	{
 		next = current->next;
+		if (current->heredoc_file_name)
+		{
+			free(current->heredoc_file_name);
+			current->heredoc_file_name = NULL;
+		}	
 		free(current);
 		current = NULL;
 		current = next;
@@ -119,7 +140,7 @@ void	free_commands(t_command *commands)
 void	free_memory(t_memory *memory)
 {
 	if (memory->heredocs)
-		free(memory->heredocs);
+		free_heredocs(memory);
 	if (memory->tokens)
 		free_tokens(memory->tokens);
 	if (memory->env)
