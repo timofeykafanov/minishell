@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/12 16:34:40 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:41:55 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,11 @@ void	free_commands(t_command *commands)
 			free_redir_struct(current->redir_struct);
 			current->redir_struct = NULL;
 		}
+		if (current->env_path)
+	{
+		free(current->env_path);
+		current->env_path = NULL;
+	}
 		free(current);
 		current = NULL;
 		current = next;
@@ -162,11 +167,6 @@ void	free_memory(t_memory *memory)
 	{
 		free(memory->pid);
 		memory->pid = NULL;
-	}
-	if (memory->env_path)
-	{
-		free(memory->env_path);
-		memory->env_path = NULL;
 	}
 	free(memory);
 }

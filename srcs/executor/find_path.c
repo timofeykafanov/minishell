@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 15:19:27 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:37:15 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	*check_access(char *command, char **paths, int i)
 // 	return (NULL);
 // }
 
-char	*find_path(char *command, t_memory *memory)
+char	*find_path(char *command, t_memory *memory, t_command *cmd)
 {
 	int		i;
 	char	**paths;
@@ -69,14 +69,14 @@ char	*find_path(char *command, t_memory *memory)
 			return (ft_strdup(command));
 		return (NULL);
 	}
-	memory->env_path = find_env_value(memory, "PATH");
-	if (ft_strlen(memory->env_path) == 0)
+	cmd->env_path = find_env_value(memory, "PATH");
+	if (ft_strlen(cmd->env_path) == 0)
 		set_error_code(PATH, ERROR_CODE_NO_PATH, memory);
 	if (access(command, F_OK) == 0)
 		return (ft_strdup(command));
-	if (!memory->env_path)
+	if (!cmd->env_path)
 		return (NULL);
-	paths = ft_split(memory->env_path, ':');
+	paths = ft_split(cmd->env_path, ':');
 	if (!paths)
 		return (NULL);
 	i = 0;

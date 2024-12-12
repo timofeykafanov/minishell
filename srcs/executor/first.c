@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 16:31:49 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:38:07 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 		close(fd1[0]);
 		close(fd1[1]);
 		free_memory(mem);
+		close(1);
 		exit(0);
 	}
 	else
 	{
 		if (!cmd->path || !cmd->args[0][0])
 		{
+			close(1);
 			if (mem->error_code == ERROR_CODE_NO_PATH || ft_strchr(cmd->name, '/'))
 				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
 						cmd->args[0]);
@@ -78,6 +80,7 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 		}
 		else if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
+			close(1);
 			if (ft_strlen(cmd->args[0]) == 0)
 			{
 				free_memory(mem);
@@ -104,7 +107,7 @@ int	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 	}
 	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
 		return (-1);
-	cmd->path = find_path(cmd->args[0], mem);
+	cmd->path = find_path(cmd->args[0], mem, cmd);
 	pid = fork();
 	if (pid == -1)
 	{
