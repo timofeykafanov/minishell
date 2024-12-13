@@ -199,7 +199,7 @@ void		handle_sigint(int sig);
 // builtins_pwd_exit.c
 
 void		execute_pwd(t_memory *memory);
-void		execute_exit(t_memory *memory, bool is_redir, int saved_fds[2]);
+void		execute_exit(t_memory *memory, bool is_redir_out, bool is_redir_in, int saved_fds[2]);
 
 // builtins_env_unset.c
 
@@ -310,8 +310,8 @@ void		echo(char **args);
 
 bool		contains_slash(char *command);
 bool		is_builtin(char *command);
-void		execute_builtin(t_command *cmd, t_memory *mem, bool is_redir, \
-	int saved_fds[2]);
+void		execute_builtin(t_command *cmd, t_memory *mem, bool is_redir_out, \
+	bool is_redir_in, int saved_fds[2]);
 bool		is_cd_or_exit(char *command);
 void		execute_cd_or_exit(t_command *cmd, t_memory *mem);
 

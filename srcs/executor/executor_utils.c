@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 16:27:41 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:58:43 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ bool	is_builtin(char *command)
 	return (false);
 }
 
-void	execute_builtin(t_command *cmd, t_memory *mem, bool is_redir, \
-	int saved_fds[2])
+void	execute_builtin(t_command *cmd, t_memory *mem, bool is_redir_out, \
+	bool is_redir_in, int saved_fds[2])
 {
 	if (!ft_strncmp(cmd->args[0], ECHO, 5))
 		echo(cmd->args);
@@ -52,7 +52,7 @@ void	execute_builtin(t_command *cmd, t_memory *mem, bool is_redir, \
 	else if (!ft_strncmp(cmd->args[0], ENV, 4))
 		print_env(mem);
 	else if (!ft_strncmp(cmd->args[0], EXIT, 5))
-		execute_exit(mem, is_redir, saved_fds);
+		execute_exit(mem, is_redir_out, is_redir_in, saved_fds);
 	// close(saved_fds[0]);
 	// close(saved_fds[1]);
 }

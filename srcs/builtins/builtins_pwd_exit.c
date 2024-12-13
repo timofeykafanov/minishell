@@ -6,11 +6,12 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 16:02:47 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:01:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdbool.h>
 
 extern volatile sig_atomic_t g_exit_status;
 
@@ -66,11 +67,16 @@ static bool	contains_only_digits(char *str, int *sign)
 	return (true);
 }
 
-static void	exit_shell(t_memory *memory, bool is_redir, int saved_fds[2])
+static void	exit_shell(t_memory *memory, bool is_redir_out, bool is_redir_in, int saved_fds[2])
 {
-	if (is_redir && saved_fds)
+	if (is_redir_in && saved_fds)
 	{
 		dup2(saved_fds[0], STDIN_FILENO);
+		close(saved_fds[0]);
+		close(saved_fds[1]);
+	}
+	if (is_redir_out && saved_fds)
+	{
 		dup2(saved_fds[1], STDOUT_FILENO);
 		close(saved_fds[0]);
 		close(saved_fds[1]);
@@ -133,7 +139,7 @@ static bool is_within_long_range(char *str, int sign)
 	return true;
 }
 
-void execute_exit(t_memory *memory, bool is_redir, int saved_fds[2])
+void	execute_exit(t_memory *memory, bool is_redir_out, bool is_redir_in, int saved_fds[2])
 {
 	t_command *command;
 	int sign = 1;
@@ -158,5 +164,5 @@ void execute_exit(t_memory *memory, bool is_redir, int saved_fds[2])
 	}
 	if (sign == -1)
 		memory->exit_status = (256 + memory->exit_status) % 256;
-	exit_shell(memory, is_redir, saved_fds);
+	exit_shell(memory, is_redir_out, is_redir_in, saved_fds);
 }

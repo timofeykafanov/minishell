@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 18:47:24 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:01:31 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 {
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
-		execute_builtin(cmd, mem, false, NULL);
+		execute_builtin(cmd, mem, false, false, NULL);
 		free_memory(mem);
 		close(1);
 		close(0);

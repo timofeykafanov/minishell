@@ -6,26 +6,33 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/13 13:12:11 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:03:34 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 static void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 	int saved_fds[2])
 {
-	bool	is_redir;
+	bool	is_redir_out;
+	bool	is_redir_in;
 
-	is_redir = false;
-	if (cmd->redir_struct)
+	is_redir_in = false;
+	is_redir_out = false;
+	if (cmd->redir_struct && has_redir_in(cmd))
 	{
-		is_redir = true;
+		is_redir_in = true;
 		handle_redir_in(cmd, mem);
+	}
+	if (cmd->redir_struct && has_redir_out(cmd))
+	{
+		is_redir_out = true;
 		handle_redir_out(cmd, mem);
 	}
 	
-	execute_builtin(cmd, mem, is_redir, saved_fds);
+	execute_builtin(cmd, mem, is_redir_out, is_redir_in, saved_fds);
 	if (mem->exit_failed || mem->cd_failed)
 	{
 		mem->exit_failed = false;
@@ -34,9 +41,16 @@ static void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 	}
 	else 
 		mem->exit_status = 0;
-	if (is_redir)
+	if (is_redir_in)
 	{
+		is_redir_in = false;
 		dup2(saved_fds[0], STDIN_FILENO);
+		close(saved_fds[0]);
+		close(saved_fds[1]);
+	}
+	if (is_redir_out)
+	{
+		is_redir_out = false;
 		dup2(saved_fds[1], STDOUT_FILENO);
 		close(saved_fds[0]);
 		close(saved_fds[1]);
@@ -110,7 +124,7 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 
 void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 {
-	int			saved_fds[2];
+	int	saved_fds[2];
 
 	if (!cmd->args[0] && !cmd->redir_struct)
 		return ;
