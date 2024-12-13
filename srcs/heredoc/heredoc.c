@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/09 11:12:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:38:57 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,11 @@ void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 
 	int randname = fork();
 	if (randname == 0)
+	{
+		memory->heredocs_count = 0;
+		free_memory(memory);
 		exit(0);
+	}
 	char *filename = ft_itoa(randname);
 	redir->heredoc_file_name = ft_strjoin("heredoc/", filename);
 	memory->heredocs[i] = ft_strdup(redir->heredoc_file_name);

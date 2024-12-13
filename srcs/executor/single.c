@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 17:37:59 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:12:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 	{
 		dup2(saved_fds[0], STDIN_FILENO);
 		dup2(saved_fds[1], STDOUT_FILENO);
+		close(saved_fds[0]);
+		close(saved_fds[1]);
 	}
 	close(saved_fds[0]);
 	close(saved_fds[1]);
@@ -66,6 +68,7 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 		if (!cmd->path || !cmd->args[0][0] || (ft_strncmp(cmd->name, "..", 2) == 0 && ft_strlen(cmd->name) == 2))
 		{
 			close(1);
+			close(0);
 			if (mem->error_code == ERROR_CODE_NO_PATH || (cmd->name && ft_strchr(cmd->name, '/')))
 				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
 						cmd->args[0]);
@@ -84,6 +87,7 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 		else if (execve(cmd->path, cmd->args, mem->env) == -1)
 		{
 			close(1);
+			close(0);
 			if (ft_strlen(cmd->args[0]) == 0)
 			{
 				free_memory(mem);
@@ -122,6 +126,8 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 		execute_builtin_and_handle_redir(cmd, mem, saved_fds);
 		close(saved_fds[0]);
 		close(saved_fds[1]);
+		// close(1);
+		// close(0);
 		return ;
 	}
 	cmd->path = find_path(cmd->name, mem, cmd);

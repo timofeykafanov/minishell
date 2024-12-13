@@ -5,8 +5,40 @@ SYNTAX ERRORS
 94
 95
 
-GO WILD
-6
-7
+
+TODO:
 
 Check cd behaviour
+
+> $notexists echo "haha"
+
+cd leaks
+
+pipelines leaks
+
+ls|cat Makefile|cat<<"asd">out
+$USER
+asd
+/bin/rm -f out
+
+cat << "$USER"
+why
+not
+$USER
+
+cat << "$US"E"R"
+because
+we
+love
+bash
+$USER
+
+echo segfault <"<<<"<<amazing
+.
+amazing
+
+cat << "lim"
+$USER
+$NOVAR
+$HOME
+lim
