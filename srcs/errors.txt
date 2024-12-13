@@ -10,11 +10,11 @@ TODO:
 
 Check cd behaviour
 
-> $notexists echo "haha"
-
 cd leaks
 
 pipelines leaks
+
+> $notexists echo "haha"
 
 ls|cat Makefile|cat<<"asd">out
 $USER

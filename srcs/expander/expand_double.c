@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:44:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/27 16:31:07 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:54:27 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,15 @@ char	*expand_double(t_memory *memory, char *s)
 char	*remove_quotes(char *s)
 {
 	char	*res;
+	char	*orginal_data;
 
 	res = NULL;
+	orginal_data = s;
 	if (is_double_quote(*s) && is_double_quote(*(s + 1)))
+	{
+		free(orginal_data);
 		return (create_null_string(&res));
+	}
 	s++;
 	while (*s)
 	{
@@ -112,5 +117,6 @@ char	*remove_quotes(char *s)
 		if (!res)
 			return (NULL);
 	}
+	free(orginal_data);
 	return (res);
 }
