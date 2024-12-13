@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/12 18:38:48 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:20:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,17 @@ void free_heredocs(t_memory *memory)
 	int	i;
 
 	i = 0;
-	while(memory->heredocs_count && memory->heredocs[i])
+	// printf("memory->heredocs_count != 0: %d\n", memory->heredocs_count != 0);
+	// printf("heredocs: %s\n", memory->heredocs[i]);
+	if (memory->heredocs_count != 0)
 	{
-		free(memory->heredocs[i]);
-		memory->heredocs[i] = NULL;
-		i++;
+		while(memory->heredocs[i])
+		{
+			// printf("unlinking %s\n", memory->heredocs[i]);
+			free(memory->heredocs[i]);
+			memory->heredocs[i] = NULL;
+			i++;
+		}
 	}
 	memory->heredocs_count = 0;
 	free(memory->heredocs);
