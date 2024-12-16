@@ -1,0 +1,5 @@
+add exit printing
+
+try exit | exit | exit
+
+signals in child processes

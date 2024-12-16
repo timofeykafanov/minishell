@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:09:53 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/06 11:16:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:00:28 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ void	unset(t_memory *memory, char **args)
 	while (args[i])
 	{
 		j = 0;
+		if (ft_strcmp(args[i], "OLDPWD") == 0)
+		{
+			if (memory->oldpwd)
+			{
+				free(memory->oldpwd);
+				memory->oldpwd = NULL;
+			}
+		}
 		while (memory->env[j] && j < memory->env_lines)
 		{
 			if (ft_strncmp(memory->env[j], args[i], ft_strlen(args[i])) == 0)

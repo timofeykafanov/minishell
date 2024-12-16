@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:16:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/16 16:52:41 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:09:28 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ static void	check_pwds(t_memory *memory)
 	int		i;
 
 	oldpwd = get_env_var(memory, "PWD=");
+	if (oldpwd)
+	{
+		if (memory->oldpwd)
+			free(memory->oldpwd);
+		memory->oldpwd = ft_strdup(oldpwd);
+	}
 	getcwd(memory->pwd, PATH_MAX);
 	if (!oldpwd)
 	{
@@ -70,44 +76,80 @@ static void	check_pwds(t_memory *memory)
 void	execute_cd(t_memory *memory, t_command *cmd)
 {
 	char	*oldpwd;
+	char	*home;
+
 	if (cmd->args)
 	{
 		if (cmd->args[1] && cmd->args[2])
 		{
-			ft_printf("minishell: %s: too many arguments\n", STDERR_FILENO, \
+			ft_printf("%s: too many arguments\n", STDERR_FILENO, \
 				cmd->args[0]);
 			memory->cd_failed = true;
 		}
-		else
-		if (cmd->args[1] == NULL)
+		else if (cmd->args[1] == NULL)
 		{
-			if (chdir(get_env_var(memory, "HOME=")) != 0)
+			home = get_env_var(memory, "HOME=");
+			if (!home)
 			{
-				ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
-					cmd->args[0], cmd->args[1]);
+				ft_printf("%s: HOME not set\n", STDERR_FILENO, \
+					cmd->name);
 				memory->cd_failed = true;
+			}
+			else if (chdir(home) != 0)
+			{
+				ft_printf("%s: %s: ", STDERR_FILENO, \
+					cmd->args[0], cmd->args[1]);
 				perror("");
 			}
 		}
 		else if (ft_strncmp(cmd->args[1], "-", ft_strlen(cmd->args[1])) == 0)
 		{
 			oldpwd = get_env_var(memory, "OLDPWD=");
-			printf("%s\n", oldpwd);
-			if (chdir(get_env_var(memory, "OLDPWD=")) != 0)
+			if (!oldpwd)
 			{
-				ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
+				if (memory->oldpwd)
+				{
+					oldpwd = memory->oldpwd;
+					if (chdir(oldpwd) != 0)
+					{
+						ft_printf("%s: %s: ", STDERR_FILENO, \
+							cmd->args[0], cmd->args[1]);
+						memory->cd_failed = true;
+						perror("");
+					}
+				}
+				else
+				{
+					ft_printf("%s: OLDPWD not set\n", STDERR_FILENO, \
+						cmd->name);
+					memory->cd_failed = true;
+				}
+			}
+			else
+			{
+				ft_printf("%s\n", STDOUT_FILENO, oldpwd);
+				if (chdir(oldpwd) != 0)
+				{
+					ft_printf("%s: %s: ", STDERR_FILENO, \
+						cmd->args[0], cmd->args[1]);
+					memory->cd_failed = true;
+					perror("");
+				}
+			}
+		}
+		else
+		{
+			int cd = chdir(cmd->args[1]);
+			// printf("cd: %d\n", cd);
+			if (cd != 0)
+			{
+				ft_printf("%s: %s: ", STDERR_FILENO, \
 					cmd->args[0], cmd->args[1]);
 				memory->cd_failed = true;
 				perror("");
 			}
 		}
-		else if (chdir(cmd->args[1]) != 0)
-		{
-			ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
-				cmd->args[0], cmd->args[1]);
-			memory->cd_failed = true;
-			perror("");
-		}
 	}
-	check_pwds(memory);
+	if (!memory->cd_failed)
+		check_pwds(memory);
 }

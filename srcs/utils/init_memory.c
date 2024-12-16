@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 15:37:53 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:00:09 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ t_memory	*init_memory(char **env)
 	if (!memory->pwd)
 		return (perror("Failed to allocate path"), free_memory(memory), NULL);
 	getcwd(memory->pwd, PATH_MAX);
+	memory->oldpwd = ft_strdup(memory->pwd);
 	return (memory);
 }
