@@ -127,6 +127,7 @@ typedef struct s_memory
 	char				*pwd;
 	char				*suffix;
 	char				**env;
+	char				*oldpwd;
 	int					env_lines;
 	int					env_space;
 	int					exit_status;

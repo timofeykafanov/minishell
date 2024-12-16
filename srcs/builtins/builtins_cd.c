@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:16:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/28 10:29:17 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:52:41 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	check_pwds(t_memory *memory)
 
 void	execute_cd(t_memory *memory, t_command *cmd)
 {
+	char	*oldpwd;
 	if (cmd->args)
 	{
 		if (cmd->args[1] && cmd->args[2])
@@ -90,7 +91,8 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 		}
 		else if (ft_strncmp(cmd->args[1], "-", ft_strlen(cmd->args[1])) == 0)
 		{
-			printf("%s\n", get_env_var(memory, "OLDPWD="));
+			oldpwd = get_env_var(memory, "OLDPWD=");
+			printf("%s\n", oldpwd);
 			if (chdir(get_env_var(memory, "OLDPWD=")) != 0)
 			{
 				ft_printf("minishell: %s: %s: ", STDERR_FILENO, \
