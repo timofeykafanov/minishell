@@ -6,12 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/13 18:03:34 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:41:14 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <unistd.h>
 
 static void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 	int saved_fds[2])
@@ -107,11 +106,19 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 				free_memory(mem);
 				exit(0);
 			}
-			ft_printf("%s: Permission denied\n", STDERR_FILENO, \
-				cmd->args[0]);
+			if (mem->error_code == ERROR_CODE_NO_PATH || ft_strchr(cmd->name, '/'))
 			{
-				free_memory(mem);	
+				ft_printf("%s: Permission denied\n", STDERR_FILENO, \
+					cmd->args[0]);
+				free_memory(mem);
 				exit(PERMISSION_DENIED);
+			}
+			else
+			{
+				ft_printf("%s: command not found\n", STDERR_FILENO, \
+					cmd->args[0]);
+				free_memory(mem);
+				exit(COMMAND_NOT_FOUND);
 			}
 		}
 	}
@@ -140,8 +147,6 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 		execute_builtin_and_handle_redir(cmd, mem, saved_fds);
 		close(saved_fds[0]);
 		close(saved_fds[1]);
-		// close(1);
-		// close(0);
 		return ;
 	}
 	cmd->path = find_path(cmd->name, mem, cmd);

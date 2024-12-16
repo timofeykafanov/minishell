@@ -113,6 +113,7 @@ typedef struct s_command
 	int					type;
 	char				*path;
 	char				*env_path;
+	bool				is_filename;
 	struct s_command	*next;
 }	t_command;
 

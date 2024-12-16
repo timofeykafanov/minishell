@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 17:42:46 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:17:21 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_command	*create_command(char *name, char **args, int type)
 	command->next = NULL;
 	command->path = NULL;
 	command->env_path = NULL;
+	command->is_filename = false;
 	return (command);
 }
 

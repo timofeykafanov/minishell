@@ -10,35 +10,9 @@ TODO:
 
 Check cd behaviour
 
-cd leaks
-
-pipelines leaks
-
-> $notexists echo "haha"
-
-ls|cat Makefile|cat<<"asd">out
-$USER
-asd
-/bin/rm -f out
-
-cat << "$USER"
-why
-not
-$USER
-
-cat << "$US"E"R"
-because
-we
-love
-bash
-$USER
-
-echo segfault <"<<<"<<amazing
-.
-amazing
-
-cat << "lim"
-$USER
-$NOVAR
-$HOME
-lim
+tkafanov@c4r6p6:~/git/minishell$ export A='"echo hi"'
+tkafanov@c4r6p6:~/git/minishell$ $A
+Command '"echo' not found, did you mean:
+  command 'echo' from deb coreutils (8.32-4.1ubuntu1.2)
+Try: apt install <deb name>
+tkafanov@c4r6p6:~/git/minishell$ ddt4tf4
