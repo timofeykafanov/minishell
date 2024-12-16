@@ -6,20 +6,20 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/12 14:42:36 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:52:59 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_tokens	*create_token(char *s, t_memory *memory)
+static t_tokens	*create_token(char *s, t_memory *memory, bool split)
 {
 	t_tokens	*token;
 	
 	token = malloc(sizeof(t_tokens));
 	if (!token)
 		return (set_error_code(LEXER, ERROR_CODE_MALLOC, memory), NULL);
-	token->data = process_token(s, memory);
+	token->data = process_token(s, memory, split);
 	// printf("allocated %p %s\n", (void *)token, (char *)token->data);
 	if (memory->lexer_error_code == ERROR_CODE_QUOTES)
 		return (print_error_message(LEXER, memory), NULL);
@@ -45,7 +45,7 @@ void	lexer(t_memory *memory)
 	input = memory->input;
 	while (*input)
 	{
-		current = create_token(input, memory);
+		current = create_token(input, memory, false);
 		if (!current)
 			return ;	
 		if (!memory->tokens)
@@ -75,7 +75,7 @@ t_tokens	*variable_split_lexer(t_memory *memory, char *s)
 	input = s;
 	while (*input)
 	{
-		current = create_token(input, memory);
+		current = create_token(input, memory, true);
 		if (!current)
 			return (NULL);
 		if (!start)

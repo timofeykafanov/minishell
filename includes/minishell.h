@@ -158,7 +158,7 @@ t_tokens	*variable_split_lexer(t_memory *memory, char *s);
 
 // process_token.c
 
-void		*process_token(char *s, t_memory *memory);
+void		*process_token(char *s, t_memory *memory, bool split);
 
 // lexer_utils.c
 
