@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:27:03 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/11 13:46:39 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:57:54 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,30 @@ static bool	is_group_identifier(char *s)
 		|| (*s == R_OUT && *(s + 1) == R_OUT));
 }
 
-void *process_token(char *s, t_memory *memory)
+void *process_token(char *s, t_memory *memory, bool split)
 {
 	void	*token;
 	int		len;
 
 	token = NULL;
 	len = 0;
-	if (*s == D_QUOTE || *s == S_QUOTE)
+	if ((*s == D_QUOTE || *s == S_QUOTE) && !split)
 	{
 		if (!handle_quotes(&token, &len, s, memory))
 			return (NULL);
 	}
-	else if (is_group_identifier(s) || is_whitespace(s))
+	else if ((is_group_identifier(s) && !split) || is_whitespace(s))
 		handle_group(&token, &len, s);
 	else
 	{
-		len = find_seperator(s) - s;
-		if (*find_seperator(s) == EQUALS)
-			len += 1;
+		if (split)
+			len = skip_non_whitespace(s);
+		else
+		{
+			len = find_seperator(s) - s;
+			if (*find_seperator(s) == EQUALS)
+				len += 1;
+		}
 		token = ft_strncpy(s, len);
 	}
 	return (token);
