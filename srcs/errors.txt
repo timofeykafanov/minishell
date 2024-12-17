@@ -1,13 +1,3 @@
-
----------------------------------IGNORE---------------------------------- 
-
-SYNTAX ERRORS
-94
-95
-
-
 TODO:
-
-Check cd behaviour
 
 signals

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir_out.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:26:44 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 15:02:52 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:07:34 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	redir_out(t_redir_out *redir, t_memory *mem)
+static void	redir_out(t_redir_out *redir, t_memory *mem, bool has_child)
 {
 	int	fd_out;
 
@@ -21,14 +21,17 @@ static void	redir_out(t_redir_out *redir, t_memory *mem)
 	{
 		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
 		perror("");
-		free_memory(mem);
-		exit(1);
+		if (has_child)
+		{
+			free_memory(mem);
+			exit(1);
+		}
 	}
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 }
 
-static void	redir_append(t_redir_out *redir, t_memory *mem)
+static void	redir_append(t_redir_out *redir, t_memory *mem, bool has_child)
 {
 	int	fd_out;
 
@@ -37,14 +40,17 @@ static void	redir_append(t_redir_out *redir, t_memory *mem)
 	{
 		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
 		perror("");
-		free_memory(mem);
-		exit(1);
+		if (has_child)
+		{
+			free_memory(mem);
+			exit(1);
+		}
 	}
 	dup2(fd_out, STDOUT_FILENO);
 	close(fd_out);
 }
 
-void	handle_redir_out(t_command *cmd, t_memory *mem)
+void	handle_redir_out(t_command *cmd, t_memory *mem, bool has_child)
 {
 	t_redir_out	*redir;
 
@@ -52,9 +58,9 @@ void	handle_redir_out(t_command *cmd, t_memory *mem)
 	while (redir)
 	{
 		if (redir->type == T_R_OUT)
-			redir_out(redir, mem);
+			redir_out(redir, mem, has_child);
 		if (redir->type == T_OUT_APPEND)
-			redir_append(redir, mem);
+			redir_append(redir, mem, has_child);
 		redir = redir->next;
 	}
 }

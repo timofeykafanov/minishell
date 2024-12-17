@@ -6,11 +6,12 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:20:11 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/06 11:18:30 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:12:26 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 static void	bubble_sort_char_array(char **array)
 {
@@ -56,20 +57,20 @@ static void	check_equal_sign(char **copy, int i)
 		j = 0;
 		var_name = ft_strndup(copy[i], equal_sign - copy[i]);
 		var_value = ft_strdup(equal_sign + 1);
-		printf("declare -x %s=\"", var_name);
+		ft_printf("declare -x %s=\"", STDOUT_FILENO, var_name);
 		while (var_value[j])
 		{
 			if (is_special_char(var_value[j]))
-				printf("\\");
-			printf("%c", var_value[j]);
+				ft_printf("\\", STDOUT_FILENO);
+			ft_printf("%c", STDOUT_FILENO, var_value[j]);
 			j++;
 		}
-		printf("\"\n");
+		ft_printf("\"\n", STDOUT_FILENO);
 		free(var_name);
 		free(var_value);
 	}
 	else
-		printf("declare -x %s\n", copy[i]);
+		ft_printf("declare -x %s\n", STDOUT_FILENO, copy[i]);
 }
 
 static void	print_vars(char	**copy)
