@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/16 15:52:59 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:52:05 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 static t_tokens	*create_token(char *s, t_memory *memory, bool split)
 {
 	t_tokens	*token;
-	
+
 	token = malloc(sizeof(t_tokens));
 	if (!token)
 		return (set_error_code(LEXER, ERROR_CODE_MALLOC, memory), NULL);
 	token->data = process_token(s, memory, split);
-	// printf("allocated %p %s\n", (void *)token, (char *)token->data);
 	if (memory->lexer_error_code == ERROR_CODE_QUOTES)
 		return (print_error_message(LEXER, memory), NULL);
 	else if (!token->data)
@@ -47,7 +46,7 @@ void	lexer(t_memory *memory)
 	{
 		current = create_token(input, memory, false);
 		if (!current)
-			return ;	
+			return ;
 		if (!memory->tokens)
 			memory->tokens = current;
 		else
@@ -58,13 +57,12 @@ void	lexer(t_memory *memory)
 		previous = current;
 		input += ft_strlen(current->data);
 	}
-	return;
+	return ;
 }
 
 //needs type handling for redirects and pipes?
 t_tokens	*variable_split_lexer(t_memory *memory, char *s)
 {
-	char		*input;
 	t_tokens	*start;
 	t_tokens	*current;
 	t_tokens	*previous;
@@ -72,10 +70,9 @@ t_tokens	*variable_split_lexer(t_memory *memory, char *s)
 	start = NULL;
 	current = NULL;
 	previous = NULL;
-	input = s;
-	while (*input)
+	while (*s)
 	{
-		current = create_token(input, memory, true);
+		current = create_token(s, memory, true);
 		if (!current)
 			return (NULL);
 		if (!start)
@@ -88,7 +85,7 @@ t_tokens	*variable_split_lexer(t_memory *memory, char *s)
 		if (current->type != T_WHITESPACE)
 			current->type = T_WORD;
 		previous = current;
-		input += ft_strlen(current->data);
+		s += ft_strlen(current->data);
 	}
 	return (start);
 }

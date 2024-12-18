@@ -166,7 +166,7 @@ void		*process_token(char *s, t_memory *memory, bool split);
 // lexer_utils.c
 
 int			get_type(char *s);
-
+bool		is_group_identifier(char *s);
 int			print_tokens(t_memory *memory);
 int			print_expand_var_tokens(t_tokens *token);
 

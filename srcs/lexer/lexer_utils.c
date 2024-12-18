@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/25 18:45:20 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:52:48 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,25 @@ int	print_tokens(t_memory *memory)
 	while (current)
 	{
 		if (current->was_quoted)
-			printf("Nr: %d\nToken: %s W/O Quotes: %s Type: %d Quoted : %d\n", i++, \
-			(char *)current->data, (char*)current->quotes_removed, current->type, current->was_quoted);
+			printf("Nr: %d\nToken: %s W/O Quotes: %s Type: \
+			%d Quoted : %d\n", i++, (char *)current->data, \
+			(char *)current->quotes_removed, current->type, \
+			current->was_quoted);
 		else
 			printf("Nr: %d\nToken: %s Type: %d Quoted : %d\n", i++, \
 			(char *)current->data, current->type, current->was_quoted);
 		current = current->next;
 	}
 	return (1);
+}
+
+bool	is_group_identifier(char *s)
+{
+	return (*s == DASH || *s == DOLLAR || *s == PIPE || *s == SEMICOLON
+		|| (*s == R_IN && *(s + 1) != R_IN)
+		|| (*s == R_OUT && *(s + 1) != R_OUT)
+		|| (*s == R_IN && *(s + 1) == R_IN)
+		|| (*s == R_OUT && *(s + 1) == R_OUT));
 }
 
 int	print_expand_var_tokens(t_tokens *token)
@@ -44,8 +55,10 @@ int	print_expand_var_tokens(t_tokens *token)
 	while (current)
 	{
 		if (current->was_quoted)
-			printf("Nr: %d\nToken: %s W/O Quotes: %s Type: %d Quoted : %d\n", i++, \
-			(char *)current->data, (char*)current->quotes_removed, current->type, current->was_quoted);
+			printf("Nr: %d\nToken: %s W/O Quotes: \
+			%s Type: %d Quoted : %d\n", i++, (char *)current->data, \
+			(char *)current->quotes_removed, current->type, \
+			current->was_quoted);
 		else
 			printf("Nr: %d\nToken: %s Type: %d Quoted : %d\n", i++, \
 			(char *)current->data, current->type, current->was_quoted);

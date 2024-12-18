@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:27:03 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/16 15:57:54 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:52:40 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,7 @@ static void	handle_group(void **token, int *len, char *s)
 		handle_redir_whitespace(token, len, s);
 }
 
-static bool	is_group_identifier(char *s)
-{
-	return (*s == DASH || *s == DOLLAR || *s == PIPE || *s == SEMICOLON
-		|| (*s == R_IN && *(s + 1) != R_IN)
-		|| (*s == R_OUT && *(s + 1) != R_OUT)
-		|| (*s == R_IN && *(s + 1) == R_IN)
-		|| (*s == R_OUT && *(s + 1) == R_OUT));
-}
-
-void *process_token(char *s, t_memory *memory, bool split)
+void	*process_token(char *s, t_memory *memory, bool split)
 {
 	void	*token;
 	int		len;
