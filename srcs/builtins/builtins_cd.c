@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:16:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/16 19:09:28 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:38:13 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	execute_cd(t_memory *memory, t_command *cmd)
 			// printf("cd: %d\n", cd);
 			if (cd != 0)
 			{
-				ft_printf("%s: %s: ", STDERR_FILENO, \
+				ft_printf("kinkshell: %s: %s: ", STDERR_FILENO, \
 					cmd->args[0], cmd->args[1]);
 				memory->cd_failed = true;
 				perror("");
