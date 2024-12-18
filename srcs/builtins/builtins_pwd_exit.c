@@ -6,12 +6,12 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/13 18:01:11 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:23:35 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdbool.h>
+#include <unistd.h>
 
 extern volatile sig_atomic_t g_exit_status;
 
@@ -67,7 +67,8 @@ static bool	contains_only_digits(char *str, int *sign)
 	return (true);
 }
 
-static void	exit_shell(t_memory *memory, bool is_redir_out, bool is_redir_in, int saved_fds[2])
+static void	exit_shell(t_memory *memory, bool is_redir_out, bool is_redir_in, \
+	int saved_fds[2])
 {
 	if (is_redir_in && saved_fds)
 	{
@@ -83,8 +84,14 @@ static void	exit_shell(t_memory *memory, bool is_redir_out, bool is_redir_in, in
 	}
 	g_exit_status = memory->exit_status;
 	free_memory(memory);
-	close(saved_fds[0]);
-	close(saved_fds[1]);
+	if (saved_fds)
+	{
+		close(saved_fds[0]);
+		close(saved_fds[1]);
+	}
+	ft_printf("exit\n", STDOUT_FILENO);
+	close(1);
+	close(0);
 	exit(g_exit_status);
 }
 
@@ -139,7 +146,8 @@ static bool is_within_long_range(char *str, int sign)
 	return true;
 }
 
-void	execute_exit(t_memory *memory, bool is_redir_out, bool is_redir_in, int saved_fds[2])
+void	execute_exit(t_memory *memory, bool is_redir_out, bool is_redir_in, \
+	int saved_fds[2])
 {
 	t_command *command;
 	int sign = 1;
@@ -154,7 +162,9 @@ void	execute_exit(t_memory *memory, bool is_redir_out, bool is_redir_in, int sav
 	}
 	else if (command->args[1])
 	{
-		if (contains_only_digits(command->args[1], &sign) && is_within_long_range(command->args[1], sign) && command->args[1][0])
+		if (contains_only_digits(command->args[1], &sign)
+			&& is_within_long_range(command->args[1], sign)
+			&& command->args[1][0])
 			memory->exit_status = ft_atoi(command->args[1]) % 256;
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/11/06 11:18:34 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:48:23 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	find_var(t_memory *memory, char **args, int j, int *found)
 {
 	int		i;
 	char	*var_name;
+	size_t	env_var_len;
 
 	i = 0;
-	*found = 0;
 	if (ft_strchr(args[j], '='))
 		var_name = ft_strncpy(args[j], \
 		ft_strchr(args[j], '=') - args[j]);
@@ -26,8 +26,9 @@ void	find_var(t_memory *memory, char **args, int j, int *found)
 		var_name = ft_strdup(args[j]);
 	while (memory->env[i] && i < memory->env_lines)
 	{
+		env_var_len = ft_strchr(memory->env[i], '=') - memory->env[i];
 		if (memory->env[i] && ft_strncmp(memory->env[i], var_name, \
-			ft_strlen(var_name)) == 0)
+			ft_strlen(var_name)) == 0 && env_var_len == ft_strlen(var_name))
 		{
 			free(memory->env[i]);
 			memory->env[i] = ft_strdup(args[j]);
@@ -45,9 +46,9 @@ static void	add_env_var(t_memory *memory, char **args)
 	int	found;
 
 	j = 1;
-	found = 0;
 	while (args[j])
 	{
+		found = 0;
 		find_var(memory, args, j, &found);
 		if (found)
 		{

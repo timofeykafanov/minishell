@@ -6,13 +6,14 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:55:23 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/12 09:34:24 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:12:06 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdbool.h>
 
-static void	redir_in(t_redir_out *redir, t_memory *mem)
+static void	redir_in(t_redir_out *redir, t_memory *mem, bool has_child)
 {
 	int	fd_in;
 
@@ -21,14 +22,17 @@ static void	redir_in(t_redir_out *redir, t_memory *mem)
 	{
 		ft_printf("%s: ", STDERR_FILENO, redir->file_name);
 		perror("");
-		free_memory(mem);
-		exit(1);
+		if (has_child)
+		{
+			free_memory(mem);
+			exit(1);
+		}
 	}
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 }
 
-static void redir_heredoc(t_redir_out *redir, t_memory *mem)
+static void redir_heredoc(t_redir_out *redir, t_memory *mem, bool has_child)
 {
 	int	fd_heredoc;
 	
@@ -37,14 +41,17 @@ static void redir_heredoc(t_redir_out *redir, t_memory *mem)
 	{
 		ft_printf("%s: ", STDERR_FILENO, redir->heredoc_file_name);
 		perror("");
-		free_memory(mem);
-		exit(1);
+		if (has_child)
+		{
+			free_memory(mem);
+			exit(1);
+		}
 	}
 	dup2(fd_heredoc, STDIN_FILENO);
 	close(fd_heredoc);
 }
 
-void	handle_redir_in(t_command *cmd, t_memory *mem)
+void	handle_redir_in(t_command *cmd, t_memory *mem, bool has_child)
 {
 	t_redir_out	*redir;
 
@@ -52,9 +59,9 @@ void	handle_redir_in(t_command *cmd, t_memory *mem)
 	while (redir)
 	{
 		if (redir->type == T_R_IN)
-			redir_in(redir, mem);
+			redir_in(redir, mem, has_child);
 		if (redir->type == T_HEREDOC)
-			redir_heredoc(redir, mem);
+			redir_heredoc(redir, mem, has_child);
 		redir = redir->next;
 	}
 }

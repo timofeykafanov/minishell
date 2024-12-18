@@ -1,18 +1,3 @@
-
----------------------------------IGNORE---------------------------------- 
-
-SYNTAX ERRORS
-94
-95
-
-
 TODO:
 
-Check cd behaviour
-
-tkafanov@c4r6p6:~/git/minishell$ export A='"echo hi"'
-tkafanov@c4r6p6:~/git/minishell$ $A
-Command '"echo' not found, did you mean:
-  command 'echo' from deb coreutils (8.32-4.1ubuntu1.2)
-Try: apt install <deb name>
-tkafanov@c4r6p6:~/git/minishell$ ddt4tf4
+signals

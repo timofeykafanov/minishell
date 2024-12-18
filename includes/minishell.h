@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 
 # include <limits.h>
+#include <stdbool.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <readline/readline.h>
@@ -114,6 +115,7 @@ typedef struct s_command
 	char				*path;
 	char				*env_path;
 	bool				is_filename;
+	bool				has_child;
 	struct s_command	*next;
 }	t_command;
 
@@ -127,6 +129,7 @@ typedef struct s_memory
 	char				*pwd;
 	char				*suffix;
 	char				**env;
+	char				*oldpwd;
 	int					env_lines;
 	int					env_space;
 	int					exit_status;
@@ -203,6 +206,7 @@ bool    	var_name_check(t_memory *memory);
 // signals.c
 
 void		handle_sigint(int sig);
+void		handle_child_sigint(int sig);
 
 // builtins_pwd_exit.c
 
@@ -241,8 +245,8 @@ void		execute_commands(t_memory *memory);
 
 // handle_redir.c
 
-void		handle_redir_out(t_command *cmd, t_memory *memory);
-void		handle_redir_in(t_command *cmd, t_memory *memory);
+void		handle_redir_out(t_command *cmd, t_memory *memory, bool has_child);
+void		handle_redir_in(t_command *cmd, t_memory *memory, bool has_child);
 
 // has_redir.c
 

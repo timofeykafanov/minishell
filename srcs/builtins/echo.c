@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:41:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/27 17:28:03 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:10:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 static void	print_args(char **args, int i)
 {
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		ft_printf("%s", STDOUT_FILENO, args[i]);
 		if (args[i + 1])
-			printf(" ");
+			ft_printf(" ", STDOUT_FILENO);
 		i++;
 	}
 }
@@ -52,7 +53,7 @@ void	echo(char **args)
 	i = 1;
 	if (!args[1])
 	{
-		printf("\n");
+		ft_printf("\n", STDOUT_FILENO);
 		return ;
 	}
 	while (args[i] && is_only_n_flags(args[i]))
@@ -65,6 +66,6 @@ void	echo(char **args)
 	else
 	{
 		print_args(args, i);
-		printf("\n");
+		ft_printf("\n", STDOUT_FILENO);
 	}
 }

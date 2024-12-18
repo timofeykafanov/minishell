@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/13 17:20:11 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:04:04 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,11 @@ void	free_memory(t_memory *memory)
 	{
 		free(memory->pid);
 		memory->pid = NULL;
+	}
+	if (memory->oldpwd)
+	{
+		free(memory->oldpwd);
+		memory->oldpwd = NULL;
 	}
 	free(memory);
 }
