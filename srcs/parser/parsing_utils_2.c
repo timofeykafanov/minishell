@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:29:25 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/11 19:45:27 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:21:54 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool is_redirect(int type)
+bool	is_redirect(int type)
 {
-	return (type == T_R_OUT || type == T_OUT_APPEND || type == T_R_IN || type == T_HEREDOC);
+	return (type == T_R_OUT || type == T_OUT_APPEND \
+		|| type == T_R_IN || type == T_HEREDOC);
 }
 
 int	is_whitespace(char *s)

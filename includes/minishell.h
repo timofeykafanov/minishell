@@ -188,6 +188,13 @@ char		*find_whitespace(char *s);
 char		*is_var_end(char *s);
 bool		is_separator(char c);
 
+// parsing_utils_3.c
+int			check_current_token_type(t_parser **p);
+t_command	*create_command(char *name, char **args, int type);
+t_parser	*init_parser(t_memory *memory);
+void		parser_init_phase_two(t_parser **p, t_memory *memory);
+void		print_commands(t_memory *memory);
+
 // syntax_check.c
 
 int			syntax_check(t_memory *memory);
