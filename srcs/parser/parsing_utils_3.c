@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:22:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/18 17:25:50 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:27:08 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_command	*create_command(char *name, char **args, int type)
 	return (command);
 }
 
-static t_parser	*init_parser(t_memory *memory)
+t_parser	*init_parser(t_memory *memory)
 {
 	t_parser	*parser;
 

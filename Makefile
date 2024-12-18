@@ -32,6 +32,7 @@ SRCS		= \
 			$(SRCSDIR)/parser/parser.c \
 			$(SRCSDIR)/parser/parsing_utils.c \
 			$(SRCSDIR)/parser/parsing_utils_2.c \
+			$(SRCSDIR)/parser/parsing_utils_3.c \
 			$(SRCSDIR)/syntax_check/syntax_check.c \
 			$(SRCSDIR)/syntax_check/var_name_check.c \
 			$(SRCSDIR)/builtins/builtins_env_unset.c  \
