@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/17 18:32:45 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/19 11:36:57 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*get_env_var(t_memory *memory, char *var)
 {
 	int	i;
- 
+
 	i = 0;
 	while (memory->env[i])
 	{

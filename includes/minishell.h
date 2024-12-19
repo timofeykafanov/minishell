@@ -174,7 +174,13 @@ int			print_expand_var_tokens(t_tokens *token);
 
 void		free_memory(t_memory *memory);
 void		*free_tokens(t_tokens *token);
+
+// freeing_two.c
+void		free_heredocs(t_memory *memory);
 void		reset_minishell(t_memory *memory);
+void		*free_tokens(t_tokens *token);
+void		free_env(char **env);
+void		free_redir_struct(t_redir_out *current);
 
 // print_error_messages.c
 void		print_error_message(int segment, t_memory *memory);
