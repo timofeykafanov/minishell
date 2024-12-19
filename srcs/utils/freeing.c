@@ -6,11 +6,19 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 11:34:28 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 13:56:51 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void end_parser_malloc_error(t_memory *memory, t_parser *p)
+{
+		free_memory(memory);
+		if (p)
+			free(p);
+		exit(1);
+}
 
 static void	free_command_content(t_command *current)
 {

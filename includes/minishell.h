@@ -199,10 +199,11 @@ bool		is_separator(char c);
 
 // parsing_utils_3.c
 int			check_current_token_type(t_parser **p);
-t_command	*create_command(char *name, char **args, int type);
+t_command	*create_command(char *name, char **args, int type, t_memory *memory);
 t_parser	*init_parser(t_memory *memory);
 void		parser_init_phase_two(t_parser **p, t_memory *memory);
-void		print_commands(t_memory *memory);
+void		setup_redirect(t_parser *p);
+// void		print_commands(t_memory *memory);
 
 // syntax_check.c
 
@@ -288,6 +289,7 @@ int			execute_last_command(t_command *cmd, t_memory *mem, int fd1[2]);
 
 void		free_commands(t_command *commands);
 void		free_env(char **env);
+void		end_parser_malloc_error(t_memory *memory, t_parser *p);
 
 // expander.c
 

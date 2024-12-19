@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:36:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 11:36:48 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:55:25 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ int	set_error_code(int segment, int error_code, t_memory *memory)
 	{
 		if (error_code == ERROR_CODE_NO_PATH)
 			memory->error_code = ERROR_CODE_NO_PATH;
+	}
+	else if (segment == PARSER)
+	{
+		if (error_code == ERROR_CODE_MALLOC)
+			memory->error_code = ERROR_CODE_MALLOC;
 	}
 	return (1);
 }

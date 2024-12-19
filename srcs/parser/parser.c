@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/18 17:29:20 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 14:09:18 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,16 @@ void	parser_phase_one_loop(t_parser *p)
 void	parser_phase_one(t_parser *p, t_memory *memory)
 {
 	if (is_redirect(p->current_token->type))
-		p->current_cmd = create_command("", NULL, p->current_token->type);
+		p->current_cmd = create_command("", NULL, p->current_token->type \
+			, memory);
 	else
 		p->current_cmd = create_command(p->current_token->data, \
-			NULL, p->current_token->type);
+			NULL, p->current_token->type, memory);
+	if (!p->current_cmd)
+	{
+		set_error_code(PARSER, ERROR_CODE_MALLOC, memory);
+		return ;
+	}
 	if (!memory->commands)
 		memory->commands = p->current_cmd;
 	else
@@ -52,20 +58,17 @@ void	parser_phase_one(t_parser *p, t_memory *memory)
 	parser_phase_one_loop(p);
 }
 
-static void	handle_redirect_parser(t_parser *p)
+static void	handle_redirect_parser(t_parser *p, t_memory *memory)
 {
 	if (p->current_token->next->type == T_WHITESPACE \
 		&& p->current_token->next->next != NULL)
 		p->current_token = p->current_token->next;
-	p->current_redir = malloc(sizeof(t_redir_out));
-	p->current_redir->heredoc_file_name = NULL;
-	p->current_redir->was_quoted = p->current_token->next->was_quoted;
-	p->current_redir->file_name = p->current_token->next->data;
-	if (p->current_token->type == T_WHITESPACE)
-		p->current_redir->type = p->current_token->prev->type;
-	else
-		p->current_redir->type = p->current_token->type;
-	p->current_redir->next = NULL;
+	setup_redirect(p);
+	if (!p->current_redir)
+	{
+		set_error_code(PARSER, ERROR_CODE_MALLOC, memory);
+		return ;
+	}
 	if (!p->current_cmd->redir_struct)
 	{
 		p->current_cmd->redir_struct = p->current_redir;
@@ -79,7 +82,7 @@ static void	handle_redirect_parser(t_parser *p)
 	p->current_token = p->current_token->next->next;
 }
 
-static void	parser_phase_two(t_parser *p)
+static void	parser_phase_two(t_parser *p, t_memory *memory)
 {
 	while (p->current_token)
 	{
@@ -88,7 +91,9 @@ static void	parser_phase_two(t_parser *p)
 		if ((check_current_token_type(&p) == T_R_IN) \
 			&& p->current_token->next != NULL)
 		{
-			handle_redirect_parser(p);
+			handle_redirect_parser(p, memory);
+			if (memory->error_code == ERROR_CODE_MALLOC)
+				return ;
 			continue ;
 		}
 		if (p->current_token->type == T_PIPE)
@@ -110,16 +115,26 @@ void	parse_command(t_memory *memory)
 	t_parser	*p;
 
 	p = init_parser(memory);
+	if (memory->error_code == ERROR_CODE_MALLOC)
+		end_parser_malloc_error(memory, p);
 	while (p->current_token)
 	{
 		parser_phase_one(p, memory);
+		if (memory->error_code == ERROR_CODE_MALLOC)
+			end_parser_malloc_error(memory, p);
 		parser_init_phase_two(&p, memory);
-		parser_phase_two(p);
+		if (memory->error_code == ERROR_CODE_MALLOC)
+			end_parser_malloc_error(memory, p);
+		parser_phase_two(p, memory);
+		if (memory->error_code == ERROR_CODE_MALLOC)
+			end_parser_malloc_error(memory, p);
 		p->start_token = p->current_token;
 		p->prev_cmd = p->current_cmd;
 	}
 	memory->heredocs = (char **)malloc(sizeof(char *) \
 		* (memory->heredocs_count + 1));
+	if (!memory->heredocs)
+		end_parser_malloc_error(memory, p);
 	memory->heredocs [memory->heredocs_count] = NULL;
 	free(p);
 }

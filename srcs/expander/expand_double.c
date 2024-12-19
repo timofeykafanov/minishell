@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:44:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/19 11:24:42 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:51:04 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ static bool	handle_var_expansion(t_memory *memory, char **s, \
 	return (true);
 }
 
-static char	*create_null_string(char **res)
-{
-	*res = malloc(1);
-	(*res)[0] = '\0';
-	return (*res);
-}
-
 // TODO: add length to pointer and free var
 char	*expand_double(t_memory *memory, char *s)
 {
@@ -47,7 +40,7 @@ char	*expand_double(t_memory *memory, char *s)
 
 	res = NULL;
 	if (is_double_quote(*s) && is_double_quote(*(s + 1)))
-		return (create_null_string(&res));
+		return (ft_strdup(""));
 	s++;
 	while (*s)
 	{
@@ -98,7 +91,7 @@ char	*remove_quotes(char *s)
 	if (is_double_quote(*s) && is_double_quote(*(s + 1)))
 	{
 		free(orginal_data);
-		return (create_null_string(&res));
+		return (ft_strdup(""));
 	}
 	s++;
 	while (*s)
