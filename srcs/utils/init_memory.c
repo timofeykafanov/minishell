@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/19 11:36:57 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 14:17:57 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void	create_env(t_memory *memory, char **env)
 
 	i = 0;
 	memory->env = malloc(sizeof(char *) * 512);
+	if (!memory->env)
+		return ;
 	memory->env_lines = 0;
 	memory->env_space = 512;
 	while (env[i])
@@ -52,9 +54,11 @@ t_memory	*init_memory(char **env)
 		return (NULL);
 	ft_bzero(memory, sizeof(*memory));
 	create_env(memory, env);
+	if (!memory->env)
+		return (free_memory(memory), NULL);
 	memory->pwd = malloc(PATH_MAX);
 	if (!memory->pwd)
-		return (perror("Failed to allocate path"), free_memory(memory), NULL);
+		return (free_memory(memory), NULL);
 	getcwd(memory->pwd, PATH_MAX);
 	memory->oldpwd = ft_strdup(memory->pwd);
 	return (memory);
