@@ -243,6 +243,15 @@ void		print_commands(t_memory *memory);
 
 void		execute_commands(t_memory *memory);
 
+// expander_checks.c
+bool		to_merge(t_tokens	*current_token);
+bool		is_prev_redirect(t_tokens *token);
+bool		is_prev_heredoc(t_tokens *token);
+
+// merger.c
+t_tokens	*merge(t_tokens	*current_token);
+void		merge_tokens(t_memory *memory);
+
 // handle_redir.c
 
 void		handle_redir_out(t_command *cmd, t_memory *memory, bool has_child);
@@ -293,6 +302,8 @@ char		*expand_var(t_memory *memory, char *var);
 
 char		*expand_double(t_memory *memory, char *s);
 char		*remove_quotes(char *s);
+bool		expand_double_quotes(t_tokens *token, t_memory *memory);
+
 
 // expand_single.c
 

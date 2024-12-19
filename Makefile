@@ -29,6 +29,8 @@ SRCS		= \
 			$(SRCSDIR)/expander/expand_var.c \
 			$(SRCSDIR)/expander/expand_double.c \
 			$(SRCSDIR)/expander/expand_single.c \
+			$(SRCSDIR)/expander/merger.c \
+			$(SRCSDIR)/expander/expander_checks.c \
 			$(SRCSDIR)/parser/parser.c \
 			$(SRCSDIR)/parser/parsing_utils.c \
 			$(SRCSDIR)/parser/parsing_utils_2.c \

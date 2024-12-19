@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/09 17:12:42 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:55:13 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*find_env_value(t_memory *memory, const char *key)
 	key_len = ft_strlen(key);
 	while (memory->env[i])
 	{
-		if (ft_strncmp(memory->env[i], key, key_len) == 0 && memory->env[i][key_len] == '=')
+		if (ft_strncmp(memory->env[i], key, key_len) == 0 \
+			&& memory->env[i][key_len] == '=')
 			return (ft_strdup(ft_strchr(memory->env[i], '=') + 1));
 		i++;
 	}
