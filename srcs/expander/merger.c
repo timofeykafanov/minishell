@@ -6,13 +6,13 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:58:02 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 11:24:47 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:25:08 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_tokens	*merge(t_tokens	*current_token)
+t_tokens	*merge(t_tokens	*current_token, t_memory *memory)
 {
 	char		*prev_token_old_data;
 	t_tokens	*to_be_freed_token;
@@ -20,6 +20,8 @@ t_tokens	*merge(t_tokens	*current_token)
 	prev_token_old_data = current_token->prev->data;
 	current_token->prev->data = ft_strjoin(current_token->prev->data, \
 	current_token->data);
+	if (!current_token->prev->data)
+		end_shell(memory);
 	free(prev_token_old_data);
 	current_token->prev->type = T_WORD;
 	current_token->prev->was_quoted = 1;
@@ -41,7 +43,7 @@ void	merge_tokens(t_memory *memory)
 	while (current_token)
 	{
 		if (to_merge(current_token))
-			current_token = merge(current_token);
+			current_token = merge(current_token, memory);
 		else
 			current_token = current_token->next;
 	}

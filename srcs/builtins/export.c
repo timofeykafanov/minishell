@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/16 18:48:23 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:56:25 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	find_var(t_memory *memory, char **args, int j, int *found)
 		ft_strchr(args[j], '=') - args[j]);
 	else
 		var_name = ft_strdup(args[j]);
+	if (!var_name)
+	{
+		free_memory(memory);
+		exit(ERROR);
+	}
 	while (memory->env[i] && i < memory->env_lines)
 	{
 		env_var_len = ft_strchr(memory->env[i], '=') - memory->env[i];
@@ -32,6 +37,12 @@ void	find_var(t_memory *memory, char **args, int j, int *found)
 		{
 			free(memory->env[i]);
 			memory->env[i] = ft_strdup(args[j]);
+			if (!memory->env[i])
+			{	
+				free(var_name);
+				free_memory(memory);
+				exit(ERROR);
+			}
 			*found = 1;
 			break ;
 		}
@@ -56,6 +67,11 @@ static void	add_env_var(t_memory *memory, char **args)
 			continue ;
 		}
 		memory->env[memory->env_lines] = ft_strdup(args[j]);
+		if (!memory->env[memory->env_lines])
+		{
+			free_memory(memory);
+			exit(ERROR);
+		}
 		memory->env_lines++;
 		if (memory->env_lines == memory->env_space)
 		{

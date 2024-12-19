@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 11:24:13 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:23:10 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static bool	check_token_type(t_tokens *token, t_memory *memory)
 	{
 		token->data = expand_single(token->data);
 		if (!token->data)
-			return (false);
+			end_shell(memory);
 		token->was_quoted = 1;
 	}
 	else if (token->type == T_VAR)
@@ -119,7 +119,7 @@ void	*expand_tokens(t_memory *memory)
 	{
 		next = token->next;
 		if (!check_token_type(token, memory))
-			return (NULL);
+			end_shell(memory);
 		token = next;
 	}
 	merge_tokens(memory);

@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:44:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/19 12:51:04 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:17:44 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ bool	expand_double_quotes(t_tokens *token, t_memory *memory)
 	if (is_prev_heredoc(token))
 	{
 		token->data = remove_quotes(token->data);
+		if (!token->data)
+			end_shell(memory);
 		token->was_quoted = 1;
 		return (true);
 	}
@@ -76,7 +78,7 @@ bool	expand_double_quotes(t_tokens *token, t_memory *memory)
 	token->data = expand_double(memory, token->data);
 	free(data);
 	if (!token->data)
-		return (false);
+		end_shell(memory);;
 	token->was_quoted = 1;
 	return (true);
 }
@@ -99,9 +101,9 @@ char	*remove_quotes(char *s)
 		if (is_double_quote(*s) || is_single_quote(*s))
 			break ;
 		res = ft_strljoin(res, s, 1);
-		s++;
 		if (!res)
 			return (NULL);
+		s++;
 	}
 	free(orginal_data);
 	return (res);

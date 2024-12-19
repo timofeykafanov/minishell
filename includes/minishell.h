@@ -174,6 +174,7 @@ int			print_expand_var_tokens(t_tokens *token);
 
 void		free_memory(t_memory *memory);
 void		*free_tokens(t_tokens *token);
+void		end_shell(t_memory *memory);
 
 // freeing_two.c
 void		free_heredocs(t_memory *memory);
@@ -256,7 +257,7 @@ bool		is_prev_redirect(t_tokens *token);
 bool		is_prev_heredoc(t_tokens *token);
 
 // merger.c
-t_tokens	*merge(t_tokens	*current_token);
+t_tokens	*merge(t_tokens	*current_token, t_memory *memory);
 void		merge_tokens(t_memory *memory);
 
 // handle_redir.c

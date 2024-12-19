@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/19 14:17:57 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:45:01 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ t_memory	*init_memory(char **env)
 	create_env(memory, env);
 	if (!memory->env)
 		return (free_memory(memory), NULL);
-	memory->pwd = malloc(PATH_MAX);
+	memory->pwd =  malloc(PATH_MAX);
 	if (!memory->pwd)
 		return (free_memory(memory), NULL);
 	getcwd(memory->pwd, PATH_MAX);
 	memory->oldpwd = ft_strdup(memory->pwd);
+	if (!memory->oldpwd)
+		return (free_memory(memory), NULL);
 	return (memory);
 }

@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 13:56:51 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:14:41 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ void end_parser_malloc_error(t_memory *memory, t_parser *p)
 		if (p)
 			free(p);
 		exit(1);
+}
+
+void	end_shell(t_memory *memory)
+{
+	free_memory(memory);
+	exit(1);
 }
 
 static void	free_command_content(t_command *current)
@@ -79,22 +85,25 @@ static void	free_memory_two(t_memory *memory)
 
 void	free_memory(t_memory *memory)
 {
-	if (memory->heredocs)
-		free_heredocs(memory);
-	if (memory->tokens)
-		free_tokens(memory->tokens);
-	if (memory->env)
-		free_env(memory->env);
-	if (memory->input)
-		free(memory->input);
-	if (memory->pwd)
-		free(memory->pwd);
-	if (memory->suffix)
-		free(memory->suffix);
-	if (memory->faulty_variable_name)
+	if (memory)
 	{
-		free(memory->faulty_variable_name);
-		memory->faulty_variable_name = NULL;
+		if (memory->heredocs)
+			free_heredocs(memory);
+		if (memory->tokens)
+			free_tokens(memory->tokens);
+		if (memory->env)
+			free_env(memory->env);
+		if (memory->input)
+			free(memory->input);
+		if (memory->pwd)
+			free(memory->pwd);
+		if (memory->suffix)
+			free(memory->suffix);
+		if (memory->faulty_variable_name)
+		{
+			free(memory->faulty_variable_name);
+			memory->faulty_variable_name = NULL;
+		}
+		free_memory_two(memory);
 	}
-	free_memory_two(memory);
 }
