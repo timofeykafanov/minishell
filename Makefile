@@ -20,6 +20,7 @@ SRCS		= \
 			$(SRCSDIR)/utils/init_memory.c \
 			$(SRCSDIR)/utils/signals.c \
 			$(SRCSDIR)/utils/freeing.c \
+			$(SRCSDIR)/utils/freeing_two.c \
 			$(SRCSDIR)/utils/print_error_message.c \
 			$(SRCSDIR)/lexer/lexer.c \
 			$(SRCSDIR)/lexer/lexer_utils.c \
