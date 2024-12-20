@@ -147,7 +147,7 @@ typedef struct s_memory
 	bool				cd_failed;
 	bool				is_child;
 	char				*faulty_variable_name;
-	int					*pid;
+	pid_t				*pid;
 }	t_memory;
 
 typedef struct s_parser
@@ -259,12 +259,18 @@ void		print_commands(t_memory *memory);
 
 void		execute_commands(t_memory *memory);
 
+// handle_execution.c
+
+void		handle_execution(t_command *cmd, t_memory *mem);
+
 // expander_checks.c
+
 bool		to_merge(t_tokens	*current_token);
 bool		is_prev_redirect(t_tokens *token);
 bool		is_prev_heredoc(t_tokens *token);
 
 // merger.c
+
 t_tokens	*merge(t_tokens	*current_token, t_memory *memory);
 void		merge_tokens(t_memory *memory);
 

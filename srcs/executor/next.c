@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/20 14:21:01 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 21:37:48 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,43 +50,7 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 		exit(0);
 	}
 	else
-	{
-		if (!cmd->path || !cmd->args[0][0])
-		{
-			close(1);
-			close(0);
-			if (mem->error_code == ERROR_CODE_NO_PATH || (cmd->name && ft_strchr(cmd->name, '/')))
-				ft_printf("%s: No such file or directory\n", STDERR_FILENO, \
-						cmd->args[0]);
-			else
-			{
-				if (!cmd->args[0])
-				{
-					free_memory(mem);
-					exit(0);
-				}
-				ft_printf("%s: command not found\n", STDERR_FILENO, cmd->args[0]);
-			}
-			free_memory(mem);
-			exit(COMMAND_NOT_FOUND);
-		}
-		else if (execve(cmd->path, cmd->args, mem->env) == -1)
-		{
-			close(1);
-			close(0);
-			if (ft_strlen(cmd->args[0]) == 0)
-			{
-				free_memory(mem);
-				exit(0);
-			}
-			ft_printf("%s: Permission denied\n", STDERR_FILENO, \
-				cmd->args[0]);
-			{
-				free_memory(mem);	
-				exit(PERMISSION_DENIED);
-			}
-		}
-	}
+		handle_execution(cmd, mem);
 }
 
 static int	create_process_and_execute(t_command *cmd, t_memory *mem, \

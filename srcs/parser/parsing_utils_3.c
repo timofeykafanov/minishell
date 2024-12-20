@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:22:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 16:32:55 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/20 20:46:00 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ void	setup_redirect(t_parser *p)
 // 		i = 0;
 // 		while (redir)
 // 		{
-// 			printf("red %d: %s type: %d quoted: %d \
-// 				heredoc_filename: %s\n", i, redir->file_name, \
+// 			printf("red %d: %s type: %d quoted: %d
+// 				heredoc_filename: %s\n", i, redir->file_name,
 // 				redir->type, redir->was_quoted, redir->heredoc_file_name);
 // 			redir = redir->next;
 // 			i++;

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:55:23 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/17 18:12:06 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 21:57:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static void	redir_in(t_redir_out *redir, t_memory *mem, bool has_child)
 	close(fd_in);
 }
 
-static void redir_heredoc(t_redir_out *redir, t_memory *mem, bool has_child)
+static void	redir_heredoc(t_redir_out *redir, t_memory *mem, bool has_child)
 {
 	int	fd_heredoc;
-	
+
 	fd_heredoc = open(redir->heredoc_file_name, O_RDONLY);
 	if (fd_heredoc == -1)
 	{

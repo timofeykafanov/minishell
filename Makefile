@@ -47,6 +47,7 @@ SRCS		= \
 			$(SRCSDIR)/builtins/echo.c \
 			$(SRCSDIR)/executor/executor.c \
 			$(SRCSDIR)/executor/executor_utils.c \
+			$(SRCSDIR)/executor/handle_execution.c \
 			$(SRCSDIR)/executor/handle_redir_out.c \
 			$(SRCSDIR)/executor/handle_redir_in.c \
 			$(SRCSDIR)/executor/has_redir.c \
