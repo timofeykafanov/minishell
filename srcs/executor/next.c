@@ -6,11 +6,12 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/19 16:58:01 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:21:01 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], bool *is_redir, t_memory *mem)
 {
@@ -130,8 +131,6 @@ int	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 		perror("pipe");
 		exit(1);
 	}
-	// close(fd1[0]);
-    // close(fd1[1]);
 	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
 		return (-1);
 	cmd->path = find_path(cmd->args[0], mem, cmd);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   var_name_check.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/02 10:33:17 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:41:04 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool is_valid_variable_declaration(char *str)
+static bool	is_valid_variable_declaration(char *str)
 {
 	if (!str || (str && *str == '=') || isdigit(*str))
 		return (false);
@@ -25,10 +25,18 @@ static bool is_valid_variable_declaration(char *str)
 	return (true);
 }
 
+static void	set_var_and_error_code(t_memory *memory, t_command *cmd, int i)
+{
+	memory->faulty_variable_name = ft_strdup(cmd->args[i]);
+	memory->exit_status = 1;
+	set_error_code(EXECUTOR, ERROR_CODE_INVALID_VAR_NAME, memory);
+	print_error_message(EXECUTOR, memory);
+}
+
 bool	var_name_check(t_memory *memory)
 {
-	t_command   *cmd;
-	int		 i;
+	t_command	*cmd;
+	int			i;
 
 	cmd = memory->commands;
 	while (cmd)
@@ -41,17 +49,7 @@ bool	var_name_check(t_memory *memory)
 			{
 				if (!is_valid_variable_declaration(cmd->args[i]))
 				{
-					// if (cmd->args[i][0] == '=')
-					// 	memory->faulty_variable_name = ft_strdup("=");
-					// else
-					// {
-					// 	printf("t\n");
-					// 	memory->faulty_variable_name = ft_strndup(cmd->args[i], ft_strchr(cmd->args[i], '=') - cmd->args[i]);
-					// }
-					memory->faulty_variable_name = ft_strdup(cmd->args[i]);
-					memory->exit_status = 1;
-					set_error_code(EXECUTOR, ERROR_CODE_INVALID_VAR_NAME, memory);
-					print_error_message(EXECUTOR, memory);
+					set_var_and_error_code(memory, cmd, i);
 					return (false);
 				}
 				i++;

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/13 17:58:43 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:20:40 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,5 @@ void	execute_builtin(t_command *cmd, t_memory *mem, bool is_redir_out, \
 	else if (!ft_strncmp(cmd->args[0], ENV, 4))
 		print_env(mem);
 	else if (!ft_strncmp(cmd->args[0], EXIT, 5))
-		execute_exit(mem, is_redir_out, is_redir_in, saved_fds);
-	// close(saved_fds[0]);
-	// close(saved_fds[1]);
+		execute_exit(mem, cmd, is_redir_out, is_redir_in, saved_fds);
 }

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/19 10:39:44 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:21:07 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static bool	contains_only_digits(char *str, int *sign)
 	return (true);
 }
 
-static void	exit_shell(t_memory *memory, bool is_redir_out, bool is_redir_in, \
+static void	exit_shell(t_memory *memory, t_command *cmd, bool is_redir_out, bool is_redir_in, \
 	int saved_fds[2])
 {
 	int	exit_status;
@@ -83,14 +83,15 @@ static void	exit_shell(t_memory *memory, bool is_redir_out, bool is_redir_in, \
 		close(saved_fds[0]);
 		close(saved_fds[1]);
 	}
-	exit_status = memory->exit_status;
-	free_memory(memory);
+	exit_status = cmd->exit_status;
 	if (saved_fds)
 	{
 		close(saved_fds[0]);
 		close(saved_fds[1]);
 	}
-	ft_printf("exit\n", STDOUT_FILENO);
+	if (!memory->is_child)
+		ft_printf("exit\n", STDOUT_FILENO);
+	free_memory(memory);
 	close(1);
 	close(0);
 	exit(exit_status);
@@ -147,33 +148,31 @@ static bool is_within_long_range(char *str, int sign)
 	return true;
 }
 
-void	execute_exit(t_memory *memory, bool is_redir_out, bool is_redir_in, \
-	int saved_fds[2])
+void	execute_exit(t_memory *memory, t_command *cmd, bool is_redir_out, \
+	bool is_redir_in, int saved_fds[2])
 {
-	t_command *command;
 	int sign = 1;
 
-	command = memory->commands;
-	if (command->args[1] && contains_only_digits(command->args[1], &sign) && command->args[2])
+	if (cmd->args[1] && contains_only_digits(cmd->args[1], &sign) && cmd->args[2])
 	{
 		ft_printf("exit: too many arguments\n", STDERR_FILENO);
-		memory->exit_status = 1;
+		cmd->exit_status = 1;
 		memory->exit_failed = true;
 		return;
 	}
-	else if (command->args[1])
+	else if (cmd->args[1])
 	{
-		if (contains_only_digits(command->args[1], &sign)
-			&& is_within_long_range(command->args[1], sign)
-			&& command->args[1][0])
-			memory->exit_status = ft_atoi(command->args[1]) % 256;
+		if (contains_only_digits(cmd->args[1], &sign)
+			&& is_within_long_range(cmd->args[1], sign)
+			&& cmd->args[1][0])
+			cmd->exit_status = ft_atoi(cmd->args[1]) % 256;
 		else
 		{
-			ft_printf("exit: %s: numeric argument required\n", STDERR_FILENO, command->args[1]);
-			memory->exit_status = 2;
+			ft_printf("exit: %s: numeric argument required\n", STDERR_FILENO, cmd->args[1]);
+			cmd->exit_status = 2;
 		}
 	}
 	if (sign == -1)
-		memory->exit_status = (256 + memory->exit_status) % 256;
-	exit_shell(memory, is_redir_out, is_redir_in, saved_fds);
+		cmd->exit_status = (256 + cmd->exit_status) % 256;
+	exit_shell(memory, cmd, is_redir_out, is_redir_in, saved_fds);
 }

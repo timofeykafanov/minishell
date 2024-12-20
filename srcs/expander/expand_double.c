@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_double.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:44:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/19 17:17:44 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:35:49 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ bool	expand_double_quotes(t_tokens *token, t_memory *memory)
 	token->data = expand_double(memory, token->data);
 	free(data);
 	if (!token->data)
-		end_shell(memory);;
+		end_shell(memory);
 	token->was_quoted = 1;
 	return (true);
 }

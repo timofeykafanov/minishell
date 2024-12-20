@@ -121,6 +121,7 @@ typedef struct s_command
 	char				*env_path;
 	bool				is_filename;
 	bool				has_child;
+	int					exit_status;
 	struct s_command	*next;
 }	t_command;
 
@@ -143,6 +144,7 @@ typedef struct s_memory
 	int					expander_error_code;
 	bool				exit_failed;
 	bool				cd_failed;
+	bool				is_child;
 	char				*faulty_variable_name;
 	int					*pid;
 }	t_memory;
@@ -224,7 +226,7 @@ void		set_signals(int type);
 // builtins_pwd_exit.c
 
 void		execute_pwd(t_memory *memory);
-void		execute_exit(t_memory *memory, bool is_redir_out, bool is_redir_in, int saved_fds[2]);
+void		execute_exit(t_memory *memory, t_command *cmd, bool is_redir_out, bool is_redir_in, int saved_fds[2]);
 
 // builtins_env_unset.c
 

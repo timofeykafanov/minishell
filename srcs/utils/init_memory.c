@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/19 16:45:01 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:23:53 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_memory	*init_memory(char **env)
 	create_env(memory, env);
 	if (!memory->env)
 		return (free_memory(memory), NULL);
-	memory->pwd =  malloc(PATH_MAX);
+	memory->pwd = malloc(PATH_MAX);
 	if (!memory->pwd)
 		return (free_memory(memory), NULL);
 	getcwd(memory->pwd, PATH_MAX);

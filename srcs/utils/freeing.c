@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 17:14:41 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:34:31 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void end_parser_malloc_error(t_memory *memory, t_parser *p)
+void	end_parser_malloc_error(t_memory *memory, t_parser *p)
 {
-		free_memory(memory);
-		if (p)
-			free(p);
-		exit(1);
+	free_memory(memory);
+	if (p)
+		free(p);
+	exit(1);
 }
 
 void	end_shell(t_memory *memory)
@@ -63,47 +63,5 @@ void	free_commands(t_command *commands)
 		free(current);
 		current = NULL;
 		current = next;
-	}
-}
-
-static void	free_memory_two(t_memory *memory)
-{
-	if (memory->commands)
-		free_commands(memory->commands);
-	if (memory->pid)
-	{
-		free(memory->pid);
-		memory->pid = NULL;
-	}
-	if (memory->oldpwd)
-	{
-		free(memory->oldpwd);
-		memory->oldpwd = NULL;
-	}
-	free(memory);
-}
-
-void	free_memory(t_memory *memory)
-{
-	if (memory)
-	{
-		if (memory->heredocs)
-			free_heredocs(memory);
-		if (memory->tokens)
-			free_tokens(memory->tokens);
-		if (memory->env)
-			free_env(memory->env);
-		if (memory->input)
-			free(memory->input);
-		if (memory->pwd)
-			free(memory->pwd);
-		if (memory->suffix)
-			free(memory->suffix);
-		if (memory->faulty_variable_name)
-		{
-			free(memory->faulty_variable_name);
-			memory->faulty_variable_name = NULL;
-		}
-		free_memory_two(memory);
 	}
 }

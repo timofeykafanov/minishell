@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error_message.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:36:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 12:55:25 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:33:21 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_error_message(int segment, t_memory *memory)
 	}
 }
 
-int	set_error_code(int segment, int error_code, t_memory *memory)
+static void	set_error_code_part1(int segment, int error_code, t_memory *memory)
 {
 	if (segment == LEXER)
 	{
@@ -52,6 +52,12 @@ int	set_error_code(int segment, int error_code, t_memory *memory)
 		if (error_code == ERROR_CODE_INVALID_VAR_NAME)
 			memory->error_code = ERROR_CODE_INVALID_VAR_NAME;
 	}
+}
+
+int	set_error_code(int segment, int error_code, t_memory *memory)
+{
+	if (segment == LEXER || segment == EXPANDER || segment == EXECUTOR)
+		set_error_code_part1(segment, error_code, memory);
 	else if (segment == PATH)
 	{
 		if (error_code == ERROR_CODE_NO_PATH)

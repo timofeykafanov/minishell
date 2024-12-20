@@ -6,12 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/20 13:05:08 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:20:54 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <unistd.h>
 
 static bool	is_directory(t_memory *memory, t_command *command)
 {
@@ -62,6 +61,7 @@ void	execute_commands(t_memory *memory)
 		execute_single_command(command, memory, &status);
 	else
 	{
+		memory->is_child = true;
 		memory->pid[process_count++] = execute_first_command(command, memory, fd1);
 		command = command->next;
 		while (command->next)
@@ -72,6 +72,7 @@ void	execute_commands(t_memory *memory)
 		memory->pid[process_count++] = execute_last_command(command, memory, fd1);
 		close(fd1[0]);
 		close(fd1[1]);
+		memory->is_child = false;
 	}
 	int i;
 	i = 0;
