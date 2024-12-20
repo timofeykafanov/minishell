@@ -6,11 +6,13 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/17 17:21:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:53:40 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+extern sig_atomic_t g_signal;
 
 void delete_heredocs(t_memory *memory)
 {
@@ -25,34 +27,7 @@ void delete_heredocs(t_memory *memory)
 	}
 }
 
-void execute_heredoc(t_memory *memory)
-{
-	t_command *current_cmd;
-	t_redir_out *current_redir;
-	int i = 0;
-
-	current_cmd = memory->commands;
-	while (current_cmd)
-	{
-		current_redir = current_cmd->redir_struct;
-		while(current_redir)
-		{
-			if(current_redir->type == T_HEREDOC)
-			{
-				heredoc(memory, current_redir, i);
-				i++;
-			}
-			current_redir = current_redir->next;
-		}
-		current_cmd = current_cmd->next;
-	}
-}
-// char	generate_random_file_name(void)
-// {
-	
-// }
-
-char *heredoc_expander(t_memory *memory, char *line)
+static char *heredoc_expander(t_memory *memory, char *line)
 {
 	char *expand_line= NULL;
 	char *var;
@@ -104,6 +79,7 @@ void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 		close(0);
 		exit(0);
 	}
+	set_signals(HEREDOC);
 	char *filename = ft_itoa(randname);
 	redir->heredoc_file_name = ft_strjoin("heredoc/", filename);
 	memory->heredocs[i] = ft_strdup(redir->heredoc_file_name);
@@ -112,6 +88,8 @@ void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 	fd = open(redir->heredoc_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
+		if (g_signal == SIGINT)
+			break ;
 		line = readline("HEREDOC->");
 		if (!line)
 		{
@@ -133,31 +111,56 @@ void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 		free(line);
 	}
 	close(fd);
+	set_signals(MAIN);
 }
 
-char	*read_heredoc_content(void)
-{
-	int		fd;
-	char	*line;
-	char	*content;
-	bool	flag;
+// static char	*read_heredoc_content(void)
+// {
+// 	int		fd;
+// 	char	*line;
+// 	char	*content;
+// 	bool	flag;
 
-	flag = 0;
-	content = NULL;
-	fd = open("heredoc.txt", O_RDONLY);
-	if (fd == -1)
-		return (NULL);
-	line = get_next_line(fd, &flag, false);
-	if (!line)
-		return (NULL);
-	while (line != NULL)
+// 	flag = 0;
+// 	content = NULL;
+// 	fd = open("heredoc.txt", O_RDONLY);
+// 	if (fd == -1)
+// 		return (NULL);
+// 	line = get_next_line(fd, &flag, false);
+// 	if (!line)
+// 		return (NULL);
+// 	while (line != NULL)
+// 	{
+// 		content = ft_strljoin(content, line, ft_strlen(line));
+// 		if (!content)
+// 			return (NULL);
+// 		free(line);
+// 		line = get_next_line(fd, &flag, false);
+// 	}
+// 	close(fd);
+// 	return (content);
+// }
+
+void execute_heredoc(t_memory *memory)
+{
+	t_command *current_cmd;
+	t_redir_out *current_redir;
+	int i = 0;
+
+	current_cmd = memory->commands;
+	while (current_cmd)
 	{
-		content = ft_strljoin(content, line, ft_strlen(line));
-		if (!content)
-			return (NULL);
-		free(line);
-		line = get_next_line(fd, &flag, false);
+		current_redir = current_cmd->redir_struct;
+		while(current_redir)
+		{
+			if(current_redir->type == T_HEREDOC)
+			{
+				heredoc(memory, current_redir, i);
+				i++;
+			}
+			current_redir = current_redir->next;
+		}
+		current_cmd = current_cmd->next;
 	}
-	close(fd);
-	return (content);
+	// set_signals(MAIN);
 }

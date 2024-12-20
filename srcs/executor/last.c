@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/17 18:10:36 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:58:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
 		return (-1);
 	cmd->path = find_path(cmd->args[0], mem, cmd);
+	set_signals(CHILD);
 	pid = fork();
 	if (pid == -1)
 	{

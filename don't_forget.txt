@@ -1,3 +1,5 @@
 
 
 signals in child processes
+
+exit | exit 50 (don't print exit)

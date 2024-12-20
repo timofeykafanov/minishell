@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/17 18:10:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:58:01 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ static int	create_process_and_execute(t_command *cmd, t_memory *mem, \
 	bool	is_redir;
 
 	is_redir = false;
+	set_signals(CHILD);
 	pid = fork();
 	if (pid == -1)
 	{

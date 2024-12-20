@@ -6,11 +6,12 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/16 15:42:06 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:05:08 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <unistd.h>
 
 static bool	is_directory(t_memory *memory, t_command *command)
 {
@@ -76,6 +77,7 @@ void	execute_commands(t_memory *memory)
 	i = 0;
 	if (counter > 1)
 	{
+		set_signals(WAIT);
 		while (i < process_count)
 		{
 			if (memory->pid[i] == -1)
@@ -83,9 +85,19 @@ void	execute_commands(t_memory *memory)
 			waitpid(memory->pid[i], &status, 0);
 			i++;
 		}
-		if (WEXITSTATUS(status))
+		i--;
+		if (WIFEXITED(status))
 			memory->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			memory->exit_status = WTERMSIG(status) + 128;
+			if (memory->exit_status == 130)
+				ft_printf("\n", STDERR_FILENO);
+			else if (WCOREDUMP(memory->exit_status))
+				ft_printf("Quit (core dumped)\n", STDERR_FILENO);
+		}
 		else
-			memory->exit_status = 0;
+			memory->exit_status = 1;
+		set_signals(MAIN);
 	}
 }

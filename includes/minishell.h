@@ -74,6 +74,11 @@
 # define EXPANDER 4
 # define PATH 5
 
+# define MAIN 1
+# define CHILD 2
+# define HEREDOC 3
+# define WAIT 4
+
 # define ERROR_CODE_MALLOC 1
 # define ERROR_CODE_GENERAL 7
 # define ERROR_CODE_QUOTES 8
@@ -205,8 +210,8 @@ bool    	var_name_check(t_memory *memory);
 
 // signals.c
 
-void		handle_sigint(int sig);
-void		handle_child_sigint(int sig);
+// void		handle_sigint(int sig);
+void		set_signals(int type);
 
 // builtins_pwd_exit.c
 
@@ -302,7 +307,7 @@ char		*expand_single(char *s);
 
 void		delete_heredocs(t_memory *memory);
 void		heredoc(t_memory *memory, t_redir_out *redir, int i);
-char		*read_heredoc_content(void);
+// char		*read_heredoc_content(void);
 void		execute_heredoc(t_memory *memory);
 
 // find_path.c

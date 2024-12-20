@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/17 18:23:35 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/19 10:39:44 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static bool	contains_only_digits(char *str, int *sign)
 static void	exit_shell(t_memory *memory, bool is_redir_out, bool is_redir_in, \
 	int saved_fds[2])
 {
+	int	exit_status;
 	if (is_redir_in && saved_fds)
 	{
 		dup2(saved_fds[0], STDIN_FILENO);
@@ -82,7 +83,7 @@ static void	exit_shell(t_memory *memory, bool is_redir_out, bool is_redir_in, \
 		close(saved_fds[0]);
 		close(saved_fds[1]);
 	}
-	g_exit_status = memory->exit_status;
+	exit_status = memory->exit_status;
 	free_memory(memory);
 	if (saved_fds)
 	{
@@ -92,7 +93,7 @@ static void	exit_shell(t_memory *memory, bool is_redir_out, bool is_redir_in, \
 	ft_printf("exit\n", STDOUT_FILENO);
 	close(1);
 	close(0);
-	exit(g_exit_status);
+	exit(exit_status);
 }
 
 static bool is_within_long_range(char *str, int sign)

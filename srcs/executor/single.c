@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/17 18:26:30 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 12:50:23 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 {
 	int		pid;
 
+	set_signals(CHILD);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -71,7 +72,6 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 	}
 	if (pid == 0)
 	{
-		signal(SIGINT, handle_child_sigint);
 		cmd->has_child = true;
 		if (cmd->redir_struct)
 		{
@@ -124,11 +124,14 @@ static void	create_process_and_execute(t_command *cmd, t_memory *mem, \
 			}
 		}
 	}
+	set_signals(WAIT);
 	if (waitpid(pid, status, 0) == -1)
 	{
 		perror("waitpid");
+		free_memory(mem);
 		exit(ERROR);
 	}
+	set_signals(MAIN);
 }
 
 void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
@@ -157,6 +160,14 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 	create_process_and_execute(cmd, mem, status, saved_fds);
 	if (WIFEXITED(*status))
 		mem->exit_status = WEXITSTATUS(*status);
+	else if (WIFSIGNALED(*status))
+	{
+		mem->exit_status = WTERMSIG(*status) + 128;
+		if (mem->exit_status == 130)
+			ft_printf("\n", STDERR_FILENO);
+		else if (WCOREDUMP(mem->exit_status))
+			ft_printf("Quit (core dumped)\n", STDERR_FILENO);
+	}
 	else
 		mem->exit_status = 1;
 }

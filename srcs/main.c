@@ -6,20 +6,20 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/17 18:22:02 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:52:19 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-extern volatile sig_atomic_t g_exit_status;
+sig_atomic_t g_signal = 0;
 
 int	main(int ac, char **av, char **env)
 {
 	t_memory	*memory;
-
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	int			exit_status;
+	
+	set_signals(MAIN);
 	(void)ac;
 	(void)av;
 	memory = init_memory(env);
@@ -29,9 +29,9 @@ int	main(int ac, char **av, char **env)
 	{
 		memory->suffix = ft_strjoin(memory->pwd, "$ ");  
 		memory->input = readline(memory->suffix);
-		if (g_exit_status == 130) {
+		if (g_signal == SIGINT) {
 			memory->exit_status = 130;
-			g_exit_status = 0;
+			g_signal = 0;
 		}
 		if (memory->input)
 		{
@@ -49,10 +49,6 @@ int	main(int ac, char **av, char **env)
 			}
 			if (!memory->tokens)
 				return (free_memory(memory), ERROR);
-			// print_tokens(memory);
-			// printf("\n");
-			// heredoc(memory->tokens->data);
-			// memory->input = read_heredoc_content();
 			// print_tokens(memory);
 			expand_tokens(memory);
 			if (memory->expander_error_code)
@@ -79,9 +75,7 @@ int	main(int ac, char **av, char **env)
 				reset_minishell(memory);
 				continue ;
 			}
-			// printf("\n");
 			// print_tokens(memory);
-			// printf("\n");
 			if (syntax_check(memory))
 			{
 				free_tokens(memory->tokens);
@@ -92,7 +86,6 @@ int	main(int ac, char **av, char **env)
 					free(memory->input);
 					memory->input = NULL;
 				}
-				// free_commands(memory->commands);
 				continue ;
 			}
 			parse_command(memory);
@@ -108,28 +101,28 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			}
 			execute_heredoc(memory);
+			if (g_signal == SIGINT)
+			{
+				g_signal = 0;
+				memory->exit_status = 130;
+				delete_heredocs(memory);
+				reset_minishell(memory);
+				continue ;
+			}
 			// print_commands(memory);
-			
-			// TODO: redirect heredoc content
-
-			// printf("heredoc count: %d\n", memory->heredocs_count);
-			// if (to_execute(memory)) 	
 			execute_commands(memory);
 			delete_heredocs(memory);
 			reset_minishell(memory);
-			// memory->exit_status = g_exit_status;
 		}
 		else
 		{
 			ft_printf("exit\n", STDOUT_FILENO);
-			g_exit_status = memory->exit_status;
+			exit_status = memory->exit_status;
 			free_memory(memory);
-			// produces double free on slow machine???
 			close(1);
 			close(0);
-			exit(g_exit_status);
-			// break ;
+			exit(exit_status);
 		}
 	}
-	return (free_memory(memory), SUCCESS);
+	// return (free_memory(memory), SUCCESS);
 }
