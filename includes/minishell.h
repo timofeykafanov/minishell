@@ -179,7 +179,14 @@ int			print_expand_var_tokens(t_tokens *token);
 
 void		free_memory(t_memory *memory);
 void		*free_tokens(t_tokens *token);
+void		end_shell(t_memory *memory);
+
+// freeing_two.c
+void		free_heredocs(t_memory *memory);
 void		reset_minishell(t_memory *memory);
+void		*free_tokens(t_tokens *token);
+void		free_env(char **env);
+void		free_redir_struct(t_redir_out *current);
 
 // print_error_messages.c
 void		print_error_message(int segment, t_memory *memory);
@@ -198,10 +205,11 @@ bool		is_separator(char c);
 
 // parsing_utils_3.c
 int			check_current_token_type(t_parser **p);
-t_command	*create_command(char *name, char **args, int type);
+t_command	*create_command(char *name, char **args, int type, t_memory *memory);
 t_parser	*init_parser(t_memory *memory);
 void		parser_init_phase_two(t_parser **p, t_memory *memory);
-void		print_commands(t_memory *memory);
+void		setup_redirect(t_parser *p);
+// void		print_commands(t_memory *memory);
 
 // syntax_check.c
 
@@ -248,6 +256,15 @@ void		print_commands(t_memory *memory);
 
 void		execute_commands(t_memory *memory);
 
+// expander_checks.c
+bool		to_merge(t_tokens	*current_token);
+bool		is_prev_redirect(t_tokens *token);
+bool		is_prev_heredoc(t_tokens *token);
+
+// merger.c
+t_tokens	*merge(t_tokens	*current_token, t_memory *memory);
+void		merge_tokens(t_memory *memory);
+
 // handle_redir.c
 
 void		handle_redir_out(t_command *cmd, t_memory *memory, bool has_child);
@@ -278,6 +295,7 @@ int			execute_last_command(t_command *cmd, t_memory *mem, int fd1[2]);
 
 void		free_commands(t_command *commands);
 void		free_env(char **env);
+void		end_parser_malloc_error(t_memory *memory, t_parser *p);
 
 // expander.c
 
@@ -298,6 +316,8 @@ char		*expand_var(t_memory *memory, char *var);
 
 char		*expand_double(t_memory *memory, char *s);
 char		*remove_quotes(char *s);
+bool		expand_double_quotes(t_tokens *token, t_memory *memory);
+
 
 // expand_single.c
 

@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:45:47 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/10 16:16:40 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:47:47 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ char	*expand_single(char *s)
 	if (is_single_quote(*s) && is_single_quote(*(s + 1)))
 	{
 		free(s);
-		res = malloc(1);
-		res[0] = '\0';
-		return (res);
+		return (ft_strdup(""));
 	}
 	s++;
 	while (*s)

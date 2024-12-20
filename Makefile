@@ -20,6 +20,7 @@ SRCS		= \
 			$(SRCSDIR)/utils/init_memory.c \
 			$(SRCSDIR)/utils/signals.c \
 			$(SRCSDIR)/utils/freeing.c \
+			$(SRCSDIR)/utils/freeing_two.c \
 			$(SRCSDIR)/utils/print_error_message.c \
 			$(SRCSDIR)/lexer/lexer.c \
 			$(SRCSDIR)/lexer/lexer_utils.c \
@@ -29,6 +30,8 @@ SRCS		= \
 			$(SRCSDIR)/expander/expand_var.c \
 			$(SRCSDIR)/expander/expand_double.c \
 			$(SRCSDIR)/expander/expand_single.c \
+			$(SRCSDIR)/expander/merger.c \
+			$(SRCSDIR)/expander/expander_checks.c \
 			$(SRCSDIR)/parser/parser.c \
 			$(SRCSDIR)/parser/parsing_utils.c \
 			$(SRCSDIR)/parser/parsing_utils_2.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:20:11 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/17 17:12:26 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:27:20 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	print_export(t_memory *memory)
 	i = 0;
 	copy = malloc(sizeof(char *) * (memory->env_lines + 1));
 	if (!copy)
-		exit(ERROR);
+		(free_memory(memory), exit(ERROR));
 	while (memory->env[i])
 	{
 		copy[i] = ft_strdup(memory->env[i]);

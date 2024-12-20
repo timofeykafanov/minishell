@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strljoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:21:03 by sopperma          #+#    #+#             */
-/*   Updated: 2024/11/05 11:04:32 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:19:24 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strljoin(char *s1, char *s2, int len)
 		return (ft_strndup(s2, len));
 	res = malloc(sizeof(char) * (ft_strlen(s1) + len + 1));
 	if (!res)
-		return (NULL);
+		return (free(s1), NULL);
 	i = 0;
 	j = 0;
 	while (s1[i])
