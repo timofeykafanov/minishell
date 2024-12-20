@@ -31,6 +31,7 @@
 
 # define SUCCESS 0
 # define ERROR 1
+# define CONTINUE 2
 
 # define ECHO "echo"
 # define CD "cd"
