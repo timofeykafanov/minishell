@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 21:00:59 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:53:17 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 sig_atomic_t	g_signal = 0;
 
-static int	preaprsing(t_memory *memory)
+static int	preparsing(t_memory *memory)
 {
 	lexer(memory);
 	if (memory->lexer_error_code == ERROR_CODE_MALLOC)
@@ -40,7 +40,7 @@ static int	handle_input(t_memory *memory)
 	if (!(*memory->input))
 		return (reset_minishell(memory), CONTINUE);
 	add_history(memory->input);
-	status = preaprsing(memory);
+	status = preparsing(memory);
 	if (status == ERROR)
 		return (ERROR);
 	else if (status == CONTINUE)
