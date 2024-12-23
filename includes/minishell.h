@@ -89,6 +89,7 @@
 
 # define ERROR_MSG_HEREDOC "warning: here-document delimited by \
 end-of-file (wanted `%s')\n"
+# define ERROR_MSG_EXIT_NUM "kinkshell: exit: %s: numeric argument required\n"
 # define ERROR_MSG_MALLOC "kinkshell: Memory Allocation Error\n"
 # define ERROR_MSG_QUOTE "kinkshell: Syntax Error: Missing Quote\n"
 # define ERROR_MSG_AMBIGUOUS_REDIRECT "kinkshell: %s: ambiguous redirect\n"
@@ -155,6 +156,7 @@ typedef struct s_memory
 	bool				is_child;
 	char				*faulty_variable_name;
 	pid_t				*pid;
+	bool				found;
 }	t_memory;
 
 typedef struct s_parser
@@ -192,6 +194,7 @@ void		*free_tokens(t_tokens *token);
 void		end_shell(t_memory *memory);
 
 // freeing_two.c
+
 void		free_heredocs(t_memory *memory);
 void		reset_minishell(t_memory *memory);
 void		*free_tokens(t_tokens *token);
@@ -199,6 +202,7 @@ void		free_env(char **env);
 void		free_redir_struct(t_redir_out *current);
 
 // print_error_messages.c
+
 void		print_error_message(int segment, t_memory *memory);
 int			set_error_code(int segment, int error_code, t_memory *memory);
 
@@ -214,13 +218,13 @@ char		*is_var_end(char *s);
 bool		is_separator(char c);
 
 // parsing_utils_3.c
+
 int			check_current_token_type(t_parser **p);
 t_command	*create_command(char *name, char **args, int type, \
 	t_memory *memory);
 t_parser	*init_parser(t_memory *memory);
 void		parser_init_phase_two(t_parser **p, t_memory *memory);
 void		setup_redirect(t_parser *p);
-// void		print_commands(t_memory *memory);
 
 // syntax_check.c
 
@@ -229,22 +233,41 @@ bool		var_name_check(t_memory *memory);
 
 // signals.c
 
-// void		handle_sigint(int sig);
 void		set_signals(int type);
 
-// builtins_pwd_exit.c
+// exit.c
 
-void		execute_pwd(t_memory *memory);
 void		execute_exit(t_memory *memory, t_command *cmd, int saved_fds[2]);
 
-// builtins_env_unset.c
+// exit_utils.c
 
-void		print_env(t_memory *memory);
+bool		contains_only_spaces(char *str);
+bool		contains_only_digits(char *str, int *sign);
+bool		check_overflow(int sign, char *str);
+
+// pwd.c
+
+void		execute_pwd(t_memory *memory);
+
+// unset.c
+
 void		unset(t_memory *memory, char **args);
 
-// builtins_cd.c
+// env.c
+
+void		print_env(t_memory *memory);
+
+// cd.c
 
 void		execute_cd(t_memory *memory, t_command *cmd);
+
+// cd_utils.c
+
+int			find_env_index(char **env, char *var);
+void		update_oldpwd(t_memory *memory, char *oldpwd);
+void		handle_missing_oldpwd(t_memory *memory);
+void		define_pwds(t_memory *memory, char *oldpwd);
+void		check_pwds(t_memory *memory);
 
 // export.c
 

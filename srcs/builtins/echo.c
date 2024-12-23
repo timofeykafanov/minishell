@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:41:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/17 17:10:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/23 21:33:23 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static bool	is_only_n_flags(char *arg)
 	int	i;
 
 	i = 1;
-	// if (!arg)
-	// 	return (false);
 	if (arg[0] != '-')
 		return (false);
 	while (arg[i])

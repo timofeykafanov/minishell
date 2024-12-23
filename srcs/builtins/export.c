@@ -3,22 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/19 16:56:25 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/23 21:28:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	find_var(t_memory *memory, char **args, int j, int *found)
+static void	replace(t_memory *memory, char **args, int j, char *var_name)
 {
 	int		i;
-	char	*var_name;
 	size_t	env_var_len;
 
 	i = 0;
+	while (memory->env[i] && i < memory->env_lines)
+	{
+		env_var_len = ft_strchr(memory->env[i], '=') - memory->env[i];
+		if (memory->env[i] && ft_strncmp(memory->env[i], var_name, \
+			ft_strlen(var_name)) == 0 && env_var_len == ft_strlen(var_name))
+		{
+			free(memory->env[i]);
+			memory->env[i] = ft_strdup(args[j]);
+			if (!memory->env[i])
+			{
+				free(var_name);
+				free_memory(memory);
+				exit(ERROR);
+			}
+			memory->found = true;
+			break ;
+		}
+		i++;
+	}
+}
+
+void	find_var(t_memory *memory, char **args, int j)
+{
+	char	*var_name;
+
 	if (ft_strchr(args[j], '='))
 		var_name = ft_strncpy(args[j], \
 		ft_strchr(args[j], '=') - args[j]);
@@ -29,57 +53,41 @@ void	find_var(t_memory *memory, char **args, int j, int *found)
 		free_memory(memory);
 		exit(ERROR);
 	}
-	while (memory->env[i] && i < memory->env_lines)
-	{
-		env_var_len = ft_strchr(memory->env[i], '=') - memory->env[i];
-		if (memory->env[i] && ft_strncmp(memory->env[i], var_name, \
-			ft_strlen(var_name)) == 0 && env_var_len == ft_strlen(var_name))
-		{
-			free(memory->env[i]);
-			memory->env[i] = ft_strdup(args[j]);
-			if (!memory->env[i])
-			{	
-				free(var_name);
-				free_memory(memory);
-				exit(ERROR);
-			}
-			*found = 1;
-			break ;
-		}
-		i++;
-	}
+	replace(memory, args, j, var_name);
 	free(var_name);
+}
+
+static void	put_var(t_memory *memory, char **args, int j)
+{
+	memory->env[memory->env_lines] = ft_strdup(args[j]);
+	if (!memory->env[memory->env_lines])
+		end_shell(memory);
+	memory->env_lines++;
+	if (memory->env_lines == memory->env_space)
+	{
+		memory->env = ft_realloc(memory->env, \
+			sizeof(char *) * (memory->env_lines + 512 + 1));
+		memory->env_space += 512;
+	}
+	memory->env[memory->env_lines] = NULL;
 }
 
 static void	add_env_var(t_memory *memory, char **args)
 {
-	int	j;
-	int	found;
+	int		j;
 
 	j = 1;
 	while (args[j])
 	{
-		found = 0;
-		find_var(memory, args, j, &found);
-		if (found)
+		memory->found = false;
+		find_var(memory, args, j);
+		if (memory->found)
 		{
 			j++;
+			memory->found = false;
 			continue ;
 		}
-		memory->env[memory->env_lines] = ft_strdup(args[j]);
-		if (!memory->env[memory->env_lines])
-		{
-			free_memory(memory);
-			exit(ERROR);
-		}
-		memory->env_lines++;
-		if (memory->env_lines == memory->env_space)
-		{
-			memory->env = ft_realloc(memory->env, \
-				sizeof(char *) * (memory->env_lines + 512 + 1));
-			memory->env_space += 512;
-		}
-		memory->env[memory->env_lines] = NULL;
+		put_var(memory, args, j);
 		j++;
 	}
 }

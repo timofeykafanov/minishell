@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/16 18:22:24 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 22:50:36 by tkafanov         ###   ########.fr       */
+/*   Created: 2024/12/23 21:09:43 by tkafanov          #+#    #+#             */
+/*   Updated: 2024/12/23 21:10:01 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	execute_pwd(t_memory *memory)
 {
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	getcwd(memory->pwd, PATH_MAX);
+	if (memory->pwd != NULL)
+		ft_printf("%s\n", STDOUT_FILENO, memory->pwd);
+	else
+		perror("pwd");
 }

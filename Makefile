@@ -40,9 +40,13 @@ SRCS		= \
 			$(SRCSDIR)/parser/parsing_utils_3.c \
 			$(SRCSDIR)/syntax_check/syntax_check.c \
 			$(SRCSDIR)/syntax_check/var_name_check.c \
-			$(SRCSDIR)/builtins/builtins_env_unset.c  \
-			$(SRCSDIR)/builtins/builtins_pwd_exit.c \
-			$(SRCSDIR)/builtins/builtins_cd.c \
+			$(SRCSDIR)/builtins/unset.c  \
+			$(SRCSDIR)/builtins/env.c \
+			$(SRCSDIR)/builtins/exit.c \
+			$(SRCSDIR)/builtins/exit_utils.c \
+			$(SRCSDIR)/builtins/pwd.c \
+			$(SRCSDIR)/builtins/cd.c \
+			$(SRCSDIR)/builtins/cd_utils.c \
 			$(SRCSDIR)/builtins/export.c  \
 			$(SRCSDIR)/builtins/export_utils.c \
 			$(SRCSDIR)/builtins/echo.c \
