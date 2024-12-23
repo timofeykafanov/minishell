@@ -23,6 +23,7 @@ SRCS		= \
 			$(SRCSDIR)/utils/freeing_two.c \
 			$(SRCSDIR)/utils/free_memory.c \
 			$(SRCSDIR)/utils/print_error_message.c \
+			$(SRCSDIR)/utils/handle_error.c \
 			$(SRCSDIR)/lexer/lexer.c \
 			$(SRCSDIR)/lexer/lexer_utils.c \
 			$(SRCSDIR)/lexer/process_token.c \

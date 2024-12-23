@@ -382,4 +382,12 @@ t_memory	*init_memory(char **env);
 
 void		echo(char **args);
 
+// handle_error.c
+
+int			handle_expand_error(t_memory *memory);
+int			handle_syntax_error(t_memory *memory);
+int			handle_quote_error(t_memory *memory);
+int			handle_parsing_error(t_memory *memory);
+int			handle_heredoc_exit(t_memory *memory);
+
 #endif // MINISHELL_H
