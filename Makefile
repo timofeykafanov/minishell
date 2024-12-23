@@ -48,15 +48,17 @@ SRCS		= \
 			$(SRCSDIR)/executor/executor.c \
 			$(SRCSDIR)/executor/executor_utils.c \
 			$(SRCSDIR)/executor/handle_execution.c \
-			$(SRCSDIR)/executor/handle_redir_out.c \
-			$(SRCSDIR)/executor/handle_redir_in.c \
+			$(SRCSDIR)/executor/handle_redir.c \
+			$(SRCSDIR)/executor/handle_redir_utils.c \
 			$(SRCSDIR)/executor/has_redir.c \
 			$(SRCSDIR)/executor/find_path.c \
 			$(SRCSDIR)/executor/single.c \
+			$(SRCSDIR)/executor/single_utils.c \
 			$(SRCSDIR)/executor/first.c \
 			$(SRCSDIR)/executor/next.c \
 			$(SRCSDIR)/executor/last.c \
 			$(SRCSDIR)/heredoc/heredoc.c \
+			$(SRCSDIR)/heredoc/heredoc_utils.c \
 
 
 OBJSDIR		= objs

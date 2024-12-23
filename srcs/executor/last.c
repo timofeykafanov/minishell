@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/20 21:38:23 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:32:58 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	close(fd1[1]);
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
-		execute_builtin(cmd, mem, false, false, NULL);
+		execute_builtin(cmd, mem, NULL);
 		free_memory(mem);
 		close(1);
 		close(0);
@@ -49,8 +49,8 @@ int	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
-		exit(1);
+		perror("kinkshell: fork");
+		end_shell(mem);
 	}
 	if (pid == 0)
 	{

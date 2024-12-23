@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:40:48 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/20 14:50:12 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/23 16:00:35 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 static void	show_error_message(t_tokens *token)
 {
 	if (token->next->type == T_R_OUT)
-		ft_printf("syntax error near unexpected token `>'\n", \
+		ft_printf("kinkshell: syntax error near unexpected token `>'\n", \
 			STDERR_FILENO);
 	else if (token->next->type == T_R_IN)
-		ft_printf("syntax error near unexpected token `<'\n", \
+		ft_printf("kinkshell: syntax error near unexpected token `<'\n", \
 			STDERR_FILENO);
 	else if (token->next->type == T_OUT_APPEND)
-		ft_printf("syntax error near unexpected token `>>'\n", \
+		ft_printf("kinkshell: syntax error near unexpected token `>>'\n", \
 			STDERR_FILENO);
 	else if (token->next->type == T_HEREDOC)
-		ft_printf("syntax error near unexpected token `<<'\n", \
+		ft_printf("kinkshell: syntax error near unexpected token `<<'\n", \
 			STDERR_FILENO);
 	else if (token->next->type == T_PIPE)
-		ft_printf("syntax error near unexpected token `|'\n", \
+		ft_printf("kinkshell: syntax error near unexpected token `|'\n", \
 			STDERR_FILENO);
 }
 
@@ -36,13 +36,14 @@ static int	check_first_token(t_tokens *token, t_memory *memory)
 	if (token && ft_strncmp(token->data, ".", 1) == 0
 		&& ft_strlen(token->data) == 1)
 	{
-		ft_printf(".: filename argument required\n", STDERR_FILENO);
+		ft_printf("kinkshell: .: filename argument required\n", STDERR_FILENO);
 		memory->exit_status = 2;
 		return (1);
 	}
 	if (token && token->type == T_PIPE)
 	{
-		ft_printf("syntax error near unexpected token `|'\n", STDERR_FILENO);
+		ft_printf("kinkshell: syntax error near unexpected token `|'\n", \
+			STDERR_FILENO);
 		memory->exit_status = 2;
 		return (1);
 	}
@@ -56,13 +57,13 @@ static int	check_after_pipe(t_tokens *token, t_memory *memory)
 	if (token->next && ft_strncmp(token->next->data, ".", 1) == 0
 		&& ft_strlen(token->next->data) == 1)
 	{
-		ft_printf(".: filename argument required\n", STDERR_FILENO);
+		ft_printf("kinkshell: .: filename argument required\n", STDERR_FILENO);
 		memory->exit_status = 2;
 		return (1);
 	}
 	if (!token->next || token->next->type == T_PIPE)
 	{
-		ft_printf("syntax error near unexpected token `|'\n", \
+		ft_printf("kinkshell: syntax error near unexpected token `|'\n", \
 			STDERR_FILENO);
 		memory->exit_status = 2;
 		return (1);
@@ -76,7 +77,7 @@ static int	check_after_redir(t_tokens *token, t_memory *memory)
 		token = token->next;
 	if (!token->next)
 	{
-		ft_printf("syntax error near unexpected token `newline'\n", \
+		ft_printf("kinkshell: syntax error near unexpected token `newline'\n", \
 			STDERR_FILENO);
 		memory->exit_status = 2;
 		return (1);

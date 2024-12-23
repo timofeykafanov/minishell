@@ -6,24 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/20 22:20:32 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:51:44 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	free_paths(char **paths)
-{
-	int	i;
-
-	i = 0;
-	while (paths[i])
-	{
-		free(paths[i]);
-		i++;
-	}
-	free(paths);
-}
 
 static char	*check_access(char *command, char **paths, int i)
 {
@@ -31,19 +18,13 @@ static char	*check_access(char *command, char **paths, int i)
 	char	*temp;
 
 	if (access(command, F_OK) == 0)
-	{
-		free_paths(paths);
 		return (command);
-	}
 	path = ft_strjoin(paths[i], "/");
 	temp = path;
 	path = ft_strjoin(temp, command);
 	free(temp);
 	if (access(path, F_OK) == 0)
-	{
-		free_paths(paths);
 		return (path);
-	}
 	free(path);
 	return (NULL);
 }
@@ -66,7 +47,6 @@ static char	*define_path(char *command, char **paths)
 
 char	*find_path(char *command, t_memory *memory, t_command *cmd)
 {
-	char	**paths;
 	char	*res;
 
 	if (!command)
@@ -84,12 +64,11 @@ char	*find_path(char *command, t_memory *memory, t_command *cmd)
 		return (ft_strjoin("./", command));
 	if (!cmd->env_path)
 		return (NULL);
-	paths = ft_split(cmd->env_path, ':');
-	if (!paths)
+	cmd->paths = ft_split(cmd->env_path, ':');
+	if (!cmd->paths)
 		return (NULL);
-	res = define_path(command, paths);
+	res = define_path(command, cmd->paths);
 	if (res)
 		return (res);
-	free_paths(paths);
 	return (NULL);
 }

@@ -16,7 +16,7 @@
 # include "../libft/libft.h"
 
 # include <limits.h>
-#include <stdbool.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <readline/readline.h>
@@ -87,10 +87,13 @@
 # define ERROR_CODE_INVALID_VAR_NAME 10
 # define ERROR_CODE_NO_PATH 11
 
-# define ERROR_MSG_MALLOC "Memory Allocation Error\n"
-# define ERROR_MSG_QUOTE "Syntax Error: Missing Quote\n"
-# define ERROR_MSG_AMBIGUOUS_REDIRECT "%s: ambiguous redirect\n"
-# define ERROR_MSG_INVALID_VAR_NAME "export: `%s': not a valid identifier\n"
+# define ERROR_MSG_HEREDOC "warning: here-document delimited by \
+end-of-file (wanted `%s')\n"
+# define ERROR_MSG_MALLOC "kinkshell: Memory Allocation Error\n"
+# define ERROR_MSG_QUOTE "kinkshell: Syntax Error: Missing Quote\n"
+# define ERROR_MSG_AMBIGUOUS_REDIRECT "kinkshell: %s: ambiguous redirect\n"
+# define ERROR_MSG_INVALID_VAR_NAME "kinkshell: export: `%s': \
+not a valid identifier\n"
 
 typedef struct s_tokens
 {
@@ -123,6 +126,10 @@ typedef struct s_command
 	bool				is_filename;
 	bool				has_child;
 	int					exit_status;
+	bool				is_redir_out;
+	bool				is_redir_in;
+	bool				has_redir;
+	char				**paths;
 	struct s_command	*next;
 }	t_command;
 
@@ -208,7 +215,8 @@ bool		is_separator(char c);
 
 // parsing_utils_3.c
 int			check_current_token_type(t_parser **p);
-t_command	*create_command(char *name, char **args, int type, t_memory *memory);
+t_command	*create_command(char *name, char **args, int type, \
+	t_memory *memory);
 t_parser	*init_parser(t_memory *memory);
 void		parser_init_phase_two(t_parser **p, t_memory *memory);
 void		setup_redirect(t_parser *p);
@@ -217,7 +225,7 @@ void		setup_redirect(t_parser *p);
 // syntax_check.c
 
 int			syntax_check(t_memory *memory);
-bool    	var_name_check(t_memory *memory);
+bool		var_name_check(t_memory *memory);
 
 // signals.c
 
@@ -227,7 +235,7 @@ void		set_signals(int type);
 // builtins_pwd_exit.c
 
 void		execute_pwd(t_memory *memory);
-void		execute_exit(t_memory *memory, t_command *cmd, bool is_redir_out, bool is_redir_in, int saved_fds[2]);
+void		execute_exit(t_memory *memory, t_command *cmd, int saved_fds[2]);
 
 // builtins_env_unset.c
 
@@ -259,6 +267,14 @@ void		print_commands(t_memory *memory);
 
 void		execute_commands(t_memory *memory);
 
+// executor_utils.c
+
+bool		is_builtin(char *command);
+void		execute_builtin(t_command *cmd, t_memory *mem, int saved_fds[2]);
+void		execute_cd_or_exit(t_command *cmd, t_memory *mem);
+bool		is_directory(t_memory *memory, t_command *command);
+void		catch_status(t_memory *memory, int *status);
+
 // handle_execution.c
 
 void		handle_execution(t_command *cmd, t_memory *mem);
@@ -278,6 +294,14 @@ void		merge_tokens(t_memory *memory);
 
 void		handle_redir_out(t_command *cmd, t_memory *memory, bool has_child);
 void		handle_redir_in(t_command *cmd, t_memory *memory, bool has_child);
+void		handle_redir(t_command *cmd, t_memory *memory, bool has_child);
+
+// handle_redir_utils.c
+
+void		redir_out(t_redir_out *redir, t_memory *mem, bool has_child);
+void		redir_append(t_redir_out *redir, t_memory *mem, bool has_child);
+void		redir_in(t_redir_out *redir, t_memory *mem, bool has_child);
+void		redir_heredoc(t_redir_out *redir, t_memory *mem, bool has_child);
 
 // has_redir.c
 
@@ -287,6 +311,11 @@ bool		has_redir_out(t_command *cmd);
 // single.c
 
 void		execute_single_command(t_command *cmd, t_memory *mem, int *status);
+
+// single_utils.c
+
+void		execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
+	int saved_fds[2]);
 
 // first.c
 
@@ -327,17 +356,18 @@ char		*expand_double(t_memory *memory, char *s);
 char		*remove_quotes(char *s);
 bool		expand_double_quotes(t_tokens *token, t_memory *memory);
 
-
 // expand_single.c
 
 char		*expand_single(char *s);
 
 // heredoc.c
 
-void		delete_heredocs(t_memory *memory);
-void		heredoc(t_memory *memory, t_redir_out *redir, int i);
-// char		*read_heredoc_content(void);
 void		execute_heredoc(t_memory *memory);
+
+// heredoc_utils.c
+
+void		delete_heredocs(t_memory *memory);
+char		*heredoc_expander(t_memory *memory, char *line);
 
 // find_path.c
 
@@ -351,14 +381,5 @@ t_memory	*init_memory(char **env);
 // echo.c
 
 void		echo(char **args);
-
-// executor_utils.c
-
-bool		contains_slash(char *command);
-bool		is_builtin(char *command);
-void		execute_builtin(t_command *cmd, t_memory *mem, bool is_redir_out, \
-	bool is_redir_in, int saved_fds[2]);
-bool		is_cd_or_exit(char *command);
-void		execute_cd_or_exit(t_command *cmd, t_memory *mem);
 
 #endif // MINISHELL_H

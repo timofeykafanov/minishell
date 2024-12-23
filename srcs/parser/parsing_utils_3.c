@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:22:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/20 20:46:00 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:58:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,10 @@ t_command	*create_command(char *name, char **args, int type, t_memory *memory)
 	command = (t_command *)malloc(sizeof(t_command));
 	if (!command)
 		return (set_error_code(PARSER, ERROR_CODE_MALLOC, memory), NULL);
+	ft_bzero(command, sizeof(t_command));
 	command->name = name;
 	command->args = args;
 	command->type = type;
-	command->redir_struct = NULL;
-	command->next = NULL;
-	command->path = NULL;
-	command->env_path = NULL;
-	command->is_filename = false;
 	return (command);
 }
 
@@ -53,14 +49,9 @@ t_parser	*init_parser(t_memory *memory)
 	if (!parser)
 		return (set_error_code(PARSER, ERROR_CODE_MALLOC, memory), NULL);
 	memory->commands = NULL;
-	parser->current_cmd = NULL;
-	parser->prev_cmd = NULL;
+	ft_bzero(parser, sizeof(t_parser));
 	parser->start_token = memory->tokens;
 	parser->current_token = parser->start_token;
-	parser->current_redir = NULL;
-	parser->last_redir = NULL;
-	parser->args_count = 0;
-	parser->heredoc_count = 0;
 	return (parser);
 }
 

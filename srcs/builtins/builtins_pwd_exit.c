@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/20 14:21:07 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:21:31 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,17 @@ static bool	contains_only_digits(char *str, int *sign)
 	return (true);
 }
 
-static void	exit_shell(t_memory *memory, t_command *cmd, bool is_redir_out, bool is_redir_in, \
+static void	exit_shell(t_memory *memory, t_command *cmd, \
 	int saved_fds[2])
 {
 	int	exit_status;
-	if (is_redir_in && saved_fds)
+	if (cmd->is_redir_in && saved_fds)
 	{
 		dup2(saved_fds[0], STDIN_FILENO);
 		close(saved_fds[0]);
 		close(saved_fds[1]);
 	}
-	if (is_redir_out && saved_fds)
+	if (cmd->is_redir_out && saved_fds)
 	{
 		dup2(saved_fds[1], STDOUT_FILENO);
 		close(saved_fds[0]);
@@ -148,8 +148,7 @@ static bool is_within_long_range(char *str, int sign)
 	return true;
 }
 
-void	execute_exit(t_memory *memory, t_command *cmd, bool is_redir_out, \
-	bool is_redir_in, int saved_fds[2])
+void	execute_exit(t_memory *memory, t_command *cmd, int saved_fds[2])
 {
 	int sign = 1;
 
@@ -174,5 +173,5 @@ void	execute_exit(t_memory *memory, t_command *cmd, bool is_redir_out, \
 	}
 	if (sign == -1)
 		cmd->exit_status = (256 + cmd->exit_status) % 256;
-	exit_shell(memory, cmd, is_redir_out, is_redir_in, saved_fds);
+	exit_shell(memory, cmd, saved_fds);
 }

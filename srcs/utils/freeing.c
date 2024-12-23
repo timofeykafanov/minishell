@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/20 14:34:31 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:52:02 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@ void	end_shell(t_memory *memory)
 {
 	free_memory(memory);
 	exit(1);
+}
+
+void	free_paths(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while (paths[i])
+	{
+		free(paths[i]);
+		i++;
+	}
+	free(paths);
 }
 
 static void	free_command_content(t_command *current)
@@ -47,6 +60,11 @@ static void	free_command_content(t_command *current)
 	{
 		free(current->env_path);
 		current->env_path = NULL;
+	}
+	if (current->paths)
+	{
+		free_paths(current->paths);
+		current->paths = NULL;
 	}
 }
 
