@@ -6,13 +6,13 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 15:32:58 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:11:10 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
+static void	handle_redirs(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	if (cmd->redir_struct && has_redir_in(cmd))
 	{
@@ -21,18 +21,29 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 		handle_redir_in(cmd, mem, cmd->has_child);
 	}
 	else
-		dup2(fd1[0], STDIN_FILENO);
+	{
+		if (dup2(fd1[0], STDIN_FILENO) == -1)
+		{
+			perror("kinkshell: dup2");
+			end_shell(mem);
+		}
+	}
 	if (cmd->redir_struct && has_redir_out(cmd))
 		handle_redir_out(cmd, mem, cmd->has_child);
 	close(fd1[0]);
 	close(fd1[1]);
+}
+
+static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
+{
+	handle_redirs(cmd, mem, fd1);
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
 		execute_builtin(cmd, mem, NULL);
 		free_memory(mem);
-		close(1);
-		close(0);
-		exit(0);
+		close(STDOUT_FILENO);
+		close(STDIN_FILENO);
+		exit(SUCCESS);
 	}
 	else
 		handle_execution(cmd, mem);

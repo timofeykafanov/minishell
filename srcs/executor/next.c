@@ -6,11 +6,20 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 15:38:07 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:19:47 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	safe_dup(int fd, int std_fd, t_memory *mem)
+{
+	if (dup2(fd, std_fd) == -1)
+	{
+		perror("kinkshell: dup2");
+		end_shell(mem);
+	}
+}
 
 static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], t_memory *mem)
 {
@@ -22,7 +31,7 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], t_memory *mem)
 		handle_redir_in(cmd, mem, cmd->has_child);
 	}
 	else
-		dup2(fd1[0], STDIN_FILENO);
+		safe_dup(fd1[0], STDIN_FILENO, mem);
 	if (cmd->redir_struct && has_redir_out(cmd))
 	{
 		cmd->has_redir = true;
@@ -31,7 +40,7 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], t_memory *mem)
 		handle_redir_out(cmd, mem, cmd->has_child);
 	}
 	else
-		dup2(fd2[1], STDOUT_FILENO);
+		safe_dup(fd2[1], STDOUT_FILENO, mem);
 	close(fd1[0]);
 	close(fd1[1]);
 	close(fd2[0]);
@@ -44,9 +53,9 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 	{
 		execute_builtin(cmd, mem, NULL);
 		free_memory(mem);
-		close(1);
-		close(0);
-		exit(0);
+		close(STDOUT_FILENO);
+		close(STDIN_FILENO);
+		exit(SUCCESS);
 	}
 	else
 		handle_execution(cmd, mem);
@@ -86,7 +95,7 @@ int	execute_next_command(t_command *cmd, t_memory *mem, int fd1[2])
 
 	if (pipe(fd2) == -1)
 	{
-		perror("pipe");
+		perror("kinkshell: pipe");
 		end_shell(mem);
 	}
 	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)

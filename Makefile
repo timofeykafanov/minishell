@@ -49,6 +49,7 @@ SRCS		= \
 			$(SRCSDIR)/builtins/cd_utils.c \
 			$(SRCSDIR)/builtins/export.c  \
 			$(SRCSDIR)/builtins/export_utils.c \
+			$(SRCSDIR)/builtins/export_utils_2.c \
 			$(SRCSDIR)/builtins/echo.c \
 			$(SRCSDIR)/executor/executor.c \
 			$(SRCSDIR)/executor/executor_utils.c \

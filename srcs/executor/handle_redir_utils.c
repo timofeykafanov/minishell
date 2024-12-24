@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 14:14:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 15:48:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:07:17 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ void	redir_out(t_redir_out *redir, t_memory *mem, bool has_child)
 			exit(1);
 		}
 	}
-	dup2(fd_out, STDOUT_FILENO);
+	if (dup2(fd_out, STDOUT_FILENO) == -1)
+	{
+		perror("kinkshell: dup2");
+		end_shell(mem);
+	}
 	close(fd_out);
 }
 
@@ -46,7 +50,11 @@ void	redir_append(t_redir_out *redir, t_memory *mem, bool has_child)
 			exit(1);
 		}
 	}
-	dup2(fd_out, STDOUT_FILENO);
+	if (dup2(fd_out, STDOUT_FILENO == -1))
+	{
+		perror("kinkshell: dup2");
+		end_shell(mem);
+	}
 	close(fd_out);
 }
 
@@ -65,7 +73,11 @@ void	redir_in(t_redir_out *redir, t_memory *mem, bool has_child)
 			exit(1);
 		}
 	}
-	dup2(fd_in, STDIN_FILENO);
+	if (dup2(fd_in, STDIN_FILENO) == -1)
+	{
+		perror("kinkshell: dup2");
+		end_shell(mem);
+	}
 	close(fd_in);
 }
 
@@ -84,6 +96,10 @@ void	redir_heredoc(t_redir_out *redir, t_memory *mem, bool has_child)
 			exit(1);
 		}
 	}
-	dup2(fd_heredoc, STDIN_FILENO);
+	if (dup2(fd_heredoc, STDIN_FILENO) == -1)
+	{
+		perror("kinkshell: dup2");
+		end_shell(mem);
+	}
 	close(fd_heredoc);
 }

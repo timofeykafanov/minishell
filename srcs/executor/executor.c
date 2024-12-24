@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 15:16:16 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:34:15 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static void	handle_multiprocess(t_memory *memory, int counter)
 		if (waitpid(memory->pid[i], &status, 0) == -1)
 		{
 			perror("kinkshell: waitpid");
-			free_memory(memory);
-			exit(1);
+			end_shell(memory);
 		}
 		i++;
 	}

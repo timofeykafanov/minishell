@@ -277,6 +277,10 @@ void		execute_export(t_memory *memory, char **args);
 
 void		print_export(t_memory *memory);
 
+// export_utils_2.c
+
+void		print_vars(t_memory *mem, char **copy);
+
 // parser.c
 
 void		parse_and_execute_tokens(t_tokens *tokens, t_memory *memory);
@@ -367,6 +371,7 @@ void		*expand_tokens(t_memory *memory);
 int			is_single_quote(char c);
 int			is_double_quote(char c);
 int			is_dollar(char c);
+bool		handle_redirect(t_tokens *token, t_memory *memory);
 
 // expand_var.c
 

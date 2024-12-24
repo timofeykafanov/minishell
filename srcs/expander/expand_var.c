@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/18 17:55:13 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:21:47 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,29 @@ char	*find_env_value(t_memory *memory, const char *key)
 {
 	int		i;
 	size_t	key_len;
+	char	*value;
 
 	i = 0;
-	key_len = ft_strlen(key);
+	if (key)
+		key_len = ft_strlen(key);
+	else
+		key_len = 0;
 	while (memory->env[i])
 	{
 		if (ft_strncmp(memory->env[i], key, key_len) == 0 \
 			&& memory->env[i][key_len] == '=')
-			return (ft_strdup(ft_strchr(memory->env[i], '=') + 1));
+		{
+			value = ft_strdup(ft_strchr(memory->env[i], '=') + 1);
+			if (!value)
+				end_shell(memory);
+			return (value);
+		}
 		i++;
 	}
-	return (ft_strdup(""));
+	value = ft_strdup("");
+	if (!value)
+		end_shell(memory);
+	return (value);
 }
 
 char	*expand_var(t_memory *memory, char *var)
@@ -46,6 +58,7 @@ char	*expand_var(t_memory *memory, char *var)
 	if (!temp)
 	{
 		free(var);
+		var = NULL;
 		return (NULL);
 	}
 	value = find_env_value(memory, temp);

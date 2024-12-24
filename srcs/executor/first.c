@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 15:33:11 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:06:07 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,13 @@ static void	handle_redirs(t_command *cmd, t_memory *mem, int fd1[2])
 		handle_redir_out(cmd, mem, cmd->has_child);
 	}
 	else
-		dup2(fd1[1], STDOUT_FILENO);
+	{
+		if (dup2(fd1[1], STDOUT_FILENO) == -1)
+		{
+			perror("kinkshell: dup2");
+			end_shell(mem);
+		}
+	}
 	close(fd1[0]);
 	close(fd1[1]);
 }
@@ -41,9 +47,9 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 		close(fd1[0]);
 		close(fd1[1]);
 		free_memory(mem);
-		close(1);
-		close(0);
-		exit(0);
+		close(STDOUT_FILENO);
+		close(STDIN_FILENO);
+		exit(SUCCESS);
 	}
 	else
 		handle_execution(cmd, mem);

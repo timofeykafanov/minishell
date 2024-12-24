@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 12:45:28 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:05:44 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,25 @@
 
 extern sig_atomic_t	g_exit_status;
 
-static void	handle_redir_back(t_command *cmd, int saved_fds[2])
+static void	handle_redir_back(t_memory *mem, t_command *cmd, int saved_fds[2])
 {
 	if (cmd->is_redir_in && saved_fds)
 	{
-		dup2(saved_fds[0], STDIN_FILENO);
+		if (dup2(saved_fds[0], STDIN_FILENO) == -1)
+		{
+			perror("kinkshell: dup2");
+			end_shell(mem);
+		}
 		close(saved_fds[0]);
 		close(saved_fds[1]);
 	}
 	if (cmd->is_redir_out && saved_fds)
 	{
-		dup2(saved_fds[1], STDOUT_FILENO);
+		if (dup2(saved_fds[1], STDOUT_FILENO) == -1)
+		{
+			perror("kinkshell: dup2");
+			end_shell(mem);
+		}
 		close(saved_fds[0]);
 		close(saved_fds[1]);
 	}
@@ -40,13 +48,13 @@ static void	exit_shell(t_memory *memory, t_command *cmd, \
 {
 	int	exit_status;
 
-	handle_redir_back(cmd, saved_fds);
+	handle_redir_back(memory, cmd, saved_fds);
 	exit_status = cmd->exit_status;
 	if (!memory->is_child)
 		ft_printf("exit\n", STDOUT_FILENO);
 	free_memory(memory);
-	close(1);
-	close(0);
+	close(STDOUT_FILENO);
+	close(STDIN_FILENO);
 	exit(exit_status);
 }
 

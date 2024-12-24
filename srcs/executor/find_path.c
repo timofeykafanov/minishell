@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 15:51:44 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:50:49 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,15 @@ static char	*check_access(char *command, char **paths, int i)
 	if (access(command, F_OK) == 0)
 		return (command);
 	path = ft_strjoin(paths[i], "/");
+	if (!path)
+		end_shell(NULL);
 	temp = path;
 	path = ft_strjoin(temp, command);
+	if (!path)
+	{
+		free(temp);
+		end_shell(NULL);
+	}
 	free(temp);
 	if (access(path, F_OK) == 0)
 		return (path);
@@ -45,6 +52,20 @@ static char	*define_path(char *command, char **paths)
 	return (NULL);
 }
 
+static char	*handle_cmd_with_slash(t_memory *memory, char *command)
+{
+	char	*res;
+
+	if (access(command, F_OK) == 0)
+	{
+		res = ft_strdup(command);
+		if (!res)
+			end_shell(memory);
+		return (res);
+	}
+	return (NULL);
+}
+
 char	*find_path(char *command, t_memory *memory, t_command *cmd)
 {
 	char	*res;
@@ -52,23 +73,22 @@ char	*find_path(char *command, t_memory *memory, t_command *cmd)
 	if (!command)
 		return (NULL);
 	if (ft_strchr(command, '/'))
-	{
-		if (access(command, F_OK) == 0)
-			return (ft_strdup(command));
-		return (NULL);
-	}
+		return (handle_cmd_with_slash(memory, command));
 	cmd->env_path = find_env_value(memory, "PATH");
 	if (ft_strlen(cmd->env_path) == 0)
 		set_error_code(PATH, ERROR_CODE_NO_PATH, memory);
 	if (access(command, F_OK) == 0)
-		return (ft_strjoin("./", command));
+	{
+		res = ft_strjoin("./", command);
+		if (!res)
+			end_shell(memory);
+		return (res);
+	}
 	if (!cmd->env_path)
 		return (NULL);
 	cmd->paths = ft_split(cmd->env_path, ':');
 	if (!cmd->paths)
-		return (NULL);
+		end_shell(memory);
 	res = define_path(command, cmd->paths);
-	if (res)
-		return (res);
-	return (NULL);
+	return (res);
 }

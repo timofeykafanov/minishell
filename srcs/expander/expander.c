@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 17:23:10 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:42:59 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-bool	handle_redirect(t_tokens *token, t_memory *memory)
-{
-	char	*expanded_var;
-
-	expanded_var = NULL;
-	if (is_prev_heredoc(token))
-		return (true);
-	if (is_prev_redirect(token))
-	{
-		expanded_var = find_env_value(memory, token->data + 1);
-		if (ft_strncmp(expanded_var, "", 1) == 0)
-		{
-			set_error_code(EXPANDER, ERROR_CODE_AMBIGUOUS_REDIRECT, memory);
-			memory->exit_status = 1;
-			if (!memory->faulty_variable_name)
-				memory->faulty_variable_name = ft_strdup(token->data);
-			free(expanded_var);
-			return (true);
-		}
-		free(expanded_var);
-	}
-	return (false);
-}
 
 bool	split_variable(char *var_content, t_tokens *token, t_memory *memory)
 {

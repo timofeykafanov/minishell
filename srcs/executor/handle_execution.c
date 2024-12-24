@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 21:25:20 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 15:33:39 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:57:23 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	handle_error_before_execve(t_command *cmd, t_memory *mem)
 {
-	close(1);
-	close(0);
+	close(STDOUT_FILENO);
+	close(STDIN_FILENO);
 	if (mem->error_code == ERROR_CODE_NO_PATH
 		|| (cmd->name && ft_strchr(cmd->name, '/')))
 		ft_printf("kinkshell: %s: No such file or directory\n", STDERR_FILENO, \
@@ -25,7 +25,7 @@ static void	handle_error_before_execve(t_command *cmd, t_memory *mem)
 		if (!cmd->args[0])
 		{
 			free_memory(mem);
-			exit(0);
+			exit(SUCCESS);
 		}
 		ft_printf("kinkshell: %s: command not found\n", \
 			STDERR_FILENO, cmd->args[0]);
@@ -36,8 +36,8 @@ static void	handle_error_before_execve(t_command *cmd, t_memory *mem)
 
 static void	handle_error_after_execve(t_command *cmd, t_memory *mem)
 {
-	close(1);
-	close(0);
+	close(STDOUT_FILENO);
+	close(STDIN_FILENO);
 	if (ft_strlen(cmd->args[0]) == 0)
 	{
 		free_memory(mem);

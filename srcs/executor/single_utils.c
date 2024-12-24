@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:40:45 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 15:48:20 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:17:45 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,22 @@ static void	handle_redir_back(t_command *cmd, int saved_fds[2])
 	if (cmd->is_redir_in)
 	{
 		cmd->is_redir_in = false;
-		dup2(saved_fds[0], STDIN_FILENO);
+		if (dup2(saved_fds[0], STDIN_FILENO) == -1)
+		{
+			perror("kinkshell: dup2");
+			exit(ERROR);
+		}
 		close(saved_fds[0]);
 		close(saved_fds[1]);
 	}
 	if (cmd->is_redir_out)
 	{
 		cmd->is_redir_out = false;
-		dup2(saved_fds[1], STDOUT_FILENO);
+		if (dup2(saved_fds[1], STDOUT_FILENO) == -1)
+		{
+			perror("kinkshell: dup2");
+			exit(ERROR);
+		}
 		close(saved_fds[0]);
 		close(saved_fds[1]);
 	}

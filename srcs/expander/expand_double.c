@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:44:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/20 14:35:49 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 14:37:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,11 @@ static bool	handle_var_expansion(t_memory *memory, char **s, \
 	return (true);
 }
 
-// TODO: add length to pointer and free var
-char	*expand_double(t_memory *memory, char *s)
+static char	*expand_and_append(t_memory *memory, char *s)
 {
 	char	*res;
 
 	res = NULL;
-	if (is_double_quote(*s) && is_double_quote(*(s + 1)))
-		return (ft_strdup(""));
-	s++;
 	while (*s)
 	{
 		if (is_dollar(*s))
@@ -54,11 +50,30 @@ char	*expand_double(t_memory *memory, char *s)
 			if (is_double_quote(*s))
 				break ;
 			res = ft_strljoin(res, s, 1);
+			if (!res)
+				end_shell(memory);
 			s++;
 		}
 		if (!res)
 			return (NULL);
 	}
+	return (res);
+}
+
+char	*expand_double(t_memory *memory, char *s)
+{
+	char	*res;
+
+	res = NULL;
+	if (is_double_quote(*s) && is_double_quote(*(s + 1)))
+	{
+		res = ft_strdup("");
+		if (!res)
+			end_shell(memory);
+		return (res);
+	}
+	s++;
+	res = expand_and_append(memory, s);
 	return (res);
 }
 

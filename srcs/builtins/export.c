@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 21:28:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:31:19 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static void	replace(t_memory *memory, char **args, int j, char *var_name)
 			if (!memory->env[i])
 			{
 				free(var_name);
-				free_memory(memory);
-				exit(ERROR);
+				end_shell(memory);
 			}
 			memory->found = true;
 			break ;
@@ -67,6 +66,8 @@ static void	put_var(t_memory *memory, char **args, int j)
 	{
 		memory->env = ft_realloc(memory->env, \
 			sizeof(char *) * (memory->env_lines + 512 + 1));
+		if (!memory->env)
+			end_shell(memory);
 		memory->env_space += 512;
 	}
 	memory->env[memory->env_lines] = NULL;
