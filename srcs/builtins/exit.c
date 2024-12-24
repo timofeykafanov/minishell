@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 22:50:07 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/24 12:45:28 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,11 @@ static bool	is_within_long_range(char *str, int sign)
 		|| *str == '\v' || *str == '\f' || *str == '\r')
 		str++;
 	if (*str == '+' || *str == '-')
-	{
 		str++;
-	}
 	while (*str == '0')
 		str++;
 	while (str[len])
-	{
 		len++;
-	}
 	while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\t'
 			|| str[len - 1] == '\n' || str[len - 1] == '\v'
 			|| str[len - 1] == '\f' || str[len - 1] == '\r'))
@@ -75,7 +71,7 @@ static bool	is_within_long_range(char *str, int sign)
 	if (len > 19)
 		return (false);
 	if (len == 19)
-		check_overflow(sign, str);
+		return (check_overflow(sign, str));
 	return (true);
 }
 
