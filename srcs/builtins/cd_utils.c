@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:35:49 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 13:05:59 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/25 21:06:46 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	find_env_index(char **env, char *var)
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0)
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0
+			&& (env[i][ft_strlen(var)] == '='
+			|| env[i][ft_strlen(var)] == '\0'))
 			return (i);
 		i++;
 	}
@@ -39,7 +41,7 @@ void	handle_missing_oldpwd(t_memory *memory)
 {
 	int	i;
 
-	i = find_env_index(memory->env, "OLDPWD=");
+	i = find_env_index(memory->env, "OLDPWD");
 	if (i != -1)
 	{
 		while (memory->env[i + 1])
@@ -55,7 +57,7 @@ void	define_pwds(t_memory *memory, char *oldpwd)
 {
 	int	i;
 
-	i = find_env_index(memory->env, "OLDPWD=");
+	i = find_env_index(memory->env, "OLDPWD");
 	if (i != -1)
 	{
 		free(memory->env[i]);
@@ -63,7 +65,7 @@ void	define_pwds(t_memory *memory, char *oldpwd)
 		if (!memory->env[i])
 			end_shell(memory);
 	}
-	i = find_env_index(memory->env, "PWD=");
+	i = find_env_index(memory->env, "PWD");
 	if (i != -1)
 	{
 		free(memory->env[i]);
@@ -77,7 +79,7 @@ void	check_pwds(t_memory *memory)
 {
 	char	*oldpwd;
 
-	oldpwd = get_env_var(memory, "PWD=");
+	oldpwd = get_env_var(memory, "PWD");
 	if (oldpwd)
 		update_oldpwd(memory, oldpwd);
 	getcwd(memory->pwd, PATH_MAX);

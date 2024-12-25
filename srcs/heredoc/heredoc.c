@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/23 16:19:19 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/25 19:27:05 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,51 @@ static void	run_heredoc(t_memory *memory, t_redir_out *redir, int fd)
 	}
 }
 
-static void	heredoc(t_memory *memory, t_redir_out *redir, int i)
+static char	*randomize_filename(t_memory *memory, int i)
 {
-	int		fd;
 	int		randname;
 	char	*filename;
 
 	randname = fork();
+	if (randname == -1)
+	{
+		perror("kinkshell: fork");
+		end_shell(memory);
+	}
 	if (randname == 0)
 	{
 		memory->heredocs_count = i;
 		free_memory(memory);
-		close(1);
-		close(0);
-		exit(0);
+		close(STDOUT_FILENO);
+		close(STDIN_FILENO);
+		exit(SUCCESS);
 	}
-	set_signals(HEREDOC);
 	filename = ft_itoa(randname);
+	if (!filename)
+		end_shell(memory);
+	return (filename);
+}
+
+static void	heredoc(t_memory *memory, t_redir_out *redir, int i)
+{
+	int		fd;
+	char	*filename;
+
+	filename = randomize_filename(memory, i);
+	if (!filename)
+		end_shell(memory);
 	redir->heredoc_file_name = ft_strjoin("heredoc/", filename);
+	if (!redir->heredoc_file_name)
+	{
+		free(filename);
+		end_shell(memory);
+	}
 	memory->heredocs[i] = ft_strdup(redir->heredoc_file_name);
+	if (!memory->heredocs[i])
+	{
+		free(filename);
+		end_shell(memory);
+	}
 	memory->heredocs[i + 1] = NULL;
 	free(filename);
 	fd = open(redir->heredoc_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 12:49:09 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/25 20:16:09 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ static void	handle_exit(t_memory *memory)
 	ft_printf("exit\n", STDOUT_FILENO);
 	exit_status = memory->exit_status;
 	free_memory(memory);
-	close(1);
-	close(0);
+	close(STDOUT_FILENO);
+	close(STDIN_FILENO);
 	exit(exit_status);
 }
 
@@ -76,6 +76,8 @@ static int	run_shell(t_memory *memory)
 	while (1)
 	{
 		memory->suffix = ft_strjoin(memory->pwd, "$ ");
+		if (!memory->suffix)
+			end_shell(memory);
 		memory->input = readline(memory->suffix);
 		if (g_signal == SIGINT)
 		{

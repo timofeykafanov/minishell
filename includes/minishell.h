@@ -180,6 +180,10 @@ t_tokens	*variable_split_lexer(t_memory *memory, char *s);
 
 void		*process_token(char *s, t_memory *memory, bool split);
 
+// process_token_utils.c
+
+void		check_separator(char *s, int *len);
+
 // lexer_utils.c
 
 int			get_type(char *s);

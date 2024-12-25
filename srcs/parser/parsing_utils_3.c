@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:22:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/23 15:58:11 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/25 20:12:19 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ t_parser	*init_parser(t_memory *memory)
 	parser = (t_parser *)malloc(sizeof(t_parser));
 	if (!parser)
 		return (set_error_code(PARSER, ERROR_CODE_MALLOC, memory), NULL);
-	memory->commands = NULL;
 	ft_bzero(parser, sizeof(t_parser));
 	parser->start_token = memory->tokens;
 	parser->current_token = parser->start_token;

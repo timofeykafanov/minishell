@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:29:25 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/18 17:21:54 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/25 20:03:05 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ bool	is_separator(char c)
 		|| (c >= '{' && c <= '~'));
 }
 
-//WHY is this an infinte loop if the first char is a $?
 char	*is_var_end(char *s)
 {
 	int	i;

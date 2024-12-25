@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 16:29:34 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/25 19:30:36 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	lexer(t_memory *memory)
 	return ;
 }
 
-//needs type handling for redirects and pipes?
 t_tokens	*variable_split_lexer(t_memory *memory, char *s)
 {
 	t_tokens	*start;

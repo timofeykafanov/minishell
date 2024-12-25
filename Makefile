@@ -27,6 +27,7 @@ SRCS		= \
 			$(SRCSDIR)/lexer/lexer.c \
 			$(SRCSDIR)/lexer/lexer_utils.c \
 			$(SRCSDIR)/lexer/process_token.c \
+			$(SRCSDIR)/lexer/process_token_utils.c \
 			$(SRCSDIR)/expander/expander.c \
 			$(SRCSDIR)/expander/expander_utils.c \
 			$(SRCSDIR)/expander/expand_var.c \
@@ -47,6 +48,7 @@ SRCS		= \
 			$(SRCSDIR)/builtins/pwd.c \
 			$(SRCSDIR)/builtins/cd.c \
 			$(SRCSDIR)/builtins/cd_utils.c \
+			$(SRCSDIR)/builtins/cd_utils_2.c  \
 			$(SRCSDIR)/builtins/export.c  \
 			$(SRCSDIR)/builtins/export_utils.c \
 			$(SRCSDIR)/builtins/export_utils_2.c \
