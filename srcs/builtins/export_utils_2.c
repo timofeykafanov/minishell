@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 13:25:02 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 13:28:21 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:55:27 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	check_equal_sign(t_memory *mem, char **copy, int i)
 		var_value = ft_strdup(equal_sign + 1);
 		if (!var_value)
 		{
+			free_env(copy);
 			free(var_name);
 			end_shell(mem);
 		}
