@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:16:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/25 20:50:21 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:45:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static void	handle_cd_back(t_memory *memory, t_command *cmd)
 	oldpwd = get_env_var(memory, "OLDPWD");
 	if (!oldpwd)
 		if_no_oldpwd(memory, cmd, oldpwd);
+	else if (ft_strlen(oldpwd) == 0)
+		ft_printf("%s\n", STDOUT_FILENO, oldpwd);
 	else
 	{
 		ft_printf("%s\n", STDOUT_FILENO, oldpwd);
