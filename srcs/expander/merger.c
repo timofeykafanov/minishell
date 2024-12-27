@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merger.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:58:02 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 17:25:08 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:38:48 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ t_tokens	*merge(t_tokens	*current_token, t_memory *memory)
 	prev_token_old_data = current_token->prev->data;
 	current_token->prev->data = ft_strjoin(current_token->prev->data, \
 	current_token->data);
+	free(prev_token_old_data);
 	if (!current_token->prev->data)
 		end_shell(memory);
-	free(prev_token_old_data);
 	current_token->prev->type = T_WORD;
 	current_token->prev->was_quoted = 1;
 	current_token->prev->next = current_token->next;

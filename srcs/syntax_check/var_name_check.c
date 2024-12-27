@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/25 20:08:14 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:00:48 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ static bool	is_valid_variable_declaration(char *str)
 
 static void	set_var_and_error_code(t_memory *memory, t_command *cmd, int i)
 {
+	(void)cmd;
+	(void)i;
 	memory->faulty_variable_name = ft_strdup(cmd->args[i]);
+	if (!memory->faulty_variable_name)
+		end_shell(memory);
 	memory->exit_status = 1;
 	set_error_code(EXECUTOR, ERROR_CODE_INVALID_VAR_NAME, memory);
 	print_error_message(EXECUTOR, memory);

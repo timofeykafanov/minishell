@@ -6,13 +6,19 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:43:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 13:21:47 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:32:07 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*find_env_value(t_memory *memory, const char *key)
+static void	handle_failure(t_memory *memory, char *to_free)
+{
+	free(to_free);
+	end_shell(memory);
+}
+
+char	*find_env_value(t_memory *memory, char *key)
 {
 	int		i;
 	size_t	key_len;
@@ -30,14 +36,14 @@ char	*find_env_value(t_memory *memory, const char *key)
 		{
 			value = ft_strdup(ft_strchr(memory->env[i], '=') + 1);
 			if (!value)
-				end_shell(memory);
+				handle_failure(memory, key);
 			return (value);
 		}
 		i++;
 	}
 	value = ft_strdup("");
 	if (!value)
-		end_shell(memory);
+		handle_failure(memory, key);
 	return (value);
 }
 

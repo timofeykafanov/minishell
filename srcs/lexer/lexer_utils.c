@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/25 19:29:00 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 20:48:19 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 bool	is_group_identifier(char *s)
 {
-	return (*s == DASH || *s == DOLLAR || *s == PIPE || *s == SEMICOLON
+	return (*s == DOLLAR || *s == PIPE
 		|| (*s == R_IN && *(s + 1) != R_IN)
 		|| (*s == R_OUT && *(s + 1) != R_OUT)
 		|| (*s == R_IN && *(s + 1) == R_IN)
@@ -73,8 +73,6 @@ int	get_type(char *s)
 		return (T_D_QUOTE);
 	else if (*s == S_QUOTE)
 		return (T_S_QUOTE);
-	else if (*s == DASH)
-		return (T_OPTION);
 	else if (*s == DOLLAR)
 		return (T_VAR);
 	else if ((*s == R_IN && *(s + 1) != R_IN))
@@ -85,8 +83,6 @@ int	get_type(char *s)
 		return (T_HEREDOC);
 	else if ((*s == R_OUT && *(s + 1) == R_OUT))
 		return (T_OUT_APPEND);
-	else if (*s == SEMICOLON)
-		return (T_SEMICOLON);
 	else if (*s == PIPE)
 		return (T_PIPE);
 	else if (is_whitespace(s))

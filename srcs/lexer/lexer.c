@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/25 19:30:36 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 20:44:34 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ static t_tokens	*create_token(char *s, t_memory *memory, bool split)
 	if (memory->lexer_error_code == ERROR_CODE_QUOTES)
 		return (print_error_message(LEXER, memory), NULL);
 	else if (!token->data)
+	{
+		free(token);
+		token = NULL;
 		return (set_error_code(LEXER, ERROR_CODE_MALLOC, memory), NULL);
+	}
 	token->type = get_type((char *)token->data);
 	if (token->type == T_WORD && ft_strchr((char *)token->data, '='))
 		token->type = T_VAR_DEF;

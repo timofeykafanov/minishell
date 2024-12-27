@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_checks.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:52:26 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 11:23:32 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/27 20:48:43 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 bool	to_merge(t_tokens	*current_token)
 {
 	return (current_token->prev && (current_token->type == T_WORD
-			|| current_token->type == T_OPTION
 			|| current_token->type == T_D_QUOTE
 			|| current_token->type == T_S_QUOTE
 			|| current_token->type == T_VAR
 			|| current_token->type == T_VAR_DEF)
 		&& (current_token->prev->type == T_WORD
-			|| current_token->prev->type == T_OPTION
 			|| current_token->prev->type == T_D_QUOTE
 			|| current_token->prev->type == T_S_QUOTE
 			|| current_token->prev->type == T_VAR

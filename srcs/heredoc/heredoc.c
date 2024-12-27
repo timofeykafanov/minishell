@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:53:06 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/25 19:27:05 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:44:35 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static void	heredoc(t_memory *memory, t_redir_out *redir, int i)
 	redir->heredoc_file_name = ft_strjoin("heredoc/", filename);
 	if (!redir->heredoc_file_name)
 	{
+		memory->heredocs_count = 0;
 		free(filename);
 		end_shell(memory);
 	}

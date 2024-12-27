@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_two.c                                         :+:      :+:    :+:   */
+/*   freeing_two.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:33:30 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/19 11:33:39 by sopperma         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:40:26 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_heredocs(t_memory *memory)
 	i = 0;
 	if (memory->heredocs_count != 0)
 	{
-		while (memory->heredocs[i])
+		while (memory->heredocs && memory->heredocs[i])
 		{
 			free(memory->heredocs[i]);
 			memory->heredocs[i] = NULL;

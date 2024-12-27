@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:44:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 15:10:09 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 20:25:31 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	handle_var_expansion(t_memory *memory, char **s, \
 		return (false);
 	if ((var)[ft_strlen(var) - 1] == '"')
 		(var)[ft_strlen(var) - 1] = '\0';
-	if ((var && var[0] && var[1] && !is_separator(var[1])) \
+	if ((var && var[0] && var[1] && !is_separator(var[1]))
 		|| ft_strncmp(var, "$?", 2) == 0)
 		var = expand_var(memory, var);
 	if (!var)

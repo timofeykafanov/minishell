@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:17:05 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/25 21:17:22 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 21:10:26 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_memory
 	char				*faulty_variable_name;
 	pid_t				*pid;
 	bool				found;
+	int					len;
 }	t_memory;
 
 typedef struct s_parser

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 14:58:32 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 21:05:46 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ static void	find_var(t_memory *memory, char *arg)
 	char	*has_value;
 
 	if (ft_strchr(arg, '='))
-		var_name = ft_strncpy(arg, \
-		ft_strchr(arg, '=') - arg);
+		var_name = ft_strncpy(arg, ft_strchr(arg, '=') - arg);
 	else
 		var_name = ft_strdup(arg);
 	if (!var_name)

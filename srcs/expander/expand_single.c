@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:45:47 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 15:10:49 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 20:26:54 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ char	*expand_single(char *s)
 			break ;
 		res = ft_strljoin(res, s, 1);
 		if (!res)
+		{
+			free(start);
 			return (NULL);
+		}
 		s++;
 	}
 	free(start);

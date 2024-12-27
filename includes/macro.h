@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:15:34 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/25 21:16:05 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 20:49:56 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,17 @@
 # define DOLLAR		'$'
 # define D_QUOTE	'\"'
 # define S_QUOTE	'\''
-# define SEMICOLON	';'
-# define AMPERSAND	'&'
-# define DASH		'-'
 # define EQUALS		'='
 
 # define T_WORD			1
 # define T_D_QUOTE		2
 # define T_S_QUOTE		3
-# define T_OPTION		4
 # define T_PIPE			5
 # define T_VAR			6
 # define T_R_IN			7
 # define T_R_OUT		8
 # define T_HEREDOC		9
 # define T_OUT_APPEND	10
-# define T_SEMICOLON	11
 # define T_WHITESPACE	12
 # define T_VAR_DEF		13
 

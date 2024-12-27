@@ -6,37 +6,38 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 14:59:31 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:31:34 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*check_access(char *command, char **paths, int i)
+static char	*check_access(t_memory *memory, char *command, char *path)
 {
-	char	*path;
+	char	*res;
 	char	*temp;
 
 	if (access(command, F_OK) == 0)
 		return (command);
-	path = ft_strjoin(paths[i], "/");
-	if (!path)
-		end_shell(NULL);
-	temp = path;
-	path = ft_strjoin(temp, command);
-	if (!path)
+	(void)path;
+	res = ft_strjoin(path, "/");
+	if (!res)
+		end_shell(memory);
+	temp = res;
+	res = ft_strjoin(temp, command);
+	if (!res)
 	{
 		free(temp);
-		end_shell(NULL);
+		end_shell(memory);
 	}
 	free(temp);
-	if (access(path, F_OK) == 0)
-		return (path);
-	free(path);
+	if (access(res, F_OK) == 0)
+		return (res);
+	free(res);
 	return (NULL);
 }
 
-static char	*define_path(char *command, char **paths)
+static char	*define_path(t_memory *memory, char *command, char **paths)
 {
 	int		i;
 	char	*res;
@@ -44,7 +45,7 @@ static char	*define_path(char *command, char **paths)
 	i = 0;
 	while (paths[i])
 	{
-		res = check_access(command, paths, i);
+		res = check_access(memory, command, paths[i]);
 		if (res)
 			return (res);
 		i++;
@@ -89,6 +90,6 @@ char	*find_path(char *command, t_memory *memory, t_command *cmd)
 	cmd->paths = ft_split(cmd->env_path, ':');
 	if (!cmd->paths)
 		end_shell(memory);
-	res = define_path(command, cmd->paths);
+	res = define_path(memory, command, cmd->paths);
 	return (res);
 }

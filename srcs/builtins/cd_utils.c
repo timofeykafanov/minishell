@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:35:49 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 14:50:23 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:17:25 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,6 @@ void	handle_missing_oldpwd(t_memory *memory)
 			i++;
 		}
 		memory->env[i] = NULL;
-	}
-}
-
-void	define_pwds(t_memory *memory, char *oldpwd)
-{
-	int	i;
-
-	i = find_env_index(memory->env, "OLDPWD");
-	if (i != -1)
-	{
-		free(memory->env[i]);
-		memory->env[i] = ft_strjoin("OLDPWD=", oldpwd);
-		if (!memory->env[i])
-			end_shell(memory);
-	}
-	i = find_env_index(memory->env, "PWD");
-	if (i != -1)
-	{
-		free(memory->env[i]);
-		memory->env[i] = ft_strjoin("PWD=", memory->pwd);
-		if (!memory->env[i])
-			end_shell(memory);
 	}
 }
 

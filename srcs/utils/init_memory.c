@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/25 20:48:16 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:10:03 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void	create_env(t_memory *memory, char **env)
 	while (env[i])
 	{
 		memory->env[i] = ft_strdup(env[i]);
+		if (!memory->env[i])
+			end_shell(memory);
 		memory->env_lines++;
 		i++;
 	}

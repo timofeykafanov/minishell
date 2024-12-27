@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:39:53 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 14:45:48 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 18:52:37 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	is_dollar(char c)
 
 static void	set_name(t_memory *memory, t_tokens *token, char *expanded_var)
 {
+	(void)token;
 	memory->faulty_variable_name = ft_strdup(token->data);
 	if (!memory->faulty_variable_name)
 	{
