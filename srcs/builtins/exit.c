@@ -6,13 +6,11 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 14:05:44 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:28:52 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-extern sig_atomic_t	g_exit_status;
 
 static void	handle_redir_back(t_memory *mem, t_command *cmd, int saved_fds[2])
 {

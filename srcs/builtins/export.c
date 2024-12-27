@@ -6,11 +6,28 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 15:41:19 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/25 21:41:21 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:28:58 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	put_var(t_memory *memory, char **args, int j)
+{
+	memory->env[memory->env_lines] = ft_strdup(args[j]);
+	if (!memory->env[memory->env_lines])
+		end_shell(memory);
+	memory->env_lines++;
+	if (memory->env_lines == memory->env_space)
+	{
+		memory->env = ft_realloc(memory->env, \
+			sizeof(char *) * (memory->env_lines + 512 + 1));
+		if (!memory->env)
+			end_shell(memory);
+		memory->env_space += 512;
+	}
+	memory->env[memory->env_lines] = NULL;
+}
 
 static void	replace(t_memory *memory, char *arg, char *var_name)
 {
@@ -21,6 +38,8 @@ static void	replace(t_memory *memory, char *arg, char *var_name)
 	while (memory->env[i] && i < memory->env_lines)
 	{
 		env_var_len = ft_strchr(memory->env[i], '=') - memory->env[i];
+		if (!ft_strchr(memory->env[i], '='))
+			env_var_len = ft_strlen(memory->env[i]);
 		if (memory->env[i] && ft_strncmp(memory->env[i], var_name, \
 			ft_strlen(var_name)) == 0 && env_var_len == ft_strlen(var_name))
 		{
@@ -56,26 +75,11 @@ static void	find_var(t_memory *memory, char *arg)
 	has_value = ft_strchr(arg, '=');
 	if (has_value)
 		replace(memory, arg, var_name);
-	else
+	else if (find_env_index(memory->env, var_name) != -1)
 		memory->found = true;
+	else
+		memory->found = false;
 	free(var_name);
-}
-
-static void	put_var(t_memory *memory, char **args, int j)
-{
-	memory->env[memory->env_lines] = ft_strdup(args[j]);
-	if (!memory->env[memory->env_lines])
-		end_shell(memory);
-	memory->env_lines++;
-	if (memory->env_lines == memory->env_space)
-	{
-		memory->env = ft_realloc(memory->env, \
-			sizeof(char *) * (memory->env_lines + 512 + 1));
-		if (!memory->env)
-			end_shell(memory);
-		memory->env_space += 512;
-	}
-	memory->env[memory->env_lines] = NULL;
 }
 
 static void	add_env_var(t_memory *memory, char **args)

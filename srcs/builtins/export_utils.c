@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:20:11 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 13:28:38 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 13:35:04 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	print_export(t_memory *memory)
 	while (memory->env[i])
 	{
 		copy[i] = ft_strdup(memory->env[i]);
+		copy[i + 1] = NULL;
 		if (!copy[i])
 		{
 			free_env(copy);
