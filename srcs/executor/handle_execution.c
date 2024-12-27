@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 21:25:20 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 13:57:23 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 21:22:46 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	handle_error_after_execve(t_command *cmd, t_memory *mem)
 	if (ft_strlen(cmd->args[0]) == 0)
 	{
 		free_memory(mem);
-		exit(0);
+		exit(SUCCESS);
 	}
 	if (mem->error_code == ERROR_CODE_NO_PATH || ft_strchr(cmd->name, '/'))
 	{

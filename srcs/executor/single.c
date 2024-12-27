@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:41:55 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/23 15:44:45 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 21:22:02 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 	if (saved_fds[0] == -1 || saved_fds[1] == -1)
 	{
 		perror("kinkshell: dup");
-		exit(EXIT_FAILURE);
+		end_shell(mem);
 	}
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
@@ -62,9 +62,9 @@ void	execute_single_command(t_command *cmd, t_memory *mem, int *status)
 		close(saved_fds[1]);
 		return ;
 	}
-	cmd->path = find_path(cmd->name, mem, cmd);
 	close(saved_fds[0]);
 	close(saved_fds[1]);
+	cmd->path = find_path(cmd->name, mem, cmd);
 	create_process_and_execute(cmd, mem, status, saved_fds);
 	catch_status(mem, status);
 }

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:26:04 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/23 15:52:02 by tkafanov         ###   ########.fr       */
+/*   Updated: 2024/12/27 21:24:39 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	end_parser_malloc_error(t_memory *memory, t_parser *p)
 	free_memory(memory);
 	if (p)
 		free(p);
-	exit(1);
+	exit(ERROR);
 }
 
 void	end_shell(t_memory *memory)
 {
 	free_memory(memory);
-	exit(1);
+	exit(ERROR);
 }
 
 void	free_paths(char **paths)
