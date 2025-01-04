@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/04 16:19:59 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/04 16:21:37 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	parser_phase_one(t_parser *p, t_memory *memory)
 
 static void	handle_redirect_parser(t_parser *p, t_memory *memory)
 {
-	if (p->current_token->next->type == T_WHITESPACE \
+	while (p->current_token->next->type == T_WHITESPACE \
 		&& p->current_token->next->next != NULL)
 		p->current_token = p->current_token->next;
 	setup_redirect(p);

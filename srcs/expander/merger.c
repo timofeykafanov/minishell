@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merger.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:58:02 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/27 19:38:48 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/04 16:43:37 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@ t_tokens	*merge(t_tokens	*current_token, t_memory *memory)
 	free(prev_token_old_data);
 	if (!current_token->prev->data)
 		end_shell(memory);
-	current_token->prev->type = T_WORD;
-	current_token->prev->was_quoted = 1;
+	if (current_token->type == T_WHITESPACE && current_token->prev->type == T_WHITESPACE)
+		current_token->prev->type = T_WHITESPACE;
+	else
+		current_token->prev->type = T_WORD;
+	if (current_token->prev->was_quoted || current_token->was_quoted)
+		current_token->prev->was_quoted = 1;
 	current_token->prev->next = current_token->next;
 	if (current_token->next)
 		current_token->next->prev = current_token->prev;
@@ -35,6 +39,12 @@ t_tokens	*merge(t_tokens	*current_token, t_memory *memory)
 	return (current_token);
 }
 
+bool	to_merge_whitespace(t_tokens	*current_token)
+{
+	return (current_token->prev && (current_token->type == T_WHITESPACE)
+		&& (current_token->prev->type == T_WHITESPACE));
+}
+
 void	merge_tokens(t_memory *memory)
 {
 	t_tokens	*current_token;
@@ -43,6 +53,8 @@ void	merge_tokens(t_memory *memory)
 	while (current_token)
 	{
 		if (to_merge(current_token))
+			current_token = merge(current_token, memory);
+		else if (to_merge_whitespace(current_token))
 			current_token = merge(current_token, memory);
 		else
 			current_token = current_token->next;

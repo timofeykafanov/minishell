@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:08:56 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 21:04:45 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/04 16:30:47 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	print_tokens(t_memory *memory)
+{
+	t_tokens	*current;
+	int			i;
+
+	i = 1;
+	current = memory->tokens;
+	printf("Tokens:\n");
+	while (current)
+	{
+		if (current->was_quoted)
+			printf("Nr: %d\nToken: %s Type: %d Quoted : %d\n", i++, \
+			(char *)current->data, current->type, current->was_quoted);
+		else
+			printf("Nr: %d\nToken: %s Type: %d Quoted : %d\n", i++, \
+			(char *)current->data, current->type, current->was_quoted);
+		current = current->next;
+	}
+	return (1);
+}
 
 // char	*ft_strljoin_fail_1(char *s1, char *s2, int len)
 // {

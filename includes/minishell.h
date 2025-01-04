@@ -276,4 +276,7 @@ int			handle_quote_error(t_memory *memory);
 int			handle_parsing_error(t_memory *memory);
 int			handle_heredoc_exit(t_memory *memory);
 
+// test.c
+int		print_tokens(t_memory *memory);
+
 #endif // MINISHELL_H
