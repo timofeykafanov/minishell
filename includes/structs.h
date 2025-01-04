@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:17:05 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 21:10:26 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/04 16:30:31 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 typedef struct s_tokens
 {
 	void			*data;
-	void			*quotes_removed;
+	// void			*quotes_removed;
 	int				type;
 	int				was_quoted;
 	struct s_tokens	*next;
