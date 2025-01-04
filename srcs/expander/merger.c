@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:58:02 by sopperma          #+#    #+#             */
-/*   Updated: 2025/01/04 16:43:37 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/04 16:58:45 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,5 @@ void	merge_tokens(t_memory *memory)
 		else
 			current_token = current_token->next;
 	}
+	print_tokens(memory);
 }
