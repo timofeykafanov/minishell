@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 14:11:10 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/04 17:53:20 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	handle_redirs(cmd, mem, fd1);
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
+		signal(SIGPIPE, SIG_IGN);
 		execute_builtin(cmd, mem, NULL);
 		free_memory(mem);
 		close(STDOUT_FILENO);

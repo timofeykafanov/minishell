@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/04 17:30:34 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/04 17:52:53 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	run_child_process(t_command *cmd, t_memory *mem, int fd1[2])
 	handle_redirs(cmd, mem, fd1);
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
+		signal(SIGPIPE, SIG_IGN);
 		execute_builtin(cmd, mem, NULL);
 		close(fd1[0]);
 		close(fd1[1]);
