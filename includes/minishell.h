@@ -278,5 +278,6 @@ int			handle_heredoc_exit(t_memory *memory);
 
 // test.c
 int		print_tokens(t_memory *memory);
+void	print_commands(t_memory *memory);
 
 #endif // MINISHELL_H

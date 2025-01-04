@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/24 13:34:15 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/04 17:32:09 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static void	handle_multiprocess(t_memory *memory, int counter)
 	while (i < counter)
 	{
 		if (memory->pid[i] == -1)
+		{
+			i++;
 			continue ;
+		}
 		if (waitpid(memory->pid[i], &status, 0) == -1)
 		{
 			perror("kinkshell: waitpid");
