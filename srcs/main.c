@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/04 17:39:45 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/04 17:48:45 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	main(int ac, char **av, char **env)
 	t_memory	*memory;
 
 	set_signals(MAIN);
+	signal(SIGPIPE, SIG_IGN);
 	(void)ac;
 	(void)av;
 	memory = init_memory(env);
