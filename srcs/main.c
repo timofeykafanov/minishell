@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 19:12:02 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/04 16:35:20 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	main(int ac, char **av, char **env)
 	t_memory	*memory;
 
 	set_signals(MAIN);
+	signal(SIGPIPE, SIG_IGN);
 	(void)ac;
 	(void)av;
 	memory = init_memory(env);
