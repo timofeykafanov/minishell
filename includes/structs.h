@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 21:17:05 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/04 16:30:31 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:55:35 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_command
 	bool				is_redir_in;
 	bool				has_redir;
 	char				**paths;
+	int					pipe_fd[2];
 	struct s_command	*next;
 }	t_command;
 

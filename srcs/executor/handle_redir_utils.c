@@ -6,13 +6,13 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 14:14:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 21:24:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/07 19:33:51 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	redir_out(t_redir_out *redir, t_memory *mem, bool has_child)
+int	redir_out(t_redir_out *redir, t_memory *mem, bool has_child)
 {
 	int	fd_out;
 
@@ -23,6 +23,8 @@ void	redir_out(t_redir_out *redir, t_memory *mem, bool has_child)
 		perror("");
 		if (has_child)
 			end_shell(mem);
+		else
+			return (ERROR);
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
@@ -30,9 +32,10 @@ void	redir_out(t_redir_out *redir, t_memory *mem, bool has_child)
 		end_shell(mem);
 	}
 	close(fd_out);
+	return (SUCCESS);
 }
 
-void	redir_append(t_redir_out *redir, t_memory *mem, bool has_child)
+int	redir_append(t_redir_out *redir, t_memory *mem, bool has_child)
 {
 	int	fd_out;
 
@@ -43,16 +46,19 @@ void	redir_append(t_redir_out *redir, t_memory *mem, bool has_child)
 		perror("");
 		if (has_child)
 			end_shell(mem);
+		else
+			return (ERROR);
 	}
-	if (dup2(fd_out, STDOUT_FILENO == -1))
+	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
 		perror("kinkshell: dup2");
 		end_shell(mem);
 	}
 	close(fd_out);
+	return (SUCCESS);
 }
 
-void	redir_in(t_redir_out *redir, t_memory *mem, bool has_child)
+int	redir_in(t_command *cmd, t_redir_out *redir, t_memory *mem, bool has_child)
 {
 	int	fd_in;
 
@@ -61,8 +67,15 @@ void	redir_in(t_redir_out *redir, t_memory *mem, bool has_child)
 	{
 		ft_printf("kinkshell: %s: ", STDERR_FILENO, redir->file_name);
 		perror("");
+		if (cmd->pipe_fd[0] != -1 && cmd->pipe_fd[1] != -1)
+		{
+			close(cmd->pipe_fd[0]);
+			close(cmd->pipe_fd[1]);
+		}
 		if (has_child)
 			end_shell(mem);
+		else
+			return (ERROR);
 	}
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 	{
@@ -70,9 +83,10 @@ void	redir_in(t_redir_out *redir, t_memory *mem, bool has_child)
 		end_shell(mem);
 	}
 	close(fd_in);
+	return (SUCCESS);
 }
 
-void	redir_heredoc(t_redir_out *redir, t_memory *mem, bool has_child)
+int	redir_heredoc(t_command *cmd, t_redir_out *redir, t_memory *mem, bool has_child)
 {
 	int	fd_heredoc;
 
@@ -81,8 +95,15 @@ void	redir_heredoc(t_redir_out *redir, t_memory *mem, bool has_child)
 	{
 		ft_printf("kinkshell: %s: ", STDERR_FILENO, redir->heredoc_file_name);
 		perror("");
+		if (cmd->pipe_fd[0] != -1 && cmd->pipe_fd[1] != -1)
+		{
+			close(cmd->pipe_fd[0]);
+			close(cmd->pipe_fd[1]);
+		}
 		if (has_child)
 			end_shell(mem);
+		else
+			return (ERROR);
 	}
 	if (dup2(fd_heredoc, STDIN_FILENO) == -1)
 	{
@@ -90,4 +111,5 @@ void	redir_heredoc(t_redir_out *redir, t_memory *mem, bool has_child)
 		end_shell(mem);
 	}
 	close(fd_heredoc);
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:22:43 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/25 20:12:19 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/07 19:34:58 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ t_command	*create_command(char *name, char **args, int type, t_memory *memory)
 	command->name = name;
 	command->args = args;
 	command->type = type;
+	command->pipe_fd[0] = -1;
+	command->pipe_fd[1] = -1;
 	return (command);
 }
 

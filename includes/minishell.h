@@ -176,16 +176,16 @@ void		merge_tokens(t_memory *memory);
 
 // handle_redir.c
 
-void		handle_redir_out(t_command *cmd, t_memory *memory, bool has_child);
-void		handle_redir_in(t_command *cmd, t_memory *memory, bool has_child);
-void		handle_redir(t_command *cmd, t_memory *memory, bool has_child);
+int		handle_redir_out(t_command *cmd, t_memory *memory, bool has_child);
+int		handle_redir_in(t_command *cmd, t_memory *memory, bool has_child);
+int		handle_redir(t_command *cmd, t_memory *memory, bool has_child);
 
 // handle_redir_utils.c
 
-void		redir_out(t_redir_out *redir, t_memory *mem, bool has_child);
-void		redir_append(t_redir_out *redir, t_memory *mem, bool has_child);
-void		redir_in(t_redir_out *redir, t_memory *mem, bool has_child);
-void		redir_heredoc(t_redir_out *redir, t_memory *mem, bool has_child);
+int		redir_out(t_redir_out *redir, t_memory *mem, bool has_child);
+int		redir_append(t_redir_out *redir, t_memory *mem, bool has_child);
+int		redir_in(t_command *cmd, t_redir_out *redir, t_memory *mem, bool has_child);
+int		redir_heredoc(t_command *cmd, t_redir_out *redir, t_memory *mem, bool has_child);
 
 // has_redir.c
 

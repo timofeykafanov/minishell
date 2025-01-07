@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   next.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/04 17:53:14 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/07 19:27:32 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], t_memory *mem)
 		cmd->has_redir = true;
 		close(fd1[0]);
 		close(fd1[1]);
+		// cmd->pipe_fd[0] = fd2[0];
+		// cmd->pipe_fd[1] = fd2[1];
 		handle_redir_in(cmd, mem, cmd->has_child);
 	}
 	else
@@ -51,7 +53,6 @@ static void	check_cmd_type_and_run(t_command *cmd, t_memory *mem)
 {
 	if (cmd->args[0] && is_builtin(cmd->args[0]))
 	{
-		signal(SIGPIPE, SIG_IGN);
 		execute_builtin(cmd, mem, NULL);
 		free_memory(mem);
 		close(STDOUT_FILENO);

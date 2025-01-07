@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2025/01/07 14:34:26 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:12:43 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+
 void	sanitize_tokens (t_memory *memory)
 {
+	// TODO: sanitize_tokens shouldn't remove empty qoutes
 	t_tokens	*token;
 	t_tokens	*next;
 

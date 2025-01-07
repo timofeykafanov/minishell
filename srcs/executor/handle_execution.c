@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_execution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 21:25:20 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/04 17:47:02 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:23:49 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	handle_error_after_execve(t_command *cmd, t_memory *mem)
 
 void	handle_execution(t_command *cmd, t_memory *mem)
 {
-	if (ft_strlen(cmd->name) == 0)
+	if (cmd->name && ft_strlen(cmd->name) == 0)
 	{
 		free_memory(mem);
 		exit(SUCCESS);

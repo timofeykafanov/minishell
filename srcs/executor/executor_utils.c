@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/04 17:55:48 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/07 19:27:17 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ bool	is_builtin(char *command)
 
 void	execute_builtin(t_command *cmd, t_memory *mem, int saved_fds[2])
 {
+	signal(SIGPIPE, SIG_IGN);
 	if (!ft_strncmp(cmd->args[0], ECHO, 5))
 		echo(cmd->args);
 	else if (!ft_strncmp(cmd->args[0], CD, 4))
@@ -90,8 +91,16 @@ void	catch_status(t_memory *memory, int *status)
 		if (memory->exit_status == 130)
 			ft_printf("\n", STDERR_FILENO);
 		else if (WCOREDUMP(memory->exit_status))
-			ft_printf("Quit (core dumped)\n", STDERR_FILENO);
+		{
+			if (memory->exit_status == 131)
+				ft_printf("Quit (core dumped)\n", STDERR_FILENO, memory->exit_status);
+		}
 	}
+	// else if (memory->exit_failed)
+	// {
+	// 	memory->exit_status = 127;
+	// 	memory->exit_failed = false;
+	// }
 	else
 		memory->exit_status = 1;
 }

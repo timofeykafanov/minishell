@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2024/12/27 14:28:52 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:41:39 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,15 @@ void	execute_exit(t_memory *memory, t_command *cmd, int saved_fds[2])
 		&& cmd->args[2])
 	{
 		ft_printf("kinkshell: exit: too many arguments\n", STDERR_FILENO);
-		cmd->exit_status = 1;
+		cmd->exit_status = 127;
 		memory->exit_failed = true;
 		return ;
 	}
 	else if (cmd->args[1])
 	{
 		if (contains_only_digits(cmd->args[1], &sign)
-			&& is_within_long_range(cmd->args[1], sign) && cmd->args[1][0])
+			&& is_within_long_range(cmd->args[1], sign) && cmd->args[1][0]
+			&& ft_strlen(cmd->args[1]) > 0)
 			cmd->exit_status = ft_atoi(cmd->args[1]) % 256;
 		else
 		{
