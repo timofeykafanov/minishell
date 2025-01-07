@@ -3,37 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/27 20:48:19 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:34:26 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// int	print_tokens(t_memory *memory)
-// {
-// 	t_tokens	*current;
-// 	int			i;
+void	sanitize_tokens (t_memory *memory)
+{
+	t_tokens	*token;
+	t_tokens	*next;
 
-// 	i = 1;
-// 	current = memory->tokens;
-// 	printf("Tokens:\n");
-// 	while (current)
-// 	{
-// 		if (current->was_quoted)
-// 			printf("Nr: %d\nToken: %s W/O Quotes: %s Type:
-// 			%d Quoted : %d\n", i++, (char *)current->data,
-// 			(char *)current->quotes_removed, current->type,
-// 			current->was_quoted);
-// 		else
-// 			printf("Nr: %d\nToken: %s Type: %d Quoted : %d\n", i++,
-// 			(char *)current->data, current->type, current->was_quoted);
-// 		current = current->next;
-// 	}
-// 	return (1);
-// }
+	token = memory->tokens;
+	while (token)
+	{
+		if (!token->data || ft_strlen(token->data) == 0)
+		{
+			if (token->prev)
+				token->prev->next = token->next;
+			else
+			{
+				if (!token->next)
+					break;
+				memory->tokens = token->next;
+			}
+			if (token->next && token->prev)
+				token->next->prev = token->prev;
+			next = token->next;
+			free(token->data);
+			free(token);
+			token = next;
+			continue;
+		}
+		token = token->next;
+	}
+}
 
 bool	is_group_identifier(char *s)
 {
@@ -43,29 +50,6 @@ bool	is_group_identifier(char *s)
 		|| (*s == R_IN && *(s + 1) == R_IN)
 		|| (*s == R_OUT && *(s + 1) == R_OUT));
 }
-
-// int	print_expand_var_tokens(t_tokens *token)
-// {
-// 	t_tokens	*current;
-// 	int			i;
-
-// 	i = 1;
-// 	current = token;
-// 	printf("Tokens:\n");
-// 	while (current)
-// 	{
-// 		if (current->was_quoted)
-// 			printf("Nr: %d\nToken: %s W/O Quotes:
-// 			%s Type: %d Quoted : %d\n", i++, (char *)current->data,
-// 			(char *)current->quotes_removed, current->type,
-// 			current->was_quoted);
-// 		else
-// 			printf("Nr: %d\nToken: %s Type: %d Quoted : %d\n", i++,
-// 			(char *)current->data, current->type, current->was_quoted)
-// 		current = current->next;
-// 	}
-// 	return (1);
-// }
 
 int	get_type(char *s)
 {

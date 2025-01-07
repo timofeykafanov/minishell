@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/04 17:58:11 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:33:53 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	preparsing(t_memory *memory)
 		return (reset_minishell(memory), CONTINUE);
 	if (syntax_check(memory))
 		return (handle_syntax_error(memory));
+	sanitize_tokens(memory);
 	return (SUCCESS);
 }
 

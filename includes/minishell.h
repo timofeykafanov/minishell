@@ -34,8 +34,7 @@ t_tokens	*variable_split_lexer(t_memory *memory, char *s);
 
 int			get_type(char *s);
 bool		is_group_identifier(char *s);
-int			print_tokens(t_memory *memory);
-int			print_expand_var_tokens(t_tokens *token);
+void		sanitize_tokens (t_memory *memory);
 
 // process_token.c
 
