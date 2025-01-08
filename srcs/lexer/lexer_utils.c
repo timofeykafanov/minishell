@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2025/01/07 17:12:43 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:20:18 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,13 @@ void	sanitize_tokens (t_memory *memory)
 	token = memory->tokens;
 	while (token)
 	{
-		if (!token->data || ft_strlen(token->data) == 0)
+		if (!token->data || ft_strlen(token->data) == 0 )
 		{
+			if (token->type == T_D_QUOTE || token->type == T_S_QUOTE)
+			{
+				token = token->next;
+				continue;
+			}
 			if (token->prev)
 				token->prev->next = token->next;
 			else

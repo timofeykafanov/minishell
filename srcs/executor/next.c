@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:41 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/07 19:27:32 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:11:25 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	handle_fds(t_command *cmd, int fd1[2], int fd2[2], t_memory *mem)
 		cmd->has_redir = true;
 		close(fd1[0]);
 		close(fd1[1]);
-		// cmd->pipe_fd[0] = fd2[0];
-		// cmd->pipe_fd[1] = fd2[1];
+		cmd->pipe_fd[0] = fd2[0];
+		cmd->pipe_fd[1] = fd2[1];
 		handle_redir_in(cmd, mem, cmd->has_child);
 	}
 	else
