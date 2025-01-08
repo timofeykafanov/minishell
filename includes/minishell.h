@@ -34,7 +34,7 @@ t_tokens	*variable_split_lexer(t_memory *memory, char *s);
 
 int			get_type(char *s);
 bool		is_group_identifier(char *s);
-void		sanitize_tokens (t_memory *memory);
+void		sanitize_tokens(t_memory *memory);
 
 // process_token.c
 
@@ -176,16 +176,18 @@ void		merge_tokens(t_memory *memory);
 
 // handle_redir.c
 
-int		handle_redir_out(t_command *cmd, t_memory *memory, bool has_child);
-int		handle_redir_in(t_command *cmd, t_memory *memory, bool has_child);
-int		handle_redir(t_command *cmd, t_memory *memory, bool has_child);
+int			handle_redir_out(t_command *cmd, t_memory *memory, bool has_child);
+int			handle_redir_in(t_command *cmd, t_memory *memory, bool has_child);
+int			handle_redir(t_command *cmd, t_memory *memory, bool has_child);
 
 // handle_redir_utils.c
 
-int		redir_out(t_redir_out *redir, t_memory *mem, bool has_child);
-int		redir_append(t_redir_out *redir, t_memory *mem, bool has_child);
-int		redir_in(t_command *cmd, t_redir_out *redir, t_memory *mem, bool has_child);
-int		redir_heredoc(t_command *cmd, t_redir_out *redir, t_memory *mem, bool has_child);
+int			redir_out(t_redir_out *redir, t_memory *mem, bool has_child);
+int			redir_append(t_redir_out *redir, t_memory *mem, bool has_child);
+int			redir_in(t_command *cmd, t_redir_out *redir, t_memory *mem, \
+	bool has_child);
+int			redir_heredoc(t_command *cmd, t_redir_out *redir, t_memory *mem, \
+	bool has_child);
 
 // has_redir.c
 
@@ -274,9 +276,5 @@ int			handle_syntax_error(t_memory *memory);
 int			handle_quote_error(t_memory *memory);
 int			handle_parsing_error(t_memory *memory);
 int			handle_heredoc_exit(t_memory *memory);
-
-// test.c
-int		print_tokens(t_memory *memory);
-void	print_commands(t_memory *memory);
 
 #endif // MINISHELL_H

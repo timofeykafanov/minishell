@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 21:25:20 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/08 16:31:25 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:32:11 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,6 @@ static void	handle_error_after_execve(t_command *cmd, t_memory *mem)
 
 void	handle_execution(t_command *cmd, t_memory *mem)
 {
-	if (cmd->name && ft_strlen(cmd->name) == 0)
-	{
-		free_memory(mem);
-		exit(SUCCESS);
-	}
 	if (!cmd->path || !cmd->args[0][0]
 		|| (ft_strncmp(cmd->name, "..", 2) == 0 && ft_strlen(cmd->name) == 2))
 		handle_error_before_execve(cmd, mem);

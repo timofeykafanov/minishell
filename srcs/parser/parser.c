@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/07 13:57:00 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:52:54 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	parser_phase_one_loop(t_parser *p)
 
 void	parser_phase_one(t_parser *p, t_memory *memory)
 {
-	while ((p->current_token->type == T_WHITESPACE || ft_strlen(p->current_token->data) == 0) && p->current_token->next)
+	while ((p->current_token->type == T_WHITESPACE
+			|| ft_strlen(p->current_token->data) == 0)
+		&& p->current_token->next)
 		p->current_token = p->current_token->next;
 	if (is_redirect(p->current_token->type))
 		p->current_cmd = create_command("", NULL, p->current_token->type \

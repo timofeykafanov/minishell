@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:59 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/07 19:27:30 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:33:51 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static void	handle_redirs(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	if (cmd->redir_struct && has_redir_in(cmd))
 	{
-		// close(fd1[0]);
-		// close(fd1[1]);
 		cmd->pipe_fd[0] = fd1[0];
 		cmd->pipe_fd[1] = fd1[1];
 		handle_redir_in(cmd, mem, cmd->has_child);
@@ -55,8 +53,6 @@ int	execute_last_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
 
-	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
-		return (-1);
 	cmd->path = find_path(cmd->args[0], mem, cmd);
 	set_signals(CHILD);
 	pid = fork();
