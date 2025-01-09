@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/09 15:51:59 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/09 16:41:38 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,24 @@ static bool	is_within_long_range(char *str, int sign)
 	return (true);
 }
 
+static void	handle_exit_error(t_memory *memory, t_command *cmd)
+{
+	ft_printf("kinkshell: exit: too many arguments\n", STDERR_FILENO);
+	cmd->exit_status = 127;
+	memory->exit_failed = true;
+}
+
 void	execute_exit(t_memory *memory, t_command *cmd, int saved_fds[2])
 {
 	int	sign;
 
 	sign = 1;
 	if (!cmd->args[1])
-	{		
 		cmd->exit_status = memory->exit_status;
-		exit_shell(memory, cmd, saved_fds);
-	}
-	if (cmd->args[1] && contains_only_digits(cmd->args[1], &sign)
+	else if (cmd->args[1] && contains_only_digits(cmd->args[1], &sign)
 		&& cmd->args[2])
 	{
-		ft_printf("kinkshell: exit: too many arguments\n", STDERR_FILENO);
-		cmd->exit_status = 127;
-		memory->exit_failed = true;
+		handle_exit_error(memory, cmd);
 		return ;
 	}
 	else if (cmd->args[1])
