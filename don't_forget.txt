@@ -1,2 +1,4 @@
 
 
+minishell 
+shouldn't run minishell

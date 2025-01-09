@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 11:15:57 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/08 17:33:34 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:47:05 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ bool	is_builtin(char *command)
 
 void	execute_builtin(t_command *cmd, t_memory *mem, int saved_fds[2])
 {
-	signal(SIGPIPE, SIG_IGN);
 	if (!ft_strncmp(cmd->args[0], ECHO, 5))
 		echo(cmd->args);
 	else if (!ft_strncmp(cmd->args[0], CD, 4))

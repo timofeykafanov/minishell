@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:30:54 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/08 17:29:14 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:51:59 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ void	execute_exit(t_memory *memory, t_command *cmd, int saved_fds[2])
 	int	sign;
 
 	sign = 1;
+	if (!cmd->args[1])
+	{		
+		cmd->exit_status = memory->exit_status;
+		exit_shell(memory, cmd, saved_fds);
+	}
 	if (cmd->args[1] && contains_only_digits(cmd->args[1], &sign)
 		&& cmd->args[2])
 	{
