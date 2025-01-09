@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:18:19 by sopperma          #+#    #+#             */
-/*   Updated: 2025/01/04 17:00:49 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:34:13 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,9 @@ bool	handle_var(char *var_content, t_tokens *token, t_memory *memory)
 	token->data = var_content;
 	if (!var_content)
 		return (false);
-	// if (ft_strlen(var_content) == 0 && !token->next)
-	// {
-	// 	token->type = T_WHITESPACE;
-	// 	return (true);
-	// }
-	// if (ft_strlen(var_content) == 0 && token->next)
 	if (ft_strlen(var_content) == 0)
 	{
-		// if (token->prev)
-		// 	token->prev->next = token->next;
-		// else
-		// 	memory->tokens = token->next;
-		// if (token->next && token->prev)
-		// 	token->next->prev = token->prev;
 		free(token->data);
-		// free(token);
 		token->data = ft_strdup("");
 		if (!token->data)
 			return (false);

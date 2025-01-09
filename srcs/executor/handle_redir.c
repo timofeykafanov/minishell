@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 14:55:23 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/07 18:51:05 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:32:47 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	handle_redir_out(t_command *cmd, t_memory *mem, bool has_child)
 {
 	t_redir_out	*redir;
-	int 		res;
+	int			res;
+
 	redir = cmd->redir_struct;
 	while (redir)
 	{
@@ -33,7 +34,7 @@ int	handle_redir_out(t_command *cmd, t_memory *mem, bool has_child)
 int	handle_redir_in(t_command *cmd, t_memory *mem, bool has_child)
 {
 	t_redir_out	*redir;
-	int 		res;
+	int			res;
 
 	redir = cmd->redir_struct;
 	while (redir)

@@ -1,2 +1,6 @@
 
 
+minishell 
+shouldn't run minishell
+
+protect write in ft_printf?

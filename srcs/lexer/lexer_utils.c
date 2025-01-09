@@ -6,44 +6,56 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2025/01/08 16:20:18 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:51:30 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-void	sanitize_tokens (t_memory *memory)
+static bool	handle_empty_token_links(t_memory *memory, t_tokens **token)
 {
-	// TODO: sanitize_tokens shouldn't remove empty qoutes
-	t_tokens	*token;
+	t_tokens	*current;
 	t_tokens	*next;
+
+	current = *token;
+	next = current->next;
+	if (current->prev)
+		current->prev->next = next;
+	else
+	{
+		if (!next)
+		{
+			current->type = T_WHITESPACE;
+			return (true);
+		}
+		memory->tokens = next;
+	}
+	if (next && current->prev)
+		next->prev = current->prev;
+	free(current->data);
+	free(current);
+	*token = next;
+	return (false);
+}
+
+void	sanitize_tokens(t_memory *memory)
+{
+	t_tokens	*token;
 
 	token = memory->tokens;
 	while (token)
 	{
-		if (!token->data || ft_strlen(token->data) == 0 )
+		if (!token->data || ft_strlen(token->data) == 0)
 		{
-			if (token->type == T_D_QUOTE || token->type == T_S_QUOTE)
+			if (token->type == T_D_QUOTE || token->type == T_S_QUOTE
+				|| token->type == T_WORD)
 			{
 				token = token->next;
-				continue;
+				continue ;
 			}
-			if (token->prev)
-				token->prev->next = token->next;
-			else
-			{
-				if (!token->next)
-					break;
-				memory->tokens = token->next;
-			}
-			if (token->next && token->prev)
-				token->next->prev = token->prev;
-			next = token->next;
-			free(token->data);
-			free(token);
-			token = next;
-			continue;
+			if (handle_empty_token_links(memory, &token))
+				break ;
+			continue ;
 		}
 		token = token->next;
 	}

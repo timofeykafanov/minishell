@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 14:14:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/07 19:33:51 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:33:05 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	redir_in(t_command *cmd, t_redir_out *redir, t_memory *mem, bool has_child)
 	return (SUCCESS);
 }
 
-int	redir_heredoc(t_command *cmd, t_redir_out *redir, t_memory *mem, bool has_child)
+int	redir_heredoc(t_command *cmd, t_redir_out *redir, t_memory *mem, \
+	bool has_child)
 {
 	int	fd_heredoc;
 

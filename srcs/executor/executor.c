@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:36 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/07 19:15:57 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:31:02 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,28 +56,24 @@ static void	count_commands(t_memory *memory)
 static void	execute_pipeline(t_memory *memory)
 {
 	t_command	*cmd;
-	int			fd1[2] = {-1, -1};
+	int			fd1[2];
 	int			process_count;
 
+	fd1[0] = -1;
+	fd1[1] = -1;
 	cmd = memory->commands;
 	memory->is_child = true;
 	process_count = 0;
 	memory->pid[process_count++] = execute_first_command(cmd, memory, fd1);
-	if (fd1[0] != -1)
+	cmd = cmd->next;
+	while (cmd->next)
 	{
+		memory->pid[process_count++] = execute_next_command(cmd, memory, fd1);
 		cmd = cmd->next;
-		while (cmd->next)
-		{
-			memory->pid[process_count++] = execute_next_command(cmd, memory, fd1);
-			cmd = cmd->next;
-		}
-		memory->pid[process_count++] = execute_last_command(cmd, memory, fd1);
 	}
-	if (fd1[0] != -1)
-	{
-		close(fd1[0]);
-		close(fd1[1]);
-	}
+	memory->pid[process_count++] = execute_last_command(cmd, memory, fd1);
+	close(fd1[0]);
+	close(fd1[1]);
 	memory->is_child = false;
 	handle_multiprocess(memory, process_count);
 }

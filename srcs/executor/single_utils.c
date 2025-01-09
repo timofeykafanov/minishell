@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:40:45 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/07 19:31:29 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/08 17:33:15 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	execute_builtin_and_handle_redir(t_command *cmd, t_memory *mem, \
 	{
 		mem->exit_status = 1;
 		handle_redir_back(mem, cmd, saved_fds);
-		// close(saved_fds[0]);
-		// close(saved_fds[1]);
 		return ;
 	}
 	execute_builtin(cmd, mem, saved_fds);
