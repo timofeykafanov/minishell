@@ -1,6 +1,5 @@
 
 
-minishell 
-shouldn't run minishell
+protect write?
 
-protect write in ft_printf?
+cd?

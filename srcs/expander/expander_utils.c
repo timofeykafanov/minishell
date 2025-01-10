@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:39:53 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/09 14:00:11 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:38:38 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	is_dollar(char c)
 
 static void	set_name(t_memory *memory, t_tokens *token, char *expanded_var)
 {
-	(void)token;
 	memory->faulty_variable_name = ft_strdup(token->data);
 	if (!memory->faulty_variable_name)
 	{

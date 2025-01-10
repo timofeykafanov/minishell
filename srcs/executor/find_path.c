@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:45:07 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/04 17:30:08 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:36:23 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ static char	*check_access(t_memory *memory, char *command, char *path)
 	char	*res;
 	char	*temp;
 
-	if (access(command, F_OK) == 0)
-		return (command);
-	(void)path;
 	res = ft_strjoin(path, "/");
 	if (!res)
 		end_shell(memory);
@@ -76,20 +73,21 @@ char	*find_path(char *command, t_memory *memory, t_command *cmd)
 	if (ft_strchr(command, '/'))
 		return (handle_cmd_with_slash(memory, command));
 	cmd->env_path = find_env_value(memory, "PATH");
-	if (ft_strlen(cmd->env_path) == 0)
-		set_error_code(PATH, ERROR_CODE_NO_PATH, memory);
-	if (access(command, F_OK) == 0)
+	if (!cmd->env_path || ft_strlen(cmd->env_path) == 0)
 	{
-		res = ft_strjoin("./", command);
-		if (!res)
-			end_shell(memory);
-		return (res);
+		set_error_code(PATH, ERROR_CODE_NO_PATH, memory);
+		if (access(command, F_OK) == 0)
+		{
+			res = ft_strjoin("./", command);
+			if (!res)
+				end_shell(memory);
+			return (res);
+		}
+		if (!cmd->env_path)
+			return (NULL);
 	}
-	if (!cmd->env_path)
-		return (NULL);
 	cmd->paths = ft_split(cmd->env_path, ':');
 	if (!cmd->paths)
 		end_shell(memory);
-	res = define_path(memory, command, cmd->paths);
-	return (res);
+	return (define_path(memory, command, cmd->paths));
 }
