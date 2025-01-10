@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 12:39:53 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/10 10:38:38 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:43:14 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ bool	handle_redirect(t_tokens *token, t_memory *memory)
 	char	*expanded_var;
 
 	expanded_var = NULL;
-	while (token->prev 
-	&& (token->prev->type == T_D_QUOTE || token->prev->type == T_S_QUOTE)
-	&& ft_strlen(token->prev->data) == 0)
+	while (token->prev
+		&& (token->prev->type == T_D_QUOTE || token->prev->type == T_S_QUOTE \
+		|| token->prev->type == T_WORD || token->prev->type == T_VAR))
 		token = token->prev;
 	if (is_prev_heredoc(token))
 		return (true);
