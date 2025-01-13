@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2024/12/27 20:44:34 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/13 11:26:01 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ static t_tokens	*create_token(char *s, t_memory *memory, bool split)
 		return (set_error_code(LEXER, ERROR_CODE_MALLOC, memory), NULL);
 	token->data = process_token(s, memory, split);
 	if (memory->lexer_error_code == ERROR_CODE_QUOTES)
+	{
+		free(token);
+		token = NULL;
 		return (print_error_message(LEXER, memory), NULL);
+	}
 	else if (!token->data)
 	{
 		free(token);
