@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 09:56:30 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/10 12:56:54 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/16 11:59:41 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,28 @@ static char	*handle_shlvl(char *env_i)
 	}
 	free(temp);
 	return (shlvl_str);
+}
+
+static void	check_shlvl(t_memory *memory, char **env)
+{
+	int		i;
+	bool	shlvl;
+
+	i = 0;
+	shlvl = false;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
+			shlvl = true;
+		i++;
+	}
+	if (!shlvl)
+	{
+		memory->env[memory->env_lines] = ft_strdup("SHLVL=1");
+		if (!memory->env[memory->env_lines])
+			end_shell(memory);
+		memory->env_lines++;
+	}
 }
 
 static void	create_env(t_memory *memory, char **env)
@@ -57,7 +79,8 @@ static void	create_env(t_memory *memory, char **env)
 		memory->env_lines++;
 		i++;
 	}
-	memory->env[i] = NULL;
+	check_shlvl(memory, env);
+	memory->env[memory->env_lines] = NULL;
 }
 
 static void	generate_env(t_memory *memory)
