@@ -4,7 +4,7 @@
 
 CC			= cc
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 DFLAGS	 	= -MD -MP
 LDFLAGS     = -lreadline
 IFLAGS		= -I $(INCLUDES)

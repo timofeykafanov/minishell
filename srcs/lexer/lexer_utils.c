@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2025/01/21 11:56:10 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:11:25 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	sanitize_tokens(t_memory *memory)
 	{
 		if (!token->data || ft_strlen(token->data) == 0)
 		{
-			if (token->type == T_D_QUOTE || token->type == T_S_QUOTE || 
-				(token->type == T_WORD && token->was_quoted))
+			if (token->type == T_D_QUOTE || token->type == T_S_QUOTE
+				|| (token->type == T_WORD && token->was_quoted))
 			{
 				token = token->next;
 				continue ;

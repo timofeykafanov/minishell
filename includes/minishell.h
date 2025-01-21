@@ -25,12 +25,6 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 
-
-
-void print_commands(t_memory *memory);
-int	print_tokens(t_memory *memory);
-
-
 // lexer.c
 
 void		lexer(t_memory *memory);

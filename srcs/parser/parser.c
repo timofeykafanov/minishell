@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/21 11:42:52 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:06:00 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ void	parse_command(t_memory *memory)
 {
 	t_parser	*p;
 
-	print_tokens(memory);
 	p = init_parser(memory);
 	if (memory->error_code == ERROR_CODE_MALLOC)
 		end_parser_malloc_error(memory, p);
