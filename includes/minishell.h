@@ -28,6 +28,7 @@
 
 
 void print_commands(t_memory *memory);
+int	print_tokens(t_memory *memory);
 
 
 // lexer.c

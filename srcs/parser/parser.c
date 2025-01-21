@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:04:10 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/08 17:52:54 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:42:52 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	parser_phase_one_loop(t_parser *p)
 void	parser_phase_one(t_parser *p, t_memory *memory)
 {
 	while ((p->current_token->type == T_WHITESPACE
-			|| ft_strlen(p->current_token->data) == 0)
+			|| (ft_strlen(p->current_token->data) == 0
+				&& !p->current_token->was_quoted))
 		&& p->current_token->next)
 		p->current_token = p->current_token->next;
 	if (is_redirect(p->current_token->type))
@@ -118,6 +119,7 @@ void	parse_command(t_memory *memory)
 {
 	t_parser	*p;
 
+	print_tokens(memory);
 	p = init_parser(memory);
 	if (memory->error_code == ERROR_CODE_MALLOC)
 		end_parser_malloc_error(memory, p);

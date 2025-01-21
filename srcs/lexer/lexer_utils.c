@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:28:46 by sopperma          #+#    #+#             */
-/*   Updated: 2025/01/08 17:51:30 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:56:10 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	sanitize_tokens(t_memory *memory)
 	{
 		if (!token->data || ft_strlen(token->data) == 0)
 		{
-			if (token->type == T_D_QUOTE || token->type == T_S_QUOTE
-				|| token->type == T_WORD)
+			if (token->type == T_D_QUOTE || token->type == T_S_QUOTE || 
+				(token->type == T_WORD && token->was_quoted))
 			{
 				token = token->next;
 				continue ;

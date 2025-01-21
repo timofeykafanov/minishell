@@ -6,7 +6,7 @@
 /*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:22:27 by sopperma          #+#    #+#             */
-/*   Updated: 2025/01/13 11:26:01 by sopperma         ###   ########.fr       */
+/*   Updated: 2025/01/13 11:31:51 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static t_tokens	*create_token(char *s, t_memory *memory, bool split)
 	token->data = process_token(s, memory, split);
 	if (memory->lexer_error_code == ERROR_CODE_QUOTES)
 	{
-		free(token);
-		token = NULL;
+		// free(token);
+		// token = NULL;
 		return (print_error_message(LEXER, memory), NULL);
 	}
 	else if (!token->data)

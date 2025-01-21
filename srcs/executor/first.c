@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sopperma <sopperma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:14 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/09 15:47:13 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:34:57 by sopperma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	execute_first_command(t_command *cmd, t_memory *mem, int fd1[2])
 {
 	int	pid;
 
-	if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
-		return (-1);
+	// if (cmd->args[0] && ft_strlen(cmd->args[0]) == 0)
+	// 	return (-1);
 	if (pipe(fd1) == -1)
 	{
 		perror("kinkshell: pipe");
