@@ -17,6 +17,7 @@ INCLUDES	= includes
 
 SRCS		= \
 			$(SRCSDIR)/main.c \
+			$(SRCSDIR)/test.c \
 			$(SRCSDIR)/utils/init_memory.c \
 			$(SRCSDIR)/utils/signals.c \
 			$(SRCSDIR)/utils/freeing.c \

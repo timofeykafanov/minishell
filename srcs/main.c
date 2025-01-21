@@ -6,7 +6,7 @@
 /*   By: tkafanov <tkafanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:29:22 by tkafanov          #+#    #+#             */
-/*   Updated: 2025/01/08 17:27:46 by tkafanov         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:20:24 by tkafanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	handle_input(t_memory *memory)
 	execute_heredoc(memory);
 	if (g_signal == SIGINT)
 		return (handle_heredoc_exit(memory));
+	print_commands(memory);
 	execute_commands(memory);
 	delete_heredocs(memory);
 	reset_minishell(memory);
