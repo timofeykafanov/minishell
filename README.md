@@ -27,8 +27,8 @@
 
 | Author | GitHub |
 |--------|--------|
-| **tkafanov** | [@tkafanov](https://github.com/tkafanov) |
-| **sopperma** | [@sopperma](https://github.com/sopperma) |
+| **tkafanov** | [@timofeykafanov](https://github.com/timofeykafanov) |
+| **sopperma** | [@SilasLovelace](https://github.com/SilasLovelace) |
 
 ---
 
